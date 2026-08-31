@@ -7,6 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%232563eb'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23fff' font-family='sans-serif' font-weight='bold'%3E%E6%95%B0%3C/text%3E%3C/svg%3E">
 <style>
   :root{
+    --fs:1;
     --bg:#f4f6fa;--card:#ffffff;--ink:#1b2230;--ink-2:#49536a;--ink-3:#8a93a8;
     --line:#e3e8f0;--accent:#2563eb;--accent-soft:#eaf0fe;
     --red:#d93025;--red-soft:#fdeeec;--green:#0f9d58;--green-soft:#e8f6ef;
@@ -29,63 +30,63 @@
 
   /* top bar */
   .top{display:flex;align-items:center;gap:14px;padding:18px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
-  .brand{font-size:19px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .brand{font-size:calc(19px * var(--fs));font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
   .brand .dot{width:12px;height:12px;border-radius:4px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:inline-block}
   .top-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .count-chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13px;color:var(--ink-2);box-shadow:var(--shadow)}
+  .count-chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:calc(13px * var(--fs));color:var(--ink-2);box-shadow:var(--shadow)}
   .count-chip b{color:var(--accent);font-variant-numeric:tabular-nums}
-  .theme-btn{border:1px solid var(--line);background:var(--card);color:var(--ink-2);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;transition:.2s}
+  .theme-btn{border:1px solid var(--line);background:var(--card);color:var(--ink-2);border-radius:10px;padding:6px 12px;font-size:calc(13px * var(--fs));cursor:pointer;transition:.2s}
   .theme-btn:hover{border-color:var(--accent);color:var(--accent)}
 
   /* tabs */
   .tabs{display:flex;gap:4px;margin:16px 0 20px;padding:5px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow-x:auto;box-shadow:var(--shadow)}
-  .tab{flex:1;min-width:92px;text-align:center;padding:9px 6px;border:none;background:transparent;color:var(--ink-3);font-size:13.5px;font-weight:700;border-radius:9px;cursor:pointer;transition:.2s;white-space:nowrap}
+  .tab{flex:1;min-width:92px;text-align:center;padding:9px 6px;border:none;background:transparent;color:var(--ink-3);font-size:calc(13.5px * var(--fs));font-weight:700;border-radius:9px;cursor:pointer;transition:.2s;white-space:nowrap}
   .tab:hover{color:var(--ink-2);background:var(--bg)}
   .tab.active{background:var(--accent);color:#fff}
-  .tab .ic{display:block;font-size:15px;margin-bottom:2px}
-  @media(max-width:640px){.tab{min-width:74px;font-size:12px}}
+  .tab .ic{display:block;font-size:calc(15px * var(--fs));margin-bottom:2px}
+  @media(max-width:640px){.tab{min-width:74px;font-size:calc(12px * var(--fs))}}
 
   main section{display:none}
   main section.active{display:block;animation:fade .25s ease}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-  h2.sec{font-size:19px;margin:6px 0 4px;letter-spacing:-.01em}
-  p.sub{color:var(--ink-3);font-size:13.5px;margin:0 0 16px}
+  h2.sec{font-size:calc(19px * var(--fs));margin:6px 0 4px;letter-spacing:-.01em}
+  p.sub{color:var(--ink-3);font-size:calc(13.5px * var(--fs));margin:0 0 16px}
 
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px}
 
   /* dashboard */
   .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:16px}
   .stat{padding:16px 18px}
-  .stat .k{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--ink-3);margin-bottom:6px}
-  .stat .v{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
-  .stat .v small{font-size:13px;color:var(--ink-3);font-weight:600}
-  .stat .d{font-size:12.5px;color:var(--ink-3);margin-top:4px}
+  .stat .k{font-size:calc(12px * var(--fs));font-weight:800;letter-spacing:.06em;color:var(--ink-3);margin-bottom:6px}
+  .stat .v{font-size:calc(26px * var(--fs));font-weight:800;font-variant-numeric:tabular-nums}
+  .stat .v small{font-size:calc(13px * var(--fs));color:var(--ink-3);font-weight:600}
+  .stat .d{font-size:calc(12.5px * var(--fs));color:var(--ink-3);margin-top:4px}
   .ring-wrap{display:flex;align-items:center;gap:18px}
   .ring{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;flex:none}
-  .ring .rv{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
-  .ring .rl{font-size:11px;color:var(--ink-3)}
+  .ring .rv{font-size:calc(22px * var(--fs));font-weight:800;font-variant-numeric:tabular-nums}
+  .ring .rl{font-size:calc(11px * var(--fs));color:var(--ink-3)}
   .today{flex:1;min-width:240px}
-  .today h4{margin:0 0 10px;font-size:14.5px}
-  .todo-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px;color:var(--ink-2)}
+  .today h4{margin:0 0 10px;font-size:calc(14.5px * var(--fs))}
+  .todo-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line);font-size:calc(14px * var(--fs));color:var(--ink-2)}
   .todo-item:last-child{border-bottom:none}
-  .todo-item .no{flex:none;width:22px;height:22px;border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:11.5px;font-weight:800;display:grid;place-items:center}
-  .empty-hint{color:var(--ink-3);font-size:13.5px;padding:8px 0}
-  .btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s}
+  .todo-item .no{flex:none;width:22px;height:22px;border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:calc(11.5px * var(--fs));font-weight:800;display:grid;place-items:center}
+  .empty-hint{color:var(--ink-3);font-size:calc(13.5px * var(--fs));padding:8px 0}
+  .btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:10px;padding:9px 16px;font-size:calc(13.5px * var(--fs));font-weight:700;cursor:pointer;transition:.2s}
   .btn.primary{background:var(--accent);color:#fff}
   .btn.primary:hover{filter:brightness(1.08)}
   .btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--ink-2)}
   .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
-  .btn.small{padding:6px 11px;font-size:12.5px;border-radius:8px}
+  .btn.small{padding:6px 11px;font-size:calc(12.5px * var(--fs));border-radius:8px}
 
   /* stages / tasks */
   .stage{margin-bottom:14px;overflow:hidden}
   .stage-hd{display:flex;align-items:center;gap:13px;padding:13px 18px;cursor:pointer;user-select:none;border-bottom:1px solid var(--line)}
-  .stage-hd .badge{font-size:11px;font-weight:800;color:#fff;background:var(--ink);border-radius:7px;padding:3px 9px;letter-spacing:.05em;flex:none}
-  .stage-hd h3{margin:0;font-size:15.5px;flex:1}
-  .stage-hd .when{font-size:12.5px;color:var(--ink-3);white-space:nowrap}
-  .stage-hd .pct{font-size:12.5px;font-weight:800;color:var(--accent);min-width:44px;text-align:right;font-variant-numeric:tabular-nums}
-  .stage-hd .arrow{color:var(--ink-3);font-size:12px;transition:transform .2s}
+  .stage-hd .badge{font-size:calc(11px * var(--fs));font-weight:800;color:#fff;background:var(--ink);border-radius:7px;padding:3px 9px;letter-spacing:.05em;flex:none}
+  .stage-hd h3{margin:0;font-size:calc(15.5px * var(--fs));flex:1}
+  .stage-hd .when{font-size:calc(12.5px * var(--fs));color:var(--ink-3);white-space:nowrap}
+  .stage-hd .pct{font-size:calc(12.5px * var(--fs));font-weight:800;color:var(--accent);min-width:44px;text-align:right;font-variant-numeric:tabular-nums}
+  .stage-hd .arrow{color:var(--ink-3);font-size:calc(12px * var(--fs));transition:transform .2s}
   .stage.collapsed .arrow{transform:rotate(-90deg)}
   .stage-bd{display:none;padding:6px 18px 14px}
   .stage:not(.collapsed) .stage-bd{display:block}
@@ -93,10 +94,10 @@
   .task:last-child{border-bottom:none}
   .task input[type=checkbox]{width:17px;height:17px;margin-top:4px;accent-color:var(--accent);cursor:pointer;flex:none;pointer-events:none}
   .task .t-main{flex:1}
-  .task .t-name{font-size:14.3px;font-weight:600}
-  .task .t-desc{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+  .task .t-name{font-size:calc(14.3px * var(--fs));font-weight:600}
+  .task .t-desc{font-size:calc(12.5px * var(--fs));color:var(--ink-3);margin-top:2px}
   .task.done .t-name{text-decoration:line-through;color:var(--ink-3)}
-  .task .t-est{font-size:11.5px;color:var(--ink-3);flex:none;margin-top:3px}
+  .task .t-est{font-size:calc(11.5px * var(--fs));color:var(--ink-3);flex:none;margin-top:3px}
 
   .sbar{background:var(--bg);border-radius:8px;height:14px;overflow:hidden;border:1px solid var(--line)}
   .sbar i{display:block;height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:8px;transition:width .4s}
@@ -106,36 +107,36 @@
   .pomo-ring{width:230px;height:230px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--accent) 0deg,var(--bg) 0deg);transition:background .1s}
   .pomo-ring::before{content:"";position:absolute;inset:14px;background:var(--card);border-radius:50%;border:1px solid var(--line)}
   .pomo-inner{position:relative;text-align:center}
-  .pomo-time{font-size:52px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-  .pomo-mode{font-size:13px;color:var(--ink-3);font-weight:700}
-  .pomo-round{font-size:12px;color:var(--ink-3);margin-top:2px}
+  .pomo-time{font-size:calc(52px * var(--fs));font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .pomo-mode{font-size:calc(13px * var(--fs));color:var(--ink-3);font-weight:700}
+  .pomo-round{font-size:calc(12px * var(--fs));color:var(--ink-3);margin-top:2px}
   .pomo-ops{display:flex;gap:10px;margin-top:16px}
   .pomo-modes{display:flex;gap:6px;margin-top:14px}
-  .mode-btn{border:1px solid var(--line);background:var(--card);color:var(--ink-2);border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .mode-btn{border:1px solid var(--line);background:var(--card);color:var(--ink-2);border-radius:999px;padding:6px 14px;font-size:calc(12.5px * var(--fs));font-weight:700;cursor:pointer}
   .mode-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
-  .pomo-tip{max-width:520px;text-align:center;font-size:13px;color:var(--ink-3);margin-top:14px}
+  .pomo-tip{max-width:520px;text-align:center;font-size:calc(13px * var(--fs));color:var(--ink-3);margin-top:14px}
 
   /* notes */
   .notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   @media(max-width:760px){.notes-grid{grid-template-columns:1fr}}
-  .notes-grid textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);padding:13px;font-size:13.5px;font-family:inherit;line-height:1.7;resize:vertical}
+  .notes-grid textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);padding:13px;font-size:calc(13.5px * var(--fs));font-family:inherit;line-height:1.7;resize:vertical}
   .notes-grid textarea:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
-  .log-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13.8px}
+  .log-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:calc(13.8px * var(--fs))}
   .log-item:last-child{border-bottom:none}
-  .log-item .ld{flex:none;font-size:11.5px;color:var(--ink-3);font-weight:700;padding-top:3px;min-width:92px}
+  .log-item .ld{flex:none;font-size:calc(11.5px * var(--fs));color:var(--ink-3);font-weight:700;padding-top:3px;min-width:92px}
   .log-item .lt{flex:1;color:var(--ink-2);white-space:pre-wrap}
-  .log-item .del{background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:6px}
+  .log-item .del{background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:calc(13px * var(--fs));padding:2px 6px;border-radius:6px}
   .log-item .del:hover{background:var(--red-soft);color:var(--red)}
-  .muted{color:var(--ink-3);font-size:12.5px}
+  .muted{color:var(--ink-3);font-size:calc(12.5px * var(--fs))}
 
   /* resources */
   .res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-  .res-card h4{margin:0 0 10px;font-size:14.5px}
+  .res-card h4{margin:0 0 10px;font-size:calc(14.5px * var(--fs))}
   .res-card ul{margin:0;padding-left:2px;list-style:none}
-  .res-card li{margin-bottom:9px;font-size:13.8px}
+  .res-card li{margin-bottom:9px;font-size:calc(13.8px * var(--fs))}
   .res-card a{color:var(--ink-2);text-decoration:none;font-weight:600;border-bottom:1px solid transparent}
   .res-card a:hover{color:var(--accent);border-color:var(--accent)}
-  .res-card .rd{display:block;font-size:12px;color:var(--ink-3);font-weight:400}
+  .res-card .rd{display:block;font-size:calc(12px * var(--fs));color:var(--ink-3);font-weight:400}
 
   /* data mgmt */
   .data-bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
@@ -147,66 +148,66 @@
   .modal{background:var(--card);border:none;border-radius:0;box-shadow:none;max-width:none;width:100%;height:100vh;height:100dvh;display:flex;flex-direction:column;animation:fade .18s ease}
   @keyframes slideup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   .modal-hd{display:flex;align-items:center;gap:12px;padding:16px 34px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);border-radius:0;z-index:2;flex:none}
-  .modal-hd .badge{font-size:11px;font-weight:800;color:#fff;background:var(--accent);border-radius:7px;padding:3px 9px;letter-spacing:.05em;flex:none}
-  .modal-hd h3{margin:0;font-size:16.5px;flex:1}
-  .modal-x{background:none;border:none;color:var(--ink-3);font-size:18px;cursor:pointer;padding:4px 8px;border-radius:8px}
+  .modal-hd .badge{font-size:calc(11px * var(--fs));font-weight:800;color:#fff;background:var(--accent);border-radius:7px;padding:3px 9px;letter-spacing:.05em;flex:none}
+  .modal-hd h3{margin:0;font-size:calc(16.5px * var(--fs));flex:1}
+  .modal-x{background:none;border:none;color:var(--ink-3);font-size:calc(18px * var(--fs));cursor:pointer;padding:4px 8px;border-radius:8px}
   .modal-x:hover{background:var(--red-soft);color:var(--red)}
-  .modal-bd{padding:26px 34px 16px;font-size:14.5px;color:var(--ink-2);flex:1;min-height:0;overflow:auto}
+  .modal-bd{padding:26px 34px 16px;font-size:calc(14.5px * var(--fs));color:var(--ink-2);flex:1;min-height:0;overflow:auto}
   .modal-bd .intro,.modal-bd .pit,.modal-bd .quiz,.modal-bd details{max-width:1040px}
-  .modal-bd h4{font-size:13px;letter-spacing:.05em;color:var(--ink-3);margin:16px 0 8px;font-weight:800}
+  .modal-bd h4{font-size:calc(13px * var(--fs));letter-spacing:.05em;color:var(--ink-3);margin:16px 0 8px;font-weight:800}
   .modal-bd h4:first-child{margin-top:0}
-  .modal-bd .intro{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink);margin-bottom:4px}
+  .modal-bd .intro{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:calc(14px * var(--fs));color:var(--ink);margin-bottom:4px}
   .modal-bd details{background:var(--amber-soft);border:1px dashed #e2c98a;border-radius:10px;padding:10px 14px;margin:4px 0 6px}
-  .modal-bd details summary{cursor:pointer;font-size:13.5px;font-weight:800;color:#8a5400;user-select:none}
+  .modal-bd details summary{cursor:pointer;font-size:calc(13.5px * var(--fs));font-weight:800;color:#8a5400;user-select:none}
   .modal-bd details summary:hover{opacity:.8}
   .modal-bd .terms-list{margin:8px 0 2px;padding:0;list-style:none}
-  .modal-bd .terms-list li{padding:6px 0 6px 2px;font-size:13.5px;color:var(--ink);border-bottom:1px dashed rgba(194,164,90,.35)}
+  .modal-bd .terms-list li{padding:6px 0 6px 2px;font-size:calc(13.5px * var(--fs));color:var(--ink);border-bottom:1px dashed rgba(194,164,90,.35)}
   .modal-bd .terms-list li:last-child{border-bottom:none}
   .modal-bd .terms-list li::before{content:"";display:none}
   .modal-bd .terms-list b{color:var(--amber);font-weight:800;background:rgba(255,255,255,.55);padding:1px 6px;border-radius:5px;margin-right:6px}
-  .modal-bd .tl-eg{display:block;color:var(--ink-3);font-size:12.5px;margin-top:1px}
+  .modal-bd .tl-eg{display:block;color:var(--ink-3);font-size:calc(12.5px * var(--fs));margin-top:1px}
   .modal-bd ul{margin:0;padding-left:2px;list-style:none}
-  .modal-bd ul li{position:relative;padding:5px 0 5px 20px;font-size:14px}
+  .modal-bd ul li{position:relative;padding:5px 0 5px 20px;font-size:calc(14px * var(--fs))}
   .modal-bd ul li::before{content:"▸";position:absolute;left:2px;color:var(--accent);font-weight:800}
   .modal-bd ul li b{color:var(--ink)}
-  .modal-bd code{background:var(--bg);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:12.5px;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--ink)}
-  .modal-bd .pit{background:var(--amber-soft);border-radius:10px;padding:11px 14px;font-size:13.5px;color:#8a5400;margin-top:2px}
+  .modal-bd code{background:var(--bg);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:calc(12.5px * var(--fs));font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--ink)}
+  .modal-bd .pit{background:var(--amber-soft);border-radius:10px;padding:11px 14px;font-size:calc(13.5px * var(--fs));color:#8a5400;margin-top:2px}
   .modal-bd .pit b{color:#5c3800}
-  .modal-bd .quiz{background:var(--green-soft);border-radius:10px;padding:11px 14px;font-size:13.5px;color:#0b6b3f;margin-top:2px}
+  .modal-bd .quiz{background:var(--green-soft);border-radius:10px;padding:11px 14px;font-size:calc(13.5px * var(--fs));color:#0b6b3f;margin-top:2px}
   .modal-bd .quiz b{color:#084a2c}
   .modal-ft{padding:12px 22px 18px;text-align:right}
-  .kbtn{border:1px solid var(--line);background:var(--accent-soft);color:var(--accent);border-radius:7px;padding:3px 9px;font-size:12px;font-weight:700;cursor:pointer;flex:none;transition:.15s}
+  .kbtn{border:1px solid var(--line);background:var(--accent-soft);color:var(--accent);border-radius:7px;padding:3px 9px;font-size:calc(12px * var(--fs));font-weight:700;cursor:pointer;flex:none;transition:.15s}
   .kbtn:hover{background:var(--accent);color:#fff}
   .task .kbtn{margin-top:2px}
   .skill-row .kbtn{padding:4px 9px}
 
   /* 打卡 */
   .checkin-grid{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-  .ci{width:34px;height:44px;border-radius:8px;background:var(--bg);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--ink-3);gap:2px}
+  .ci{width:34px;height:44px;border-radius:8px;background:var(--bg);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(10px * var(--fs));color:var(--ink-3);gap:2px}
   .ci.on{background:var(--green-soft);border-color:var(--green);color:var(--green);font-weight:800}
-  .ci .d{font-size:13px;font-weight:700}
-  .ci .w{font-size:9px}
+  .ci .d{font-size:calc(13px * var(--fs));font-weight:700}
+  .ci .w{font-size:calc(9px * var(--fs))}
   .ci.today{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
   /* 掌握度 */
-  .mbtn{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink-3);font-size:11px;cursor:pointer;margin-top:2px;display:grid;place-items:center;font-weight:800;transition:.15s}
+  .mbtn{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink-3);font-size:calc(11px * var(--fs));cursor:pointer;margin-top:2px;display:grid;place-items:center;font-weight:800;transition:.15s}
   .mbtn[data-m="1"]{border-color:var(--amber);color:var(--amber);background:var(--amber-soft)}
   .mbtn[data-m="2"]{border-color:var(--green);color:var(--green);background:var(--green-soft)}
   .mbtn[data-m="3"]{border-color:#b8860b;color:#b8860b;background:#fdf6e3}
   .mbtn:hover{transform:scale(1.12)}
   .mastery-bar{display:flex;gap:8px;margin:4px 0 10px}
-  .m-choice{flex:1;border:1.5px solid var(--line);background:var(--card);border-radius:9px;padding:8px 4px;font-size:13px;font-weight:700;color:var(--ink-3);cursor:pointer;transition:.15s}
+  .m-choice{flex:1;border:1.5px solid var(--line);background:var(--card);border-radius:9px;padding:8px 4px;font-size:calc(13px * var(--fs));font-weight:700;color:var(--ink-3);cursor:pointer;transition:.15s}
   .m-choice[data-m="0"]:hover,.m-choice[data-m="0"].sel{border-color:var(--ink-3);color:var(--ink)}
   .m-choice[data-m="1"]:hover,.m-choice[data-m="1"].sel{border-color:var(--amber);color:var(--amber);background:var(--amber-soft)}
   .m-choice[data-m="2"]:hover,.m-choice[data-m="2"].sel{border-color:var(--green);color:var(--green);background:var(--green-soft)}
   .m-choice[data-m="3"]:hover,.m-choice[data-m="3"].sel{border-color:#b8860b;color:#b8860b;background:#fdf6e3}
-  .wrong-btn{width:100%;border:1.5px dashed var(--red);background:var(--red-soft);color:var(--red);border-radius:9px;padding:9px;font-size:13px;font-weight:700;cursor:pointer;margin-top:2px}
+  .wrong-btn{width:100%;border:1.5px dashed var(--red);background:var(--red-soft);color:var(--red);border-radius:9px;padding:9px;font-size:calc(13px * var(--fs));font-weight:700;cursor:pointer;margin-top:2px}
   .wrong-btn:hover{background:var(--red);color:#fff}
   /* 深入学习板块 */
-  .deep{background:var(--blue-soft);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--ink-2);margin-bottom:10px}
+  .deep{background:var(--blue-soft);border-radius:10px;padding:12px 16px;font-size:calc(14px * var(--fs));color:var(--ink-2);margin-bottom:10px}
   .deep b{color:var(--accent)}
-  .deep-hd{font-size:13px;font-weight:800;color:var(--ink-3);letter-spacing:.04em;margin:2px 0 6px}
+  .deep-hd{font-size:calc(13px * var(--fs));font-weight:800;color:var(--ink-3);letter-spacing:.04em;margin:2px 0 6px}
   .deep-tasks{list-style:none;margin:0;padding:0}
-  .deep-tasks li{padding:7px 0;border-bottom:1px dashed var(--line);font-size:14px;color:var(--ink-2)}
+  .deep-tasks li{padding:7px 0;border-bottom:1px dashed var(--line);font-size:calc(14px * var(--fs));color:var(--ink-2)}
   .deep-tasks li:last-child{border-bottom:none}
   .deep-tasks label{display:flex;gap:9px;align-items:flex-start;cursor:pointer}
   .deep-tasks input[type=checkbox]{width:16px;height:16px;margin-top:4px;accent-color:var(--green);flex:none;cursor:pointer}
@@ -214,73 +215,73 @@
   /* 图表 / 代码块 / 术语导读 / 求助卡（v5.7） */
   .diagram{margin:2px 0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 10px 6px;overflow-x:auto}
   .diagram svg{display:block;width:100%;min-width:720px;height:auto}
-  .diagram figcaption{font-size:12px;color:var(--ink-3);text-align:center;margin:4px 0 2px}
-  .code-hd{font-size:13px;font-weight:800;color:var(--ink-3);letter-spacing:.04em;margin:2px 0 6px}
-  .code-block{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:12.5px;line-height:1.65;overflow-x:auto;white-space:pre;margin:0 0 12px}
-  .term-hint{background:var(--accent-soft);border-radius:9px;padding:8px 12px;font-size:13px;color:var(--accent);font-weight:600;margin-bottom:10px;line-height:1.6}
+  .diagram figcaption{font-size:calc(12px * var(--fs));color:var(--ink-3);text-align:center;margin:4px 0 2px}
+  .code-hd{font-size:calc(13px * var(--fs));font-weight:800;color:var(--ink-3);letter-spacing:.04em;margin:2px 0 6px}
+  .code-block{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:calc(12.5px * var(--fs));line-height:1.65;overflow-x:auto;white-space:pre;margin:0 0 12px}
+  .term-hint{background:var(--accent-soft);border-radius:9px;padding:8px 12px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:600;margin-bottom:10px;line-height:1.6}
   .term-hint b{color:var(--accent)}
-  .help-card{border:1.5px dashed var(--amber);background:rgba(245,158,11,.08);border-radius:10px;padding:10px 14px;font-size:13.5px;color:var(--ink-2);margin-bottom:10px;line-height:1.75}
+  .help-card{border:1.5px dashed var(--amber);background:rgba(245,158,11,.08);border-radius:10px;padding:10px 14px;font-size:calc(13.5px * var(--fs));color:var(--ink-2);margin-bottom:10px;line-height:1.75}
   .help-card b{color:var(--amber)}
   .res-link{font-weight:700;color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--accent)}
   .res-link:hover{opacity:.75}
   .low-actions{display:grid;gap:8px;margin:10px 0}
   .low-actions .btn{width:100%}
   /* 任务时长 + 当前建议（v5.5） */
-  .tdays{display:inline-block;margin-left:10px;font-size:11.5px;color:var(--ink-3);background:rgba(127,140,170,.12);border-radius:999px;padding:1px 9px;font-weight:700;white-space:nowrap;transform:translateY(-1px)}
-  .cur-tag{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:var(--accent);border-radius:6px;padding:1px 8px;margin-right:8px;transform:translateY(-1.5px)}
+  .tdays{display:inline-block;margin-left:10px;font-size:calc(11.5px * var(--fs));color:var(--ink-3);background:rgba(127,140,170,.12);border-radius:999px;padding:1px 9px;font-weight:700;white-space:nowrap;transform:translateY(-1px)}
+  .cur-tag{display:inline-block;font-size:calc(11px * var(--fs));font-weight:800;color:#fff;background:var(--accent);border-radius:6px;padding:1px 8px;margin-right:8px;transform:translateY(-1.5px)}
   /* 环境搭建引导卡 */
   .env-card{display:flex;gap:12px;align-items:center;border:1.5px dashed var(--accent);background:var(--accent-soft);border-radius:10px;padding:10px 14px;margin:8px 0 4px;cursor:pointer}
-  .env-card .t-name{font-weight:800;font-size:14.5px}
-  .env-card .t-desc{font-size:13px;color:var(--ink-3)}
+  .env-card .t-name{font-weight:800;font-size:calc(14.5px * var(--fs))}
+  .env-card .t-desc{font-size:calc(13px * var(--fs));color:var(--ink-3)}
   .env-card:hover{filter:brightness(.98)}
   /* 作品化模板（deep.tpl） */
-  .deep-tpl{background:var(--card);border:1.5px dashed var(--accent);border-radius:10px;padding:10px 14px;font-size:13.5px;color:var(--ink-2);margin-bottom:10px}
+  .deep-tpl{background:var(--card);border:1.5px dashed var(--accent);border-radius:10px;padding:10px 14px;font-size:calc(13.5px * var(--fs));color:var(--ink-2);margin-bottom:10px}
   .deep-tpl b{color:var(--accent)}
   /* 折叠式参考答案 */
   .q-ans{margin:4px 0 2px;border:1px solid var(--line);border-radius:9px;background:var(--card);padding:0}
-  .q-ans summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--green);padding:8px 12px;user-select:none;list-style:none;display:flex;align-items:center;gap:6px}
+  .q-ans summary{cursor:pointer;font-size:calc(13px * var(--fs));font-weight:700;color:var(--green);padding:8px 12px;user-select:none;list-style:none;display:flex;align-items:center;gap:6px}
   .q-ans summary::before{content:"👀"}
   .q-ans[open] summary{border-bottom:1px dashed var(--line)}
-  .q-ans .a-body{padding:10px 12px;font-size:13.5px;color:var(--ink-2)}
+  .q-ans .a-body{padding:10px 12px;font-size:calc(13.5px * var(--fs));color:var(--ink-2)}
   .q-ans .a-body b{color:var(--ink)}
-  .q-follow{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-3)}
+  .q-follow{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:calc(12.5px * var(--fs));color:var(--ink-3)}
   .q-follow b{color:var(--amber)}
   /* 搜索 */
   .search-wrap{position:relative;flex:1;min-width:180px;max-width:340px}
-  .search-input{width:100%;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px 8px 34px;font-size:13.5px;color:var(--ink);outline:none;transition:.2s}
+  .search-input{width:100%;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px 8px 34px;font-size:calc(13.5px * var(--fs));color:var(--ink);outline:none;transition:.2s}
   .search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-  .search-ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink-3);pointer-events:none}
+  .search-ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:calc(13px * var(--fs));color:var(--ink-3);pointer-events:none}
   .search-res{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 40px rgba(10,20,50,.18);max-height:340px;overflow:auto;z-index:60;display:none}
   .search-res.show{display:block}
-  .sr-item{padding:9px 14px;font-size:13.5px;cursor:pointer;border-bottom:1px dashed var(--line);display:flex;gap:8px;align-items:baseline}
+  .sr-item{padding:9px 14px;font-size:calc(13.5px * var(--fs));cursor:pointer;border-bottom:1px dashed var(--line);display:flex;gap:8px;align-items:baseline}
   .sr-item:last-child{border-bottom:none}
   .sr-item:hover{background:var(--accent-soft)}
-  .sr-item .sg{flex:none;font-size:10.5px;font-weight:800;color:var(--ink-3);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  .sr-item .sg{flex:none;font-size:calc(10.5px * var(--fs));font-weight:800;color:var(--ink-3);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
   .sr-item .st{color:var(--ink-2)}
-  .sr-empty{padding:12px 14px;font-size:13px;color:var(--ink-3)}
+  .sr-empty{padding:12px 14px;font-size:calc(13px * var(--fs));color:var(--ink-3)}
   /* 备份提醒 */
-  .tip-bar{display:flex;align-items:center;gap:10px;background:var(--amber-soft);border:1px solid #e2c98a;border-radius:12px;padding:10px 16px;font-size:13.5px;color:#8a5400;margin-bottom:14px;flex-wrap:wrap}
+  .tip-bar{display:flex;align-items:center;gap:10px;background:var(--amber-soft);border:1px solid #e2c98a;border-radius:12px;padding:10px 16px;font-size:calc(13.5px * var(--fs));color:#8a5400;margin-bottom:14px;flex-wrap:wrap}
   .tip-bar b{color:#5c3800}
-  .tip-bar .x{margin-left:auto;background:none;border:none;color:#8a5400;cursor:pointer;font-size:15px}
+  .tip-bar .x{margin-left:auto;background:none;border:none;color:#8a5400;cursor:pointer;font-size:calc(15px * var(--fs))}
   /* 错题本 */
-  .wrong-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.8px}
+  .wrong-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line);font-size:calc(13.8px * var(--fs))}
   .wrong-item:last-child{border-bottom:none}
   .wrong-item .wi{flex:1;color:var(--ink-2)}
   .wrong-item .wi b{color:var(--red)}
-  .wrong-item .wd{font-size:11.5px;color:var(--ink-3);white-space:nowrap;margin-top:2px}
-  .wrong-item .btn{padding:4px 9px;font-size:12px}
-  .wrong-item .wr{display:inline-block;font-size:11px;font-weight:700;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+  .wrong-item .wd{font-size:calc(11.5px * var(--fs));color:var(--ink-3);white-space:nowrap;margin-top:2px}
+  .wrong-item .btn{padding:4px 9px;font-size:calc(12px * var(--fs))}
+  .wrong-item .wr{display:inline-block;font-size:calc(11px * var(--fs));font-weight:700;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
   .wrong-item .wr.hot{color:var(--red);background:var(--red-soft)}
   /* 学习轨迹（打卡关联任务） */
   .trail{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-  .trail-item{font-size:12px;color:var(--ink-2);background:var(--accent-soft);border-radius:999px;padding:3px 10px;cursor:default}
+  .trail-item{font-size:calc(12px * var(--fs));color:var(--ink-2);background:var(--accent-soft);border-radius:999px;padding:3px 10px;cursor:default}
   .trail-item b{color:var(--accent);font-weight:700}
 
-  footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3)}
-  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:999px;font-size:13.5px;font-weight:600;opacity:0;transition:.3s;z-index:99;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+  footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:calc(12px * var(--fs));color:var(--ink-3)}
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:999px;font-size:calc(13.5px * var(--fs));font-weight:600;opacity:0;transition:.3s;z-index:99;box-shadow:0 8px 30px rgba(0,0,0,.3)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   /* 快照恢复 */
-  .snap-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);font-size:14px}
+  .snap-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line);font-size:calc(14px * var(--fs))}
   .snap-row:last-of-type{border-bottom:none}
   /* 打卡热力图 */
   .heat{display:flex;gap:4px;margin-top:12px}
@@ -291,14 +292,22 @@
   /* 搜索高亮 */
   mark{background:var(--amber-soft);color:var(--amber);padding:0 2px;border-radius:3px;font-weight:700}
   /* 快捷键提示 */
-  .kbd-hint{font-size:11px;color:var(--ink-3);border:1px solid var(--line);border-radius:5px;padding:1px 6px;background:var(--bg)}
+  .kbd-hint{font-size:calc(11px * var(--fs));color:var(--ink-3);border:1px solid var(--line);border-radius:5px;padding:1px 6px;background:var(--bg)}
+
+  /* 字号调节控件 A-/A+ */
+  .fs-ctrl{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:2px 4px;color:var(--ink-2)}
+  .fs-btn{border:none;background:transparent;color:var(--ink-2);font-weight:800;cursor:pointer;border-radius:7px;padding:3px 9px;font-size:13px;line-height:1;transition:.15s}
+  .fs-btn:hover{background:var(--accent-soft);color:var(--accent)}
+  .fs-btn:active{transform:scale(.92)}
+  .fs-val{min-width:40px;text-align:center;font-size:11.5px;font-weight:700;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  @media(max-width:640px){.fs-ctrl{order:5}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header class="top">
-    <div class="brand"><span class="dot"></span>大数据学习平台 <span style="font-size:12px;color:var(--ink-3);font-weight:600">· 大三冲刺版</span></div>
+    <div class="brand"><span class="dot"></span>大数据学习平台 <span style="font-size:calc(12px * var(--fs));color:var(--ink-3);font-weight:600">· 大三冲刺版</span></div>
     <div class="search-wrap">
       <span class="search-ic">🔍</span>
       <input class="search-input" id="searchInput" placeholder="搜索任务 / 技能 / 名词…" autocomplete="off">
@@ -308,6 +317,11 @@
       <span class="count-chip" id="chip-intern">距实习投递 <b>-</b> 天</span>
       <span class="count-chip" id="chip-fall">距秋招提前批 <b>-</b> 天</span>
       <button class="theme-btn" id="themeBtn">🌙 深色</button>
+      <span class="fs-ctrl" title="调节全站字号（设置会记住）">
+        <button class="fs-btn" id="fsMinus" aria-label="缩小字号">A&#8722;</button>
+        <span class="fs-val" id="fsVal">100%</span>
+        <button class="fs-btn" id="fsPlus" aria-label="放大字号">A+</button>
+      </span>
     </div>
   </header>
 
@@ -940,7 +954,7 @@ Object.assign(TERMS, {
 const DETAILS = {}; /* ===== S0 知识点详解 ===== */
 Object.assign(DETAILS, {
 "s0_env":{
- intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🧰 <b>全程第 0 步：装机不等于浪费时间</b>——目标是 1 个晚上（2-3 小时）把 MySQL、Python、VS Code、Git 全部装好并跑通第一条命令。某一步装不上不要硬耗：先看下方「常见报错排查」，或用替代方案绕过。</span>零基础学生流失率最高的不是 SQL 难，是环境装不上还没人管。这一步的目标不是「学知识」，是<b>把武器备齐</b>：之后 11 个月里所有任务默认环境已就绪。",
+ intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🧰 <b>全程第 0 步：装机不等于浪费时间</b>——目标是 1 个晚上（2-3 小时）把 MySQL、Python、VS Code、Git 全部装好并跑通第一条命令。某一步装不上不要硬耗：先看下方「常见报错排查」，或用替代方案绕过。</span>零基础学生流失率最高的不是 SQL 难，是环境装不上还没人管。这一步的目标不是「学知识」，是<b>把武器备齐</b>：之后 11 个月里所有任务默认环境已就绪。",
  pts:[
   "<b>MySQL 安装（Windows）</b>：官网下载 MySQL Installer → 选 Server only（可加 Workbench）→ 安装中设置 root 密码（<b>务必记到本地笔记里</b>）→ 装完在「服务」里应出现 MySQL80 且状态 running → 验证：cmd 输入 mysql -u root -p，能进入 mysql&gt; 提示符即成功",
   "<b>MySQL 安装（Mac）</b>：brew install mysql → brew services start mysql → mysql -u root -p（首次可能免密直接回车，进去后 ALTER USER 'root'@'localhost' IDENTIFIED BY '你的密码'; 设好）",
@@ -1017,7 +1031,7 @@ print(rdd.flatMap(lambda x: x.split()).map(lambda w: (w, 1)).reduceByKey(lambda 
 });
 Object.assign(DETAILS, {
 "s0_0":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>🧰 环境搭建指南（本阶段上方的第 0 步）</b>——本地 MySQL 能连上再开始；装不上先用 SQLite 备胎。</span>SQL 是数据岗位的第一语言，几乎 100% 的 JD 都把'扎实的 SQL'写在第一条。这阶段的目标不是'会写'，而是'写得对、写得稳'。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>🧰 环境搭建指南（本阶段上方的第 0 步）</b>——本地 MySQL 能连上再开始；装不上先用 SQLite 备胎。</span>SQL 是数据岗位的第一语言，几乎 100% 的 JD 都把'扎实的 SQL'写在第一条。这阶段的目标不是'会写'，而是'写得对、写得稳'。",
   pts:[
     "<b>JOIN 的本质</b>：内连接 INNER JOIN（取交集）、左连接 LEFT JOIN（左表全保留）、右连接、全连接 FULL OUTER JOIN。重点是理解 NULL 会如何出现——左连接后右表无匹配就是 NULL，过滤时用 IS NULL 而不是 = NULL",
     "<b>聚合三兄弟</b>：GROUP BY 的分组键决定聚合粒度；HAVING 是分组的过滤器（WHERE 在分组前过滤，HAVING 在分组后过滤，顺序不能混）；聚合函数 COUNT / SUM / AVG / MAX / MIN 对 NULL 的处理不同（COUNT(列) 忽略 NULL，COUNT(*) 不忽略）",
@@ -1034,7 +1048,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：从「会写」到「知道引擎怎么执行」</b>。搞清 SQL 逻辑执行顺序（FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY）、嵌套循环 / 哈希 / 合并三种 JOIN 物理算法的适用场景、索引对 JOIN 速度的决定性影响。<b>深入标志：给一条慢 JOIN SQL，能说出它可能卡在哪、有哪些优化方向。</b>", tasks:["挑一条两表 JOIN，用 EXPLAIN 分析执行计划，逐行写下每个数字的含义","不看资料手写 5 种 JOIN 场景（含自连接：员工表查「员工-经理」对）","用递归 CTE 写「查组织架构树」（从某经理往下所有下属）","把本周 JOIN 易错点整理成一篇博客发出来"] }
 },
 "s0_1":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础：JOIN / 聚合 / CTE</b>——JOIN 和聚合是窗口函数的地基。</span>窗口函数是 SQL 从'能干活'到'能干复杂活'的分水岭，也是校招面试手写 SQL 的必考点。它让你在不动行数的情况下，跨行计算。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础：JOIN / 聚合 / CTE</b>——JOIN 和聚合是窗口函数的地基。</span>窗口函数是 SQL 从'能干活'到'能干复杂活'的分水岭，也是校招面试手写 SQL 的必考点。它让你在不动行数的情况下，跨行计算。",
   pts:[
     "<b>与聚合的区别</b>：聚合函数把多行压成一行（GROUP BY 后行数变少）；窗口函数保持每行原样，在每行旁边附加计算列——这是最重要的心智模型",
     "<b>三大类窗口函数</b>：① 排序类 ROW_NUMBER / RANK / DENSE_RANK（区别：并列时怎么跳号，1,1,3 还是 1,1,2）；② 分析类 LAG / LEAD（取前后 N 行，做环比、同比）；③ 聚合类 SUM / AVG OVER（做累计、移动平均）",
@@ -1049,7 +1063,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：吃透窗口函数的执行时机与套路</b>。理解它执行在 GROUP BY 之后、ORDER BY 之前；掌握窗口帧（ROWS BETWEEN）语法；分清 row_number / rank / dense_rank 的适用场景；掌握「日期减序号」解连续问题的核心技巧。<b>深入标志：7 日留存、连续登录、TopN、环比同比四类题，不看答案 10 分钟内写完。</b>", tasks:["「连续登录 3 天的用户数」分别用日期减序号法和 lag 法各写一遍，对比优劣","写完整 7 日留存率 SQL，并把分母口径（新增口径）讲给同学听","部门内薪资 Top3（含并列）：分别用窗口函数和关联子查询实现","画一张 SQL 语句各子句的执行顺序图，贴在笔记首页"] }
 },
 "s0_2":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础 + s0_1 窗口函数</b>——要懂 JOIN 和窗口函数，才看得懂执行计划在优化什么。</span>执行计划是 SQL 的'体检报告'。能读懂它，你才算真正会 SQL——因为生产环境的慢查询优化全靠它，面试也常考。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础 + s0_1 窗口函数</b>——要懂 JOIN 和窗口函数，才看得懂执行计划在优化什么。</span>执行计划是 SQL 的'体检报告'。能读懂它，你才算真正会 SQL——因为生产环境的慢查询优化全靠它，面试也常考。",
   pts:[
     "<b>MySQL EXPLAIN 核心列</b>：type（访问类型，从好到差 system > const > eq_ref > ref > range > index > ALL）、key（实际用到的索引）、rows（预估扫描行数）、Extra（Using index / Using filesort / Using temporary）",
     "<b>为什么慢的三大原因</b>：全表扫描（type=ALL）、文件排序（Using filesort，ORDER BY 没走索引）、临时表（Using temporary，GROUP BY/DISTINCT 没走索引）",
@@ -1064,7 +1078,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：看懂执行计划背后的存储原理</b>。理解 B+ 树索引为什么快、为什么有最左前缀原则；EXPLAIN 每一列的含义与坏信号（type=ALL、Using filesort、Using temporary）；学会设计覆盖索引。<b>深入标志：给一条慢 SQL，能提出至少 3 个可验证的优化假设。</b>", tasks:["写脚本造 100 万行测试表，对比有/无索引的 EXPLAIN 执行时间差异","故意构造一个 Using filesort 场景，再用索引把它优化掉","做联合索引最左前缀三组对照实验（查 a / 查 b / 查 a,b），记录结论","写一篇《我是怎么读懂 EXPLAIN 的》，能讲给零基础同学听"] }
 },
 "s0_3":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础 + s0_1 窗口函数</b>——语法没练熟别急着刷题，先模板后题量。</span>刷题不是目的，是把语法练成肌肉记忆。100 道题的构成：入门 30 + 进阶 40 + 困难 30（重点窗口函数、连续问题、留存类）。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础 + s0_1 窗口函数</b>——语法没练熟别急着刷题，先模板后题量。</span>刷题不是目的，是把语法练成肌肉记忆。100 道题的构成：入门 30 + 进阶 40 + 困难 30（重点窗口函数、连续问题、留存类）。",
   pts:[
     "<b>刷题节奏</b>：每天 3-5 道，宁可 1 道彻底搞懂也不要 5 道囫囵吞枣；每道题记录：思路、卡点、最优解，一周回顾一次错题",
     "<b>困难档必刷题型</b>：连续登录 N 天、次日/7 日留存、TopN、中位数、环比同比、累积占比（帕累托）、同环比",
@@ -1079,7 +1093,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：从「做出这道题」到「沉淀出题型模板」</b>。把 100 题归纳成五大模板：连续问题、留存分析、TopN、去重取最新、累积占比（帕累托）。<b>深入标志：拿到新题 5 分钟内识别出属于哪类模板、套哪个骨架。</b>", tasks:["建「SQL 模板仓库」：每类模板一个文件，README 做索引，持续更新","每个模板脱离资料手写 3 遍，最后一遍计时","把做错的题录入平台错题本，7 天后重做验证","和同学互相出题：只许口述思路，训练面试表达"] }
 },
 "s0_4":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>🧰 环境搭建指南</b>——Python 装好且 venv 会用了再开始。</span>Python 是数据岗位的通用语言，和 SQL 搭配构成'取数+处理'的黄金组合。零基础阶段的目标：能读、能改、能写 200 行内的脚本。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>🧰 环境搭建指南</b>——Python 装好且 venv 会用了再开始。</span>Python 是数据岗位的通用语言，和 SQL 搭配构成'取数+处理'的黄金组合。零基础阶段的目标：能读、能改、能写 200 行内的脚本。",
   pts:[
     "<b>核心语法</b>：变量与类型（int/float/str/bool/None）、列表与字典（增删改查）、条件与循环、函数定义与返回值、异常处理 try/except",
     "<b>列表推导式</b>：[x*2 for x in nums if x&gt;0]，比手写循环简洁，读别人代码时高频出现",
@@ -1094,7 +1108,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：从「能跑」到「理解对象模型」</b>。搞懂可变/不可变类型、深浅拷贝、变量引用与作用域、装饰器原理、生成器为什么省内存。<b>深入标志：能解释「为什么函数默认参数不能是可变对象」这类经典面试题。</b>", tasks:["用生成器写一个逐行处理大文件的脚本，和一次性读入对比内存占用","手写 3 个实用装饰器：计时、失败重试、结果缓存","LeetCode 简单题刷 20 道，重点数组与哈希表","整理「Python 十大易错点」笔记，每条配一个能复现的最小示例"] }
 },
 "s0_5":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4 Python 基础语法</b>——至少会列表/字典/函数再碰 pandas。</span>pandas 是 Python 里处理表格数据的核心库，地位相当于'Python 版 Excel + SQL'。数据岗日常 70% 的表格操作都在用它。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4 Python 基础语法</b>——至少会列表/字典/函数再碰 pandas。</span>pandas 是 Python 里处理表格数据的核心库，地位相当于'Python 版 Excel + SQL'。数据岗日常 70% 的表格操作都在用它。",
   pts:[
     "<b>两大对象</b>：Series（一列，带索引）和 DataFrame（表格，行列都有索引）；理解索引（index）是 pandas 的灵魂",
     "<b>读写</b>：read_csv / read_excel / to_csv，注意 encoding='utf-8' 和 sep 参数",
@@ -1110,7 +1124,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：理解 pandas 的设计思想而非记 API</b>。搞懂 Index 对齐机制、groupby 的 split-apply-combine 模型、向量化为什么比循环快几个数量级、SettingWithCopyWarning 的成因。<b>深入标志：任何 for 循环数据处理逻辑，都能尝试改写成向量化写法。</b>", tasks:["把项目 0 的清洗逻辑用 pandas 重写，对比代码行数和运行时间","groupby 的 agg / transform / apply 三种用法各练 5 个例子","找一份脏数据集（Kaggle 很多），完整走一遍缺失/重复/异常值处理","通读官方 10 minutes to pandas，把不熟的知识点补进笔记"] }
 },
 "s0_6":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4 Python 基础 + s0_5 pandas</b>——会语法和表格处理，抓回来的数据才有地方落。</span>requests 是 Python 抓取 HTTP 接口的标准库级工具。学会它，你就能自己造数据源——任何公开 API、网页数据都能变成你的练习数据。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4 Python 基础 + s0_5 pandas</b>——会语法和表格处理，抓回来的数据才有地方落。</span>requests 是 Python 抓取 HTTP 接口的标准库级工具。学会它，你就能自己造数据源——任何公开 API、网页数据都能变成你的练习数据。",
   pts:[
     "<b>核心流程</b>：requests.get(url, params, headers) → 检查 resp.status_code → 解析内容 resp.json() 或 resp.text → 清洗 → 落盘",
     "<b>params 与 headers</b>：GET 参数用 params 字典；很多接口要求 User-Agent 等请求头，否则返回 403",
@@ -1171,7 +1185,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：真正理解假设检验的逻辑而非背概念</b>。搞懂 p 值的确切含义、第一类/第二类错误、AB 实验的样本量与周期估算、辛普森悖论为什么在业务里常见。<b>深入标志：业务说「实验提升了 2%，全量上吧」，你能提出正确的质疑清单。</b>", tasks:["用 Python 模拟 1 万次抛硬币实验，直观理解 p 值是什么","为一个假想功能写完整 AB 实验方案：指标、样本量、时长、判读规则","找一个辛普森悖论的真实案例写进笔记（广告/医疗领域很多）","把正态、二项、泊松分布各画一遍并标注真实业务对应物"] }
 },
 "s0_10":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL + s0_4 Python + s0_5 pandas + s0_6 抓数</b>——项目 0 是综合运用，零件没齐别急着组装。</span>项目 0 是你的第一个完整数据项目，目的不是大，而是'完整走一遍'：从取数到可视化，体验数据工作的全流程。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL + s0_4 Python + s0_5 pandas + s0_6 抓数</b>——项目 0 是综合运用，零件没齐别急着组装。</span>项目 0 是你的第一个完整数据项目，目的不是大，而是'完整走一遍'：从取数到可视化，体验数据工作的全流程。",
   pts:[
     "<b>选题原则</b>：数据能公开获取、规模适中（1 万-10 万行）、你能讲清业务背景。推荐：天气历史数据、票房数据、公开榜单、学校图书馆借阅数据",
     "<b>标准流程</b>：① 明确问题（想回答什么）→ ② 取数（API/爬虫/公开数据集）→ ③ 清洗（去重、缺失、异常、类型转换）→ ④ 分析（分组、对比、趋势）→ ⑤ 可视化出结论 → ⑥ 写 README 记录全流程",
@@ -1190,7 +1204,7 @@ Object.assign(DETAILS, {
 /* ===== S1 知识点详解 ===== */
 Object.assign(DETAILS, {
 "s1_0":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S0 阶段（尤其 s0_0 SQL 基础）</b>——建模最终要落地成建表语句，SQL 不熟会纸上谈兵。</span>维度建模是数仓的'图纸'，由数据仓库之父 Kimball 提出。它的核心思想：用'事实表 + 维表'把业务过程组织成方便查询的结构。面试必考，项目必用。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S0 阶段（尤其 s0_0 SQL 基础）</b>——建模最终要落地成建表语句，SQL 不熟会纸上谈兵。</span>维度建模是数仓的'图纸'，由数据仓库之父 Kimball 提出。它的核心思想：用'事实表 + 维表'把业务过程组织成方便查询的结构。面试必考，项目必用。",
   pts:[
     "<b>事实表（Fact）</b>：记录业务事件（订单、点击、支付），一行 = 一个业务过程的度量；含外键和度量值（金额、数量），粒度 = 一行的细化程度",
     "<b>维表（Dimension）</b>：描述'谁、何时、何地'的上下文（用户维、时间维、商品维），行数少但列多，是过滤和分组的依据",
@@ -1208,7 +1222,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：掌握 Kimball 维度建模的完整方法论</b>。事实表必须声明粒度、退化维的处理、缓慢变化维（SCD1/2/3）三种方案、总线矩阵的用法。<b>深入标志：拿到一段业务描述，能独立画出星型模型并说清每张表的粒度声明。</b>", tasks:["为项目 1 的业务画总线矩阵：所有业务过程 × 所有公共维度","建一张 SCD2 维表实操：历史版本留痕 + 生效时间查询","读《数据仓库工具箱》第 1-3 章，每章输出 5 条要点笔记","找一个真实场景，写清楚为什么选星型而不是大宽表"] }
 },
 "s1_1":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_0 维度建模</b>——分层是把模型按职责摆进楼层，模型是楼的地基。</span>数仓分层是把'原始数据'加工成'业务可用数据'的过程规范化。每层有明确职责，层层递进。面试必问'你们数仓怎么分层'。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_0 维度建模</b>——分层是把模型按职责摆进楼层，模型是楼的地基。</span>数仓分层是把'原始数据'加工成'业务可用数据'的过程规范化。每层有明确职责，层层递进。面试必问'你们数仓怎么分层'。",
   pts:[
     "<b>ODS（贴源层）</b>：原样存储业务库/日志数据，与源保持一致，只做格式统一，不做业务加工——它是数据仓库的'水龙头'",
     "<b>DWD（明细层）</b>：清洗、去重、标准化（统一编码、统一单位）、维度退化，生成干净的明细数据；这一层质量决定上层质量",
@@ -1224,7 +1238,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：吃透数仓分层的职责边界与命名规范</b>。ODS 原样贴源、DWD 明细清洗（去重/补空/枚举统一/口径一致）、DWS 轻度汇总、ADS 面向应用。<b>深入标志：任何指标需求，能立刻说清「应该建在哪一层、为什么」。</b>", tasks:["为项目 1 写完整分层设计与命名规范文档（一页纸）","画数据流架构图：从源系统到报表的每一跳","整理「指标该建在哪层」判断清单（10 条以内）","找一个开源数仓项目的分层结构，对照你的设计写差异分析"] }
 },
 "s1_2":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4/s0_5 Python 与 pandas + s1_1 数仓分层</b>——Spark 处理的是分好层的表，写法是 Python。</span>Spark 是大数据离线计算的事实标准。PySpark 让你用 Python 写分布式任务。面试重点：理解'分布式'带来的心智变化和常见性能问题。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4/s0_5 Python 与 pandas + s1_1 数仓分层</b>——Spark 处理的是分好层的表，写法是 Python。</span>Spark 是大数据离线计算的事实标准。PySpark 让你用 Python 写分布式任务。面试重点：理解'分布式'带来的心智变化和常见性能问题。",
   pts:[
     "<b>核心抽象 RDD/DataFrame</b>：数据被切分成多个分区（partition），并行分布在多台机器上；DataFrame 带 schema 和优化器（Catalyst），比 RDD 高效且是主流写法",
     "<b>宽依赖 vs 窄依赖</b>：窄依赖每个分区只被一个父分区使用（map/filter，可流水线）；宽依赖需要 shuffle（groupBy/join/distinct），数据跨节点传输，最贵",
@@ -1242,7 +1256,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：理解 Spark 的执行模型而不只是会调 API</b>。宽窄依赖的区别与 shuffle 触发点、shuffle 的物理过程、数据倾斜的定位（Spark UI）与打散方案、分区与并行度设置。<b>深入标志：任务跑得慢，能从 Spark UI 定位到具体 stage 并说清瓶颈类型。</b>", tasks:["人为制造一次数据倾斜，用加盐打散方案解决，记录前后耗时","对比 cache / 不 cache / checkpoint 三种情况的执行计划差异","读懂 Spark UI 的 stage/task/shuffle 读写量指标，截图做笔记","把一个熟悉的 pandas 脚本改写成 PySpark，对比写法差异"] }
 },
 "s1_3":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础 + s1_1 数仓分层</b>——HiveQL 就是跑在分层表上的 SQL。</span>Hive 是把 SQL 翻译成 MapReduce/Spark 作业的数仓工具，离线数仓的'标准 SQL 入口'。你的数仓任务 80% 是 Hive/Spark SQL。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础 + s1_1 数仓分层</b>——HiveQL 就是跑在分层表上的 SQL。</span>Hive 是把 SQL 翻译成 MapReduce/Spark 作业的数仓工具，离线数仓的'标准 SQL 入口'。你的数仓任务 80% 是 Hive/Spark SQL。",
   pts:[
     "<b>Hive 本质</b>：元数据（表结构）存在 MySQL，数据存在 HDFS；你写 SQL，它编译成分布式作业——理解'SQL 是外壳，底层是分布式计算'",
     "<b>分区表</b>：按 dt 等字段分目录，查询时只扫对应分区，避免全表扫描；这是 Hive 性能第一要素——一定要建分区表，查的时候一定要带分区条件",
@@ -1258,7 +1272,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：掌握 Hive 的存储与执行原理</b>。HiveSQL 到 MapReduce/Tez 的翻译关系、分区裁剪与分桶的存储原理、Hive 场景的数据倾斜解法（mapjoin、倾斜键拆分）。<b>深入标志：每次建表都能主动说清为什么这样分区、查询能不能裁剪到分区。</b>", tasks:["项目 1 的 Hive 表全部设计分区，用 EXPLAIN 验证分区裁剪生效","做一次分桶表与普通表 JOIN 的对照实验","收集 5 个最常用的 Hive 调优参数，逐个实验并记录效果","写一页《Hive 建表规范》给未来的自己"] }
 },
 "s1_4":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_2 PySpark ETL（或 s1_3 Hive）</b>——有了要定时跑的链路，才需要调度。</span>调度与数据同步是数仓的'时钟和血管'：任务什么时候跑、跑完怎么通知下一个、数据怎么搬进数仓。没有它们，你的数仓只是静态的建表脚本。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_2 PySpark ETL（或 s1_3 Hive）</b>——有了要定时跑的链路，才需要调度。</span>调度与数据同步是数仓的'时钟和血管'：任务什么时候跑、跑完怎么通知下一个、数据怎么搬进数仓。没有它们，你的数仓只是静态的建表脚本。",
   pts:[
     "<b>工作流调度</b>：DolphinScheduler（国产开源，国内公司多）或 Airflow（国际主流）：把任务组织成 DAG（有向无环图），定义依赖关系",
     "<b>核心概念</b>：任务（Task）/ 工作流（Workflow/DAG）、依赖（上游跑完才跑下游）、调度周期（小时/天/周）、重跑机制（失败重试、补数据 run 某一天）",
@@ -1274,7 +1288,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：建立调度系统的工程语义</b>。DAG 依赖设计、任务幂等性（重跑不产生脏数据）、指定日期回补（backfill）、失败重试与告警的分级设计。<b>深入标志：任何任务失败后，能放心地一键重跑。</b>", tasks:["用 Airflow 或 DolphinScheduler 把项目 1 全链路编排起来","演练一次「补 3 天前的历史数据」，验证幂等性","给核心任务配置失败告警（邮件/webhook），并演练误报处理","写一份幂等性检查清单：分区覆盖写、去重键、幂等写入方式"] }
 },
 "s1_5":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_1 数仓分层</b>——OLAP 引擎是分层架构里的查询层，先有分层才有查询对象。</span>OLAP 引擎解决'分析查询快'的问题。数仓加工完的数据要支撑 BI 报表、自助分析，MySQL 扛不住大查询，就需要专门的分析型引擎。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_1 数仓分层</b>——OLAP 引擎是分层架构里的查询层，先有分层才有查询对象。</span>OLAP 引擎解决'分析查询快'的问题。数仓加工完的数据要支撑 BI 报表、自助分析，MySQL 扛不住大查询，就需要专门的分析型引擎。",
   pts:[
     "<b>OLTP vs OLAP</b>：OLTP（MySQL，事务处理，写多查少，行存）；OLAP（分析处理，查多写少，列存+向量化，查询快 10-100 倍）",
     "<b>Doris / StarRocks / ClickHouse 三选一</b>：Doris（百度开源，国内互联网用得多，语法像 MySQL）；StarRocks（Doris 的分支，性能更激进）；ClickHouse（俄罗斯开源，单机性能极强但生态和 join 较弱）",
@@ -1289,7 +1303,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：理解列存与 MPP 架构的本质优势</b>。为什么列存适合聚合、Doris/ClickHouse 的分区分桶键如何决定查询性能、物化视图与预聚合的取舍。<b>深入标志：看到一条查询，能预判它该走明细还是预聚合、快慢在哪里。</b>", tasks:["同一份数据导入 ClickHouse 或 Doris，跑 5 条典型查询与 MySQL 对比耗时","为你的数据设计分区分桶键，写出选择理由","用物化视图/预聚合把最慢的一条查询优化 10 倍","写一篇 ClickHouse vs Doris vs MySQL 的选型对比笔记"] }
 },
 "s1_6":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_0 维度建模 ~ s1_5 OLAP 全部任务</b>——项目 1 是 S1 的综合大作业，零件全齐才能组装。</span>项目 1 是你的主力项目，决定你能否拿到实习面试。它必须完整覆盖：采集→ODS→DWD→DWS→ADS→调度→BI，且你能讲清每一步的'为什么'。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_0 维度建模 ~ s1_5 OLAP 全部任务</b>——项目 1 是 S1 的综合大作业，零件全齐才能组装。</span>项目 1 是你的主力项目，决定你能否拿到实习面试。它必须完整覆盖：采集→ODS→DWD→DWS→ADS→调度→BI，且你能讲清每一步的'为什么'。",
   pts:[
     "<b>业务域选择</b>：推荐电商交易（下单-支付-退款链路清晰）或内容播放（曝光-点击-播放）。你自己最熟悉的业务是最好的，因为能讲清业务逻辑",
     "<b>数据从哪里来</b>：构造/模拟数据 + 公开数据集均可，关键是'自洽'：字段要能支撑你的业务过程（订单表要有用户、商品、金额、时间、状态）",
@@ -1306,7 +1320,7 @@ Object.assign(DETAILS, {
       tasks:["全链路跑通并录屏留档（防演示翻车）","每个环节写一条「设计决策 + 备选方案 + 选择理由」","数据量放大 10 倍压测，找到瓶颈并优化，记录前后对比","完成项目文档三件套：数据字典 + 分层设计 + 指标口径"] }
 },
 "s1_7":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>与 s1_6 项目 1 同步产出</b>——先有项目，才有配套的字典/文档/脚本。</span>这个任务看起来'不是技术'，但它是区分'做完项目'和'交付项目'的分水岭。文档写不清楚 = 白做。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>与 s1_6 项目 1 同步产出</b>——先有项目，才有配套的字典/文档/脚本。</span>这个任务看起来'不是技术'，但它是区分'做完项目'和'交付项目'的分水岭。文档写不清楚 = 白做。",
   pts:[
     "<b>数据字典</b>：每张表记录：表名、所属层、业务含义、字段清单（名称/类型/含义/来源/口径）、更新频率、责任人。用 Markdown 表格或在线文档维护",
     "<b>分层设计文档</b>：画分层架构图，写清每层职责；写清楚关键表之间的血缘关系（A 表←B 表←C 表）",
@@ -1324,7 +1338,7 @@ Object.assign(DETAILS, {
 /* ===== S2 知识点详解 ===== */
 Object.assign(DETAILS, {
 "s2_0":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S1 阶段（尤其 s1_2 PySpark ETL）</b>——语料清洗就是 ETL 思路换了个对象。</span>语料工程是 AI 数据方向的核心技能：把互联网/业务数据变成大模型能'吃'的高质量文本。这是 2026 年最缺人的细分方向之一。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S1 阶段（尤其 s1_2 PySpark ETL）</b>——语料清洗就是 ETL 思路换了个对象。</span>语料工程是 AI 数据方向的核心技能：把互联网/业务数据变成大模型能'吃'的高质量文本。这是 2026 年最缺人的细分方向之一。",
   pts:[
     "<b>什么是语料</b>：大模型训练的原材料——网页文本、对话数据、代码、论文等。'垃圾进垃圾出'，语料质量直接决定模型质量",
     "<b>清洗 Pipeline</b>：去 HTML 标签 → 去广告/导航噪声 → 统一编码与格式 → 段落切分 → 质量过滤（长度、重复率、敏感内容、低质量信号）",
@@ -1340,7 +1354,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：掌握面向 AI 的数据质量工程</b>。文本去重（精确 hash + 模糊 simhash/minhash）、质量打分模型的设计、清洗流水线的可度量（每个环节的过滤率）。<b>深入标志：能设计一条「脏语料进、干净语料出」且每步可度量的处理流水线。</b>", tasks:["对一批文本做两级去重：hash 精确去重 + simhash 近似去重","设计 5 条质量打分规则，人工标注 50 条验证打分的合理性","把清洗逻辑写成可复跑的 pipeline 脚本","统计并记录每个环节的过滤率，分析误杀情况"] }
 },
 "s2_1":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_0 语料工程</b>——向量库里装的是清洗好的语料，垃圾进垃圾出。</span>embedding 把文本变成向量（一串数字），向量库让'按语义找内容'成为可能。这是 RAG 和一切语义检索的地基。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_0 语料工程</b>——向量库里装的是清洗好的语料，垃圾进垃圾出。</span>embedding 把文本变成向量（一串数字），向量库让'按语义找内容'成为可能。这是 RAG 和一切语义检索的地基。",
   pts:[
     "<b>embedding 是什么</b>：把'苹果'变成 [0.1, -0.3, ...] 这样的高维向量，语义相近的文本向量距离近（余弦相似度高）",
     "<b>为什么要向量</b>：关键词搜索（BM25）只能字面匹配；向量检索能理解同义与语义（'怎么退单'和'取消订单'匹配）",
@@ -1356,7 +1370,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：理解向量检索的原理与调参</b>。embedding 为什么能表达语义相似、HNSW/IVF 索引的原理与取舍、召回率与检索速度的权衡。<b>深入标志：能设计实验验证「语义相近的句子向量距离更近」，并量化不同模型的效果差异。</b>", tasks:["跑通 Milvus 或 pgvector 的入库 + 检索全流程","用同一批数据对比 2-3 个 embedding 模型的检索效果","调整索引参数（如 ef/nprobe），画出召回率-速度曲线","写实验报告：模型选型结论 + 理由"] }
 },
 "s2_2":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_1 embedding + 向量库</b>——RAG 检索链路建立在语义索引之上。</span>RAG（检索增强生成）是 2026 年最主流的大模型落地方式：不重新训练模型，而是把知识库内容检索出来喂给大模型回答。你做的知识库问答就是它。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_1 embedding + 向量库</b>——RAG 检索链路建立在语义索引之上。</span>RAG（检索增强生成）是 2026 年最主流的大模型落地方式：不重新训练模型，而是把知识库内容检索出来喂给大模型回答。你做的知识库问答就是它。",
   pts:[
     "<b>RAG 三阶段</b>：索引（文档→切块→向量化→入库）→ 检索（问题→向量化→TopK 召回）→ 生成（问题+上下文→大模型→回答）",
     "<b>为什么 RAG 而不是微调</b>：知识更新快（改库即可）、可溯源（答案带来源）、省成本（不用训练）；微调适合改'说话风格/格式'，不适合塞知识",
@@ -1372,7 +1386,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：掌握 RAG 链路中「检索质量决定一切」的工程认知</b>。切片策略对效果的影响、混合检索（关键词 + 向量）、rerank 重排、答案溯源引用。<b>深入标志：答非所问时，能定位问题出在切片、检索还是生成环节。</b>", tasks:["搭一个可追问的知识库问答 demo（用项目 1 的数据）","对比三种切片策略（固定长度/按段落/按语义）的问答效果","接入 rerank 模型，对比接入前后的召回质量","建 10 条测试问答集，做成可重复的评估脚本"] }
 },
 "s2_3":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_1 数仓分层 + s1_7 交付物文档</b>——治理是把分层与文档做体系化，先有对象再谈治理。</span>数据治理是'让数据可信、可用、可管'的体系化工作，也是各厂高薪刚需岗位。它是你专业里'管理'二字的直接体现。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_1 数仓分层 + s1_7 交付物文档</b>——治理是把分层与文档做体系化，先有对象再谈治理。</span>数据治理是'让数据可信、可用、可管'的体系化工作，也是各厂高薪刚需岗位。它是你专业里'管理'二字的直接体现。",
   pts:[
     "<b>治理的四大目标</b>：数据质量（准）、数据安全（稳）、数据标准（统一）、数据资产（可用）——能讲清这四个字就有骨架",
     "<b>数据质量六性</b>：完整性、准确性、一致性、及时性、唯一性、有效性——每项都有对应的检查手段（空值率、重复率、波动率）",
@@ -1388,7 +1402,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：建立数据治理的工程抓手</b>。数据质量监控规则（准确性/及时性/唯一性）、血缘的采集方式与影响分析、核心表的 SLA 设计。<b>深入标志：上游要变更时，你能给出受影响表和任务的完整清单。</b>", tasks:["给项目 1 加 3 条质量监控规则（如主键唯一、行数波动阈值）","画出从源到报表的全链路血缘图","给 2 张核心表定义 SLA（时效/质量）并设计违约处理","演练一次「上游改字段」的影响分析，输出评估报告"] }
 },
 "s2_4":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_6 项目 1 + s2_1/s2_2</b>——项目 2 直接建在项目 1 的数仓之上。</span>项目 2 是你区别于其他候选人的差异化项目：把数仓数据改造成'AI 可检索、可评估、可追溯'的资产。S1 的能力是底座，S2 的知识是翅膀。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_6 项目 1 + s2_1/s2_2</b>——项目 2 直接建在项目 1 的数仓之上。</span>项目 2 是你区别于其他候选人的差异化项目：把数仓数据改造成'AI 可检索、可评估、可追溯'的资产。S1 的能力是底座，S2 的知识是翅膀。",
   pts:[
     "<b>核心思路</b>：数据 AI-Ready 化四步：① 元数据语义化（字段注释、业务上下文补全）→ ② 语料化（把结构化数据转成可检索的文本/文档）→ ③ 向量化入库 → ④ 提供检索/问答服务",
     "<b>落地形态</b>：做一个'数仓知识问答'：把指标口径、表结构说明、业务规则做成文档→切块→向量库→RAG，业务同学直接问'上月 GMV 为什么降了'",
@@ -1404,7 +1418,7 @@ Object.assign(DETAILS, {
       tasks:["完成数据 → 语料 → 向量库 → 问答的完整链路","建自动化评估：每次改切片/模型都能跑同一套测试集","写项目 2 文档，突出与项目 1 的递进关系","把两个项目的「故事线」写进简历项目描述"] }
 },
 "s2_5":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_6 项目 1 有实际产出之后</b>——没产出的简历写不出四段式，先做后写。</span>简历是你和面试官的第一次对话，只有 15 秒。数据岗简历的核心：项目经历用'背景-动作-结果-量化'四段式，让面试官能立刻抓住你的能力。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_6 项目 1 有实际产出之后</b>——没产出的简历写不出四段式，先做后写。</span>简历是你和面试官的第一次对话，只有 15 秒。数据岗简历的核心：项目经历用'背景-动作-结果-量化'四段式，让面试官能立刻抓住你的能力。",
   pts:[
     "<b>四段式模板</b>：背景（项目解决什么问题）+ 动作（我具体做了什么，用技术名词）+ 结果（数据/业务效果）+ 量化（数字！数字！数字！）",
     "<b>技术栈写法</b>：'熟悉/掌握/精通'要诚实——精通意味着能扛住深挖；把技术栈分：核心（SQL/Spark/建模）+ 了解（Flink/Doris）",
@@ -1420,7 +1434,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：掌握简历的信息密度原则</b>。每条经历 = 背景 - 动作 - 结果 - 量化；删掉一切经不起追问的形容词。<b>深入标志：任何一条经历被连问三次「所以呢？」，都还有下一层内容。</b>", tasks:["按四段式写完简历 V1","每条经历至少一个量化数字（数据量/效率提升/覆盖范围）","找 3 个人要「15 秒第一印象」反馈并记录","对照 10 份目标岗位 JD，补齐高频关键词（诚实前提）"] }
 },
 "s2_6":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_5 简历 V1 定稿</b>——简历没定稿就海投，是浪费第一批目标公司。</span>投简历不是碰运气，是数据驱动的过程。30 份不是目标，是底线——因为通过率会让你重新认识市场。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_5 简历 V1 定稿</b>——简历没定稿就海投，是浪费第一批目标公司。</span>投简历不是碰运气，是数据驱动的过程。30 份不是目标，是底线——因为通过率会让你重新认识市场。",
   pts:[
     "<b>渠道分层</b>：① 内推（学长学姐、脉脉、牛客内推帖）命中率最高；② 官网直投（大厂校招官网）；③ 招聘平台（BOSS、实习僧、应届生求职网）；④ 老师/学院资源",
     "<b>时间节奏</b>：暑期实习 3-4 月集中投递（提前批更早）；日常实习全年可投；投递黄金时段：工作日上午",
@@ -1436,7 +1450,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：把投递当成数据收集与转化率优化</b>。渠道转化率、拒信复盘、知识点补强的闭环。<b>深入标志：能说出自己的简历通过率、笔试通过率，并针对短板定向改进。</b>", tasks:["建投递追踪表：公司/渠道/状态/结果/复盘","每个拒信做一次缺口复盘，归类到知识/表达/匹配度","每周统计转化漏斗，动态调整投递策略","沉淀 20 个高频面试题的答案并每周演练"] }
 },
 "s2_7":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S0 完成后即可随时开始</b>——云平台实操与 S1/S2 并行不冲突。</span>国内数据岗位的战场基本在云上：阿里云市场份额最大，DataWorks（数仓开发平台）+ MaxCompute（计算引擎）是国内数据工程师的日常。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S0 完成后即可随时开始</b>——云平台实操与 S1/S2 并行不冲突。</span>国内数据岗位的战场基本在云上：阿里云市场份额最大，DataWorks（数仓开发平台）+ MaxCompute（计算引擎）是国内数据工程师的日常。",
   pts:[
     "<b>核心组件</b>：MaxCompute（阿里云数仓引擎，兼容 SQL）、DataWorks（开发运维一体化平台：任务开发、调度、数据地图）、OSS（对象存储）、DataHub（实时数据通道）",
     "<b>DataWorks 工作流</b>：数据开发→任务调度→数据质量→数据地图（血缘/元数据）——它就是企业版'你的项目 1'",
@@ -1455,7 +1469,7 @@ Object.assign(DETAILS, {
 /* ===== S3 知识点详解 ===== */
 Object.assign(DETAILS, {
 "s3_0":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_6 投出实习简历（拿到 offer 后）</b>——素材记录从实习第一天就开始，别等结束再回忆。</span>实习的真正价值不在'刷一段经历'，而在你带走多少'能写进简历、能讲成故事'的素材。有意识收集和被动混日子，收获差 10 倍。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_6 投出实习简历（拿到 offer 后）</b>——素材记录从实习第一天就开始，别等结束再回忆。</span>实习的真正价值不在'刷一段经历'，而在你带走多少'能写进简历、能讲成故事'的素材。有意识收集和被动混日子，收获差 10 倍。",
   pts:[
     "<b>日常素材四类</b>：① 做过的表（表名、层级、口径、行数）→ ② 优化案例（任务从 40 分钟降到 8 分钟，怎么做的）→ ③ 解决的问题（数据对不上、口径混乱、告警误报）→ ④ 业务认知（业务怎么用数据决策）",
     "<b>每天 10 分钟记录</b>：下班前写 3 条：今天做了什么 / 卡在哪 / 明天做什么——回平台记日志",
@@ -1471,7 +1485,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：建立「素材思维」，实习的价值一半在记录</b>。每天记录：做了什么表、优化了什么任务、节省多少资源。<b>深入标志：实习结束时，简历素材直接取用，不需要痛苦回忆。</b>", tasks:["建素材流水账模板：日期/事项/数字/可讲的故事","每周五归档一次，把流水账改写成简历语言","挑 3 条素材按「背景-动作-结果-量化」写成简历条目","记下 mentor 和同事的点评用语（面试时就是现成的第三方评价）"] }
 },
 "s3_1":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S1/S2 主体任务完成</b>——八股是把做过的东西讲清楚，空背没意义。</span>八股（基础理论题）是校招面试绕不开的一关。数据岗八股的主战场：Hadoop/Hive/Spark/Flink 原理 + 网络/OS/数据库基础。目标不是背，是'能用自己的话讲清'。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S1/S2 主体任务完成</b>——八股是把做过的东西讲清楚，空背没意义。</span>八股（基础理论题）是校招面试绕不开的一关。数据岗八股的主战场：Hadoop/Hive/Spark/Flink 原理 + 网络/OS/数据库基础。目标不是背，是'能用自己的话讲清'。",
   pts:[
     "<b>Hadoop 三件套</b>：HDFS（NameNode 管元数据、DataNode 存数据，副本机制 3 副本）、YARN（资源调度，Container 分配）、MapReduce（思想：map 分治 + shuffle 洗牌 + reduce 聚合）",
     "<b>Spark 高频考点</b>：RDD 五大特性、宽窄依赖、DAG 调度（Stage 划分靠宽依赖）、shuffle 过程（写本地文件→拉取）、Spark vs MapReduce 快在哪（内存计算/ DAG / 多轮迭代）、Executor 内存模型",
@@ -1487,7 +1501,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：用费曼法把八股变成体系化理解</b>。Hadoop/Hive/Spark/Flink 高频考点 + 网络/操作系统基础，每个知识点都要能画出原理图。<b>深入标志：任意知识点能脱稿讲 3 分钟，并经得起「为什么」三连问。</b>", tasks:["每个组件整理 20 个高频问题，答案写原理图 + 一句话结论","每天口述录音 3 题，回听找卡壳点","找人 mock 一次连环追问，记录被问倒的题","被问倒的题全部录入错题本，按周清零"] }
 },
 "s3_2":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s3_0 实习素材量化记录</b>——复盘要基于积累的素材，无米之炊复盘不了。</span>面试最后环节基本都是'深挖项目'。你的项目要能扛住 15 分钟连续追问——这是区分'背的'和'做的'的关键，也是最该花时间准备的环节。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s3_0 实习素材量化记录</b>——复盘要基于积累的素材，无米之炊复盘不了。</span>面试最后环节基本都是'深挖项目'。你的项目要能扛住 15 分钟连续追问——这是区分'背的'和'做的'的关键，也是最该花时间准备的环节。",
   pts:[
     "<b>准备方法</b>：给每个项目写 Q&A 文档：预测面试官会问的 15-20 个问题，逐题写出答案",
     "<b>高频追问方向</b>：① 为什么这么设计（分层、建模、选型）② 数据怎么来的、怎么保证质量 ③ 出过什么问题、怎么排查 ④ 数据量放大 100 倍怎么办 ⑤ 指标口径怎么定义 ⑥ 为什么不用 XX 方案",
@@ -1503,7 +1517,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：项目复盘要覆盖追问的每个维度</b>。技术选型、数据量、异常处理、优化过程、如果重做会怎么改。<b>深入标志：任何项目问题 3 秒内开口，且能连续讲 3 分钟有细节。</b>", tasks:["两个项目各写 3 页 Q&A（按追问维度组织）","找人模拟面试，要求扛住 15 分钟连环追问","录音复盘：找出表述含糊、跳跃的部分并改写","把 Q&A 精华更新到作品集 README"] }
 },
 "s3_3":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_5 简历 V1 + s3_2 项目复盘</b>——V3 是在 V1 骨架上换秋招弹药。</span>简历 V3 和作品集是你的最终名片。V1 是'把经历写下来'，V3 是'把卖点提炼到极致'——用实习经历和秋招反馈反复打磨后的版本。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s2_5 简历 V1 + s3_2 项目复盘</b>——V3 是在 V1 骨架上换秋招弹药。</span>简历 V3 和作品集是你的最终名片。V1 是'把经历写下来'，V3 是'把卖点提炼到极致'——用实习经历和秋招反馈反复打磨后的版本。",
   pts:[
     "<b>V3 升级点</b>：① 加实习经历（按素材量化写）② 项目描述再砍 30% 文字、信息密度翻倍 ③ 用秋招笔试/面试反馈补强技术栈 ④ 删除所有经不起追问的'熟悉'",
     "<b>作品集仓库</b>：一个展示型仓库（或 README 首页）：放项目架构图、效果截图、关键代码片段、博客式总结；GitHub 主页放置顶项目 + 简介",
@@ -1520,7 +1534,7 @@ Object.assign(DETAILS, {
       tasks:["按反馈迭代到 V3：删 30% 文字，信息密度翻倍","作品集 README 写成技术博客水准（图 + 数据 + 反思）","整理 GitHub 主页：置顶 2-3 个仓库、个人简介","做 A/B 两版简历小范围投放，对比回复率"] }
 },
 "s3_4":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s3_3 简历 V3 + 作品集 README</b>——弹药备齐再进投递节奏。</span>秋招是校招的主战场，节奏快、岗位多、信息杂。策略正确与否，直接影响你的 offer 数量。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s3_3 简历 V3 + 作品集 README</b>——弹药备齐再进投递节奏。</span>秋招是校招的主战场，节奏快、岗位多、信息杂。策略正确与否，直接影响你的 offer 数量。",
   pts:[
     "<b>时间线</b>：7 月提前批（大厂、竞争烈度相对低）→ 8-9 月正式批（最多岗位）→ 10 月补录与国企/银行批 → 11-12 月春招前零星机会",
     "<b>信息渠道</b>：牛客（面经+招聘信息）、各大厂校招官网（提前注册简历）、学校就业网、老师群、内推群——信息差就是机会差",
@@ -1538,7 +1552,7 @@ Object.assign(DETAILS, {
   res:"建秋招追踪表：公司/岗位/状态/面试记录/复盘；每天固定 2 小时投递+复习，坚持到 10 月底",
   deep:{ go:"<b>深入目标：用数据驱动秋招策略</b>。冲/稳/保三档投递矩阵、提前批与正式批的节奏差异、面经驱动的定向复习。<b>深入标志：每周都有投递数、笔试数、面试数，策略调整有数据依据。</b>", tasks:["建冲/稳/保投递矩阵，每周复盘一次转化","每场面试后 24 小时内完成复盘（问了什么/卡在哪/怎么补）","收集目标公司的面经，做定向补强清单","接受「拒 20 拿 1」的节奏，把复盘写进日志保持心态"] }
 },"s1_8":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_1 数仓分层</b>——指标口径要挂到具体分层上讲才清楚。</span>数据岗面试越来越爱考业务题：给一个指标口径、给一个业务问题让你拆解。这一课把「业务 sense」变成可训练的方法论，也是你专业里'管理'二字的差异化体现。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_1 数仓分层</b>——指标口径要挂到具体分层上讲才清楚。</span>数据岗面试越来越爱考业务题：给一个指标口径、给一个业务问题让你拆解。这一课把「业务 sense」变成可训练的方法论，也是你专业里'管理'二字的差异化体现。",
   pts:[
     "<b>指标口径三要素</b>：定义（分子分母是什么）、统计维度（按什么拆）、统计周期（日/周/月）。同一个'用户数'，全站 vs 活跃 vs 新增，口径不同结论天差地别",
     "<b>指标分类</b>：规模指标（DAU、GMV）、质量指标（留存、转化率）、效率指标（客单价、人效）、健康度指标（退款率、投诉率）——被问'你关注什么指标'，按类回答显得体系化",
@@ -1643,9 +1657,9 @@ function stageCeremony(sid){
   $("#mTitle").textContent = `${st.badge}「${st.title}」全部完成！`;
   $("#mBody").innerHTML = `
     <div style="text-align:center;padding:4px 0 10px">
-      <div style="font-size:44px;line-height:1">🎉🎉🎉</div>
+      <div style="font-size:calc(44px * var(--fs));line-height:1">🎉🎉🎉</div>
       <p style="margin:10px 0 2px;font-weight:800">本阶段任务 ${st.tasks.length} / ${st.tasks.length} 全部勾完！</p>
-      <p class="muted" style="margin:0;font-size:13px">全平台累计 ${total}/${TASK_IDS.length} 个任务 · 阶段节奏 ${esc(st.pace||"2h/天")}</p>
+      <p class="muted" style="margin:0;font-size:calc(13px * var(--fs))">全平台累计 ${total}/${TASK_IDS.length} 个任务 · 阶段节奏 ${esc(st.pace||"2h/天")}</p>
     </div>
     <div class="help-card" style="margin-bottom:8px">📸 <b>通关仪式三件事</b>：① 去「数据」页导出一次备份（防丢）② 在打卡日历看看这段连续记录，给自己截个图 ③ 把本阶段「最卡壳的一道自测题」翻出来再讲一遍——讲顺了才算真通关。</div>
     ${nxt ? `<p style="margin:6px 0 0">下一站：<b>${esc(nxt.badge)}「${esc(nxt.title)}」</b>，第一个任务是「${esc(nxt.tasks[0][0])}」（⏱ ${nxt.tasks[0][2]||5} 天）。今晚可以休息，明天按节奏来。</p>` : `<p style="margin:6px 0 0;font-weight:800">${TASK_IDS.length} 个任务全部完成！接下来就是秋招冲刺，祝 offer 满满 🚀</p>`}`;
@@ -1667,14 +1681,14 @@ function lowMode(){
     <div class="intro">规则很简单：<b>不要求状态好，只要求 15 分钟</b>。做完下面这一件事，今天就赢；有余力再继续，没余力就理直气壮休息——保持连续比单日爆发更重要。</div>
     <div class="help-card" style="border-color:var(--accent);background:var(--accent-soft)">
       <b>${pick[0]}</b>：${pick[1]}
-      ${pick[2] ? `<div style="margin-top:8px;font-size:13.5px">${pick[2]}</div>` : ""}
-      <div style="margin-top:8px;font-size:12.5px;color:var(--ink-3)">${pick[3]}</div>
+      ${pick[2] ? `<div style="margin-top:8px;font-size:calc(13.5px * var(--fs))">${pick[2]}</div>` : ""}
+      <div style="margin-top:8px;font-size:calc(12.5px * var(--fs));color:var(--ink-3)">${pick[3]}</div>
     </div>
     <div class="low-actions">
       <button class="btn primary" id="lowPomo">🍅 配一个番茄钟，现在就开始</button>
       <button class="btn ghost" id="lowCheckin">✔ 做完就打卡（今天 1 分钟也算连续）</button>
     </div>
-    <p class="muted" style="font-size:12.5px;margin:4px 0 0">当前建议任务：${tk ? esc(tk[0]) + "（⏱ " + (tk[2]||5) + " 天）" : "全部任务已完成"}</p>`;
+    <p class="muted" style="font-size:calc(12.5px * var(--fs));margin:4px 0 0">当前建议任务：${tk ? esc(tk[0]) + "（⏱ " + (tk[2]||5) + " 天）" : "全部任务已完成"}</p>`;
   $("#modal").classList.add("show");
   document.body.style.overflow = "hidden";
   $("#lowPomo").addEventListener("click", ()=>{ closeModal(); const tb = document.querySelector('.tab[data-tab="pomo"]'); if(tb) tb.click(); });
@@ -1725,8 +1739,8 @@ function openDetail(key){
         <div style="margin-bottom:4px">${i+1}. ${q}</div>
         ${d.ans && d.ans[i] ? `<details class="q-ans"><summary>参考答案</summary><div class="a-body">${d.ans[i]}</div></details>` : ""}
       </div>`).join("")}</div>` : ""}
-    ${d.trouble ? `<h4>🛠️ 排错速查表（按现象找解法）</h4><table style="width:100%;border-collapse:collapse;font-size:13px;margin:6px 0 14px"><thead><tr style="background:#f1f5f9;font-weight:700"><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">现象</th><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">最可能原因</th><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">一句话解法</th></tr></thead><tbody>${d.trouble.map(r=>`<tr><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[0]}</td><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[1]}</td><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[2]}</td></tr>`).join("")}</tbody></table>` : ""}
-    ${d.res ? `<h4>推荐做法</h4><div>🎯 ${linkify(d.res)}</div>${(RES_LINKS[key]||[]).map(([t,u,w])=>`<div style="margin-top:6px;font-size:13.5px">🔗 <a class="res-link" href="${u}" target="_blank" rel="noopener">${t}</a> <span style="color:var(--ink-3);font-size:12.5px">· ${w}</span></div>`).join("")}` : ""}
+    ${d.trouble ? `<h4>🛠️ 排错速查表（按现象找解法）</h4><table style="width:100%;border-collapse:collapse;font-size:calc(13px * var(--fs));margin:6px 0 14px"><thead><tr style="background:#f1f5f9;font-weight:700"><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">现象</th><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">最可能原因</th><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">一句话解法</th></tr></thead><tbody>${d.trouble.map(r=>`<tr><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[0]}</td><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[1]}</td><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[2]}</td></tr>`).join("")}</tbody></table>` : ""}
+    ${d.res ? `<h4>推荐做法</h4><div>🎯 ${linkify(d.res)}</div>${(RES_LINKS[key]||[]).map(([t,u,w])=>`<div style="margin-top:6px;font-size:calc(13.5px * var(--fs))">🔗 <a class="res-link" href="${u}" target="_blank" rel="noopener">${t}</a> <span style="color:var(--ink-3);font-size:calc(12.5px * var(--fs))">· ${w}</span></div>`).join("")}` : ""}
     ${d.deep ? `<h4>🚀 深入学习（做完才算真的吃透）</h4>
       <div class="deep">${d.deep.go}</div>
       ${d.deep.tpl ? `<div class="deep-tpl">📋 <b>作品化模板：</b>${d.deep.tpl}</div>` : ""}
@@ -1775,7 +1789,7 @@ function openDetail(key){
         <button class="btn ghost" data-reason="🧭 思路不对（方法/方向错了）">🧭 思路不对（方法/方向错了）</button>
         <button class="btn ghost" data-reason="✏️ 粗心（会但写错）">✏️ 粗心（其实会，但写错了）</button>
       </div>
-      <div style="margin-top:12px;font-size:13px;color:var(--ink-3)">记入后可在「笔记日志 → 错题本」随时复习；同一任务错 2 题以上会自动标记为薄弱点，出现在仪表盘「待攻克」。</div>`;
+      <div style="margin-top:12px;font-size:calc(13px * var(--fs));color:var(--ink-3)">记入后可在「笔记日志 → 错题本」随时复习；同一任务错 2 题以上会自动标记为薄弱点，出现在仪表盘「待攻克」。</div>`;
     $("#modal").classList.add("show");
     document.body.style.overflow = "hidden";
     document.querySelectorAll("[data-reason]").forEach(b=>{
@@ -1796,7 +1810,7 @@ document.addEventListener("keydown", e=>{ if(e.key === "Escape") closeModal(); }
 
 Object.assign(DETAILS, {
 "s4_0":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4 Python 基础语法</b> 再开始刷题（至少会写循环/函数/列表）。零基础直接刷题会卡在语言上。</span>大厂笔试基本都考算法题，SQL 刷得再好，算法题做不出照样挂。目标不是成为 ACM 选手，而是把 LeetCode 热题 100 吃透：数组/哈希/链表/树/二分/双指针/动态规划。每天 30 分钟，坚持到秋招就是碾压大多数竞争者。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4 Python 基础语法</b> 再开始刷题（至少会写循环/函数/列表）。零基础直接刷题会卡在语言上。</span>大厂笔试基本都考算法题，SQL 刷得再好，算法题做不出照样挂。目标不是成为 ACM 选手，而是把 LeetCode 热题 100 吃透：数组/哈希/链表/树/二分/双指针/动态规划。每天 30 分钟，坚持到秋招就是碾压大多数竞争者。",
   pts:[
     "<b>先背套路再刷题</b>：每类题有固定套路——数组题看双指针/前缀和，字符串题看哈希/滑动窗口，链表题看快慢指针/虚拟头节点，树题看递归/层序遍历，二分题看'有序+查找'，动态规划先想状态定义和转移方程",
     "<b>刷题节奏</b>：每天 1-2 题（简单 10 分钟想不出看题解，中等 20 分钟），重点不是数量是'复盘'——每道题写完总结：思路、卡点、复杂度",
@@ -1809,7 +1823,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：形成'套路化解题'能力</b>。见题能快速归类到套路，写出正确且复杂度达标的解。<b>深入标志：热题 100 不看题解能独立 AC，面试手撕环节不慌。</b>", tasks:["建刷题台账：日期/题号/难度/套路/卡点/复杂度，每周复盘一次","每类套路（双指针/滑动窗口/二叉树/DP）各精刷 5 题，总结模板","在牛客完成 3 场模拟笔试，训练 ACM 模式输入输出","把 3 道高频题讲给同学听（费曼法），讲不清的重新理解"] }
 },
 "s4_1":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础</b> 再学原理（本任务讲的是 SQL 背后的数据库机制，不会写 SQL 会看不懂）。</span>平台教你写 SQL，但面试爱考 SQL 背后的原理：为什么索引快、为什么事务要隔离、为什么死锁会发生。这些是 MySQL 原理的硬核，也是区分'会写 SQL'和'懂数据库'的分水岭。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_0 SQL 基础</b> 再学原理（本任务讲的是 SQL 背后的数据库机制，不会写 SQL 会看不懂）。</span>平台教你写 SQL，但面试爱考 SQL 背后的原理：为什么索引快、为什么事务要隔离、为什么死锁会发生。这些是 MySQL 原理的硬核，也是区分'会写 SQL'和'懂数据库'的分水岭。",
   pts:[
     "<b>索引为什么快</b>：InnoDB 用 B+ 树，高度 3-4 层就能定位几千万行数据（每层节点能存几百个 key）。全表扫描 O(n) vs 索引查找 O(log n)，数据量越大差距越明显",
     "<b>聚簇 vs 二级索引</b>：主键索引的叶子直接存整行数据（聚簇）；二级索引（普通索引）叶子存主键值，查非索引列要'回表'。所以'覆盖索引'（查询列都在索引里）能避免回表，是常用优化",
@@ -1824,7 +1838,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：能从原理层面讲清'慢 SQL 为什么慢'</b>。索引结构、事务隔离、锁机制三块能画出原理图。<b>深入标志：拿到一条慢 SQL 能独立 EXPLAIN 定位问题并给出优化方案。</b>", tasks:["建 100 万行测试表，实测：无索引 vs 有索引查询耗时对比","用 EXPLAIN 分析 5 条慢 SQL，记录 type/rows/Extra 的变化","模拟一个死锁场景（两个事务交叉加锁），观察并复现","给同学讲一遍 B+ 树 vs 哈希索引的适用场景，讲不清重看"] }
 },
 "s4_2":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S1 阶段（尤其 s1_2 PySpark ETL）</b> 再学 Kafka——消息队列是数仓/实时链路的基础设施，需要先懂数据链路。</span>Kafka 是大数据生态的'血管'——日志采集、数仓同步、实时计算全依赖它。面试几乎必问，工作天天用。目标：理解分区/副本/消费组三大机制，能讲清'消息不丢不重'的完整方案。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>S1 阶段（尤其 s1_2 PySpark ETL）</b> 再学 Kafka——消息队列是数仓/实时链路的基础设施，需要先懂数据链路。</span>Kafka 是大数据生态的'血管'——日志采集、数仓同步、实时计算全依赖它。面试几乎必问，工作天天用。目标：理解分区/副本/消费组三大机制，能讲清'消息不丢不重'的完整方案。",
   pts:[
     "<b>三大组件</b>：Producer（生产消息）、Broker（Kafka 服务器集群，存消息）、Consumer（消费消息）。Topic 是逻辑分类，Partition 是物理分片",
     "<b>分区与有序</b>：同 key 消息哈希进同一分区 → 分区内有序；分区内单消费者顺序消费。想全局有序=单分区单消费者（牺牲并行）",
@@ -1839,7 +1853,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：独立搭建并讲清一个 Kafka 链路</b>。能本地起集群、写生产者消费者、讲清不丢不重。<b>深入标志：能画出'数据从 MySQL → Canal → Kafka → 消费入数仓'的架构图并解释每一环。</b>", tasks:["本地起 Kafka 单机，用命令行创建 topic、生产消费消息","写 Java/Python 生产者消费者，验证 ack=all + 幂等配置","模拟 leader 挂掉，观察分区怎么恢复（ISR 机制）","把 Kafka 接入你的数仓项目：Canal 同步 MySQL binlog 到 Kafka，消费写入 DWD"] }
 },
 "s4_3":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_2 PySpark ETL 和 s4_2 Kafka</b> 再学 Flink——实时计算是离线知识的延伸，跳过会断层。</span>现在公司主流架构是'离线+实时'双链路：离线 T+1 出报表，实时分钟级出监控/风控/推荐。Flink 是实时计算的绝对主流，校招加分项。目标：先建立流处理思维，再动手跑通一个实时任务。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_2 PySpark ETL 和 s4_2 Kafka</b> 再学 Flink——实时计算是离线知识的延伸，跳过会断层。</span>现在公司主流架构是'离线+实时'双链路：离线 T+1 出报表，实时分钟级出监控/风控/推荐。Flink 是实时计算的绝对主流，校招加分项。目标：先建立流处理思维，再动手跑通一个实时任务。",
   pts:[
     "<b>流 vs 批</b>：批=攒够一批再算（Hive/Spark SQL），流=来一条算一条（Flink/Spark Streaming）。Flink 的'流批一体'指同一套 API 既能跑批也能跑流",
     "<b>时间三兄弟</b>：事件时间（数据真实发生时间，最可靠）、处理时间（到达系统时间）、摄入时间。乱序数据必须用事件时间+水位线处理",
@@ -1854,7 +1868,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：跑通一条实时链路并讲清原理</b>。Kafka 数据源 → Flink 窗口聚合 → 结果写入，全程理解水位线/状态/容错。<b>深入标志：能独立实现'实时订单金额 1 分钟窗口统计'并解释 watermark 设置依据。</b>", tasks:["本地起 Flink（standalone 模式），跑通官方 WordCount","用 Flink 读 Kafka 模拟订单流，做 1 分钟滚动窗口聚合写回 Kafka/MySQL","人为制造乱序数据（延迟发送），对比有无水位线的结果差异","把实时链路写进简历项目：架构图 + 指标 + 容错方案"] }
 },
 "s4_4":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_6 项目 1</b> 再做可视化——没有自己的数据，学完工具也无从练手。</span>可视化是把数据'讲出来'的能力。面试官不指望你精通 Tableau，但希望你能把项目结果画成图——简历里的项目截图、答辩 PPT、业务周报全靠它。三选一：Power BI（微软，企业用最多）/ 帆软 FineBI（国内主流）/ Tableau（国际大厂偏好）。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s1_6 项目 1</b> 再做可视化——没有自己的数据，学完工具也无从练手。</span>可视化是把数据'讲出来'的能力。面试官不指望你精通 Tableau，但希望你能把项目结果画成图——简历里的项目截图、答辩 PPT、业务周报全靠它。三选一：Power BI（微软，企业用最多）/ 帆软 FineBI（国内主流）/ Tableau（国际大厂偏好）。",
   pts:[
     "<b>图表选型</b>：趋势用折线、对比用柱状/条形、占比用饼图/环形（≤5 类）、分布用直方图/箱线图、关系用散点/热力图、地理用地图。别用饼图装 20 个分类",
     "<b>看板设计原则</b>：从上到下按'核心指标 → 维度拆解 → 明细'布局；重点指标放大+变色；一屏一个主题；手机端优先（现在领导都看手机）",
@@ -1869,7 +1883,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：做出一张能放进简历的业务看板</b>。用真实数据（项目 1 的数仓结果）做一张交互式看板。<b>深入标志：看板能回答'业务上周怎么样、为什么、怎么办'三连问。</b>", tasks:["选一个工具装好，用项目 1 的 ADS 层数据导入","按'核心指标→维度拆解→明细'三层布局做一张看板","加 3 个交互：日期筛选、维度切片、钻取下钻","截图存简历 + 写 200 字说明（数据源/口径/结论）"] }
 },
 "s4_5":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4 Python + s0_5 pandas</b> 再学机器学习——sklearn 需要会操作数据。</span>数据岗越来越强调'懂模型'：数据分析师要会用 sklearn 做预测，AI 数据工程师要懂评估数据质量。不用成为算法工程师，但回归/分类/聚类三件套 + 评估指标必须会讲会用。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_4 Python + s0_5 pandas</b> 再学机器学习——sklearn 需要会操作数据。</span>数据岗越来越强调'懂模型'：数据分析师要会用 sklearn 做预测，AI 数据工程师要懂评估数据质量。不用成为算法工程师，但回归/分类/聚类三件套 + 评估指标必须会讲会用。",
   pts:[
     "<b>监督 vs 无监督</b>：有标签→监督（回归预测数值/分类预测类别）；无标签→无监督（聚类分组）。数据岗最常见：预测销量（回归）、用户分群（聚类）",
     "<b>建模五步</b>：数据清洗 → 特征工程 → 划分训练/测试集（7:3 或 8:2，别忘了随机种子）→ 训练模型 → 评估。sklearn 一行代码训练，重点在前后两步",
@@ -1884,7 +1898,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：用 sklearn 完整跑通一个预测项目</b>。从数据到评估指标全流程，能讲清每一步为什么。<b>深入标志：能独立完成'销量预测'或'用户流失预测'小项目，并解释特征重要性。</b>", tasks:["用项目 0 的数据做一次聚类（KMeans）用户分群，画轮廓系数曲线","完成一个分类小项目（如泰坦尼克生存预测），比较 3 个模型效果","用 10 折交叉验证替代单次划分，对比评估结果","把'特征工程→建模→评估'流程写成文档，标注每步的理由"] }
 },
 "s4_6":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_9 统计学</b> 再学本任务——AB 测试是假设检验的应用，统计概念要先有。</span>平台在 S0 统计部分讲了 AB 实验思想，这里补成完整方法论：AA 测试、显著性、样本量、实验陷阱。这是数据分析/商业分析岗的高频面试题，也是工作中最常被问'这个实验怎么设计'的场景。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🔗 建议先完成：<b>s0_9 统计学</b> 再学本任务——AB 测试是假设检验的应用，统计概念要先有。</span>平台在 S0 统计部分讲了 AB 实验思想，这里补成完整方法论：AA 测试、显著性、样本量、实验陷阱。这是数据分析/商业分析岗的高频面试题，也是工作中最常被问'这个实验怎么设计'的场景。",
   pts:[
     "<b>实验五步</b>：定义假设（H0/H1）→ 确定指标（主指标+护栏指标）→ 算样本量 → 随机分流 → 跑够时间后分析。护栏指标（如延迟、崩溃率）防止实验伤害其他方面",
     "<b>AA 测试</b>：正式实验前跑两个相同版本，验证分流均匀、统计口径正确。AA 显著=分流系统有问题，实验结论不可信",
@@ -1899,7 +1913,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：具备独立设计实验的能力</b>。从假设到分析完整走一遍，能识别常见陷阱。<b>深入标志：面试问'这个功能怎么验证效果'能 2 分钟给出完整实验方案。</b>", tasks:["用 Python 模拟一次 AB 实验（随机分组 + t 检验），跑通全流程","设计'新推荐算法是否提升点击率'实验，写出完整方案（指标/样本量/时长）","找一个辛普森悖论真实案例，拆解原因并给出正确结论","把实验方法论写成文档，收录进求职作品集"] }
 },
 "s4_7":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>✅ 零基础可直接学：本任务不需要编程基础，读完即可建立行业业务认知。</span>业务知识是数据岗的'软门槛'：技术面过了，业务面聊行业、聊指标、聊'你怎么看这个数'。校招不要求你懂很深，但电商/广告/金融三大行业的核心指标和玩法必须能聊。目标：每个行业 10 分钟能讲清'这个行业靠什么赚钱、核心指标有哪些、数据人做什么'。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>✅ 零基础可直接学：本任务不需要编程基础，读完即可建立行业业务认知。</span>业务知识是数据岗的'软门槛'：技术面过了，业务面聊行业、聊指标、聊'你怎么看这个数'。校招不要求你懂很深，但电商/广告/金融三大行业的核心指标和玩法必须能聊。目标：每个行业 10 分钟能讲清'这个行业靠什么赚钱、核心指标有哪些、数据人做什么'。",
   pts:[
     "<b>电商</b>：北极星指标=GMV 或订单量。核心漏斗：曝光→点击→加购→下单→支付。关键指标：转化率/客单价/复购率/退货率/LTV/CAC。玩法：大促（双11）、满减、会员体系",
     "<b>广告</b>：收入模型=CPM/CPC/CPA。平台方指标：广告收入、eCPM（千次曝光收入）、填充率；广告主指标：ROI/ROAS、点击率。玩法：竞价排名、定向投放、归因（最后点击/多触点）",
@@ -1914,7 +1928,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：能对目标行业聊 10 分钟业务</b>。选 1-2 个行业深耕：核心指标、商业模式、数据岗做什么。<b>深入标志：面试业务题能 2 分钟给出分析框架，不再只背定义。</b>", tasks:["选一个行业（电商/广告/金融），写出它的商业模式+核心指标体系（至少 15 个指标）","拆解一个你常用的 App：它的北极星指标是什么？为什么？","找 3 个业务面试题，每个写出完整分析框架（先验数→拆解→归因→结论）","把行业笔记整理成'行业分析一页纸'放进求职作品集"] }
 },
 "s4_8":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>✅ 零基础可直接学：本任务以概念和法规为主，不需要编程基础。</span>国家把数据定位为新型生产要素，数据安全与合规成为所有公司的刚需——也成了数据岗的新兴差异化方向。目标：懂基本概念（脱敏/分级/隐私计算），知道工作中哪些红线不能碰，面试能聊出'合规意识'。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>✅ 零基础可直接学：本任务以概念和法规为主，不需要编程基础。</span>国家把数据定位为新型生产要素，数据安全与合规成为所有公司的刚需——也成了数据岗的新兴差异化方向。目标：懂基本概念（脱敏/分级/隐私计算），知道工作中哪些红线不能碰，面试能聊出'合规意识'。",
   pts:[
     "<b>为什么重要</b>：个保法/数安法/数据二十条落地，违规最高罚 5000 万或上年营收 5%。企业都缺'懂数据又懂合规'的人，这是增量岗位",
     "<b>数据分级分类</b>：公开/内部/敏感/机密四级（或按业务自定）。敏感数据（个人信息、经营数据）加密存储+访问审批+操作审计",
@@ -1929,7 +1943,7 @@ Object.assign(DETAILS, {
   deep:{ go:"<b>深入目标：成为团队里的'合规意识最强的人'</b>。把数据安全概念融入项目：脱敏/分级/审计能落地。<b>深入标志：简历项目里写出'对个人信息做脱敏+分级存储'，面试能讲清设计依据。</b>", tasks:["给项目 1 的数据表做分级分类清单（哪些表含个人信息、定什么级）","用 Python 写一个脱敏函数库（手机号/身份证/地址三种掩码）","读个保法前 30 条，整理 10 条工作中要遵守的红线","把'数据安全设计'写进简历项目亮点（200 字）"] }
 },
 "s4_9":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>✅ 零基础可直接学：本任务从第一天就可以并行进行，越早形成习惯越好。</span>数据岗 50% 的工作是沟通：跟业务方对齐口径、跟领导汇报进展、跟同事协作排期。技术决定你能不能入行，软技能决定你能走多远。目标：结构化表达 + 向上汇报 + 复盘方法 + 文档写作四件套。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>✅ 零基础可直接学：本任务从第一天就可以并行进行，越早形成习惯越好。</span>数据岗 50% 的工作是沟通：跟业务方对齐口径、跟领导汇报进展、跟同事协作排期。技术决定你能不能入行，软技能决定你能走多远。目标：结构化表达 + 向上汇报 + 复盘方法 + 文档写作四件套。",
   pts:[
     "<b>结构化表达（金字塔原理）</b>：结论先行（先说结论再说论据）、以上统下（上层概括下层）、归类分组（MECE 不重不漏）、逻辑递进（时间/结构/程度顺序）。汇报任何事都先讲结论",
     "<b>向上汇报公式</b>：进展（做了什么）+ 数据（量化结果）+ 风险（卡点）+ 请求（需要什么支持）。老板时间少，30 秒讲完重点",
@@ -1952,7 +1966,7 @@ Object.assign(DETAILS, {
   /* s4_2 补全条目（原平台无详解，v5.7 新建） */
   Object.assign(DETAILS, {
 "s4_2":{
-  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:13px;color:var(--accent);font-weight:700'>🛰️ S4 旁线任务：不与主线争时间，每周固定 2 个下午推进。</span>Kafka 是实时数据链路的第一站：埋点、日志、订单流都从这里进出。核心只回答两个问题——<b>消息怎么不丢，怎么不重</b>。",
+  intro:"<span style='display:block;margin-bottom:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;font-size:calc(13px * var(--fs));color:var(--accent);font-weight:700'>🛰️ S4 旁线任务：不与主线争时间，每周固定 2 个下午推进。</span>Kafka 是实时数据链路的第一站：埋点、日志、订单流都从这里进出。核心只回答两个问题——<b>消息怎么不丢，怎么不重</b>。",
   pts:[
     "<b>Topic 与分区</b>：Topic 是逻辑频道，Partition 是并行度单位；同一 key（如订单 ID）哈希进同一分区，分区内有序、跨分区无序——「顺序性」问题 90% 靠「按 key 路由」解决",
     "<b>副本与 ISR</b>：每个分区 1 个 Leader + N 个 Follower；ISR（保持同步的副本集合）才是真正可用的副本，acks=all 就是等 ISR 全部确认——可靠性和吞吐之间的旋钮",
@@ -4665,7 +4679,7 @@ function openCheckinModal(t){
   $("#mTitle").textContent = "今天主攻哪个任务？";
   $("#mBody").innerHTML = `
     <div class="intro">选一个今天主要推进的任务，让打卡记录变成可回看的学习轨迹（可不选）。</div>
-    <select id="ckTask" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;font-size:14px;background:var(--card);color:var(--ink)">
+    <select id="ckTask" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;font-size:calc(14px * var(--fs));background:var(--card);color:var(--ink)">
       <option value="">（不指定，只打卡）</option>${opt}
     </select>
     <div style="display:flex;gap:8px;margin-top:14px">
@@ -4727,7 +4741,7 @@ function renderDash(){
       if(!pp) return "";
       const fmt = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
       if(pp.notStarted) return `<div class="card" style="margin-top:14px">
-        <h4 style="margin:0 0 6px;font-size:14.5px">📅 进度对照</h4>
+        <h4 style="margin:0 0 6px;font-size:calc(14.5px * var(--fs))">📅 进度对照</h4>
         <div class="intro" style="margin:0">主线 <b>${esc(pp.st.badge)}「${esc(pp.st.title)}」</b>将于 <b>${fmt(pp.start)}</b> 启动（节奏 ${esc(pp.pace)}）。开课前建议：① 完成 S0 顶部的 🧰 环境搭建指南；② 把 s0_0 的名词解释先混个眼熟，开课不慌。</div>
       </div>`;
       const diffHtml = pp.diff > 0
@@ -4737,34 +4751,34 @@ function renderDash(){
       const weekItems = pp.weekIds.length ? pp.weekIds.map(id=>{
         const [sid, idx] = id.split("_"); const st = STAGES.find(s=>s.id===sid); const tk = st.tasks[+idx];
         return `<div class="todo-item" style="margin-bottom:6px"><span class="no">${taskDone(id)?"✓":"○"}</span><div><b>${esc(tk[0])}</b><br><span class="muted">预计 ${tk[2]} 天${taskDone(id)?" · 已完成":""}</span></div></div>`;
-      }).join("") : `<div class="muted" style="font-size:13.5px">按计划本周没有硬性新任务——复习错题/推进 S4 旁线都是好选择。</div>`;
+      }).join("") : `<div class="muted" style="font-size:calc(13.5px * var(--fs))">按计划本周没有硬性新任务——复习错题/推进 S4 旁线都是好选择。</div>`;
       return `<div class="card" style="margin-top:14px">
-        <h4 style="margin:0 0 6px;font-size:14.5px">📅 进度对照 · ${esc(pp.st.badge)}「${esc(pp.st.title)}」</h4>
+        <h4 style="margin:0 0 6px;font-size:calc(14.5px * var(--fs))">📅 进度对照 · ${esc(pp.st.badge)}「${esc(pp.st.title)}」</h4>
         <div class="intro" style="margin:0 0 8px">按计划今天应完成 <b>${pp.planCount}/${pp.ids.length}</b> 个任务，实际完成 <b>${pp.doneN}</b> 个 → ${diffHtml}。当前阶段节奏：${esc(pp.pace)}。</div>
-        <h4 style="margin:10px 0 4px;font-size:13.5px;color:var(--ink-3)">本周建议完成</h4>
+        <h4 style="margin:10px 0 4px;font-size:calc(13.5px * var(--fs));color:var(--ink-3)">本周建议完成</h4>
         ${weekItems}
       </div>`;
     })()}
     ${(weakTasks().length || reviewDue().length) ? `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px">
       ${weakTasks().length ? `<div class="card">
-        <h4 style="margin:0 0 8px;font-size:14.5px;color:var(--red)">📌 待攻克（错 2 题以上）</h4>
+        <h4 style="margin:0 0 8px;font-size:calc(14.5px * var(--fs));color:var(--red)">📌 待攻克（错 2 题以上）</h4>
         ${weakTasks().map(w=>`<div class="todo-item" style="margin-bottom:8px"><span class="no">${w.n}</span><div><b>${esc(taskName(w.id))}</b><br><span class="muted">错题 ${w.n} 道 · 面试前重点补</span></div><button class="btn ghost small" data-wk="${w.id}">去补</button></div>`).join("")}
       </div>` : ""}
       ${reviewDue().length ? `<div class="card">
-        <h4 style="margin:0 0 8px;font-size:14.5px;color:var(--amber)">📅 到期复习（1/3/7 天记忆曲线）</h4>
+        <h4 style="margin:0 0 8px;font-size:calc(14.5px * var(--fs));color:var(--amber)">📅 到期复习（1/3/7 天记忆曲线）</h4>
         ${reviewDue().map(r=>`<div class="todo-item" style="margin-bottom:8px"><span class="no">${r.m}天</span><div><b>${esc(taskName(r.id))}</b><br><span class="muted">重做自测题，对抗遗忘</span></div><button class="btn ghost small" data-rv="${r.id}">已复习</button></div>`).join("")}
       </div>` : ""}
     </div>` : ""}
     <div class="card" style="margin-top:14px">
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
         <div style="flex:1;min-width:280px">
-          <h4 style="margin:0 0 6px;font-size:14.5px">📆 今日打卡 ${state.checkins[t]?"✅ 已打卡"+(state.checkinTasks&&state.checkinTasks[t]?` · 主攻「${esc(taskName(state.checkinTasks[t]))}」`:"") :"未打卡"}</h4>
+          <h4 style="margin:0 0 6px;font-size:calc(14.5px * var(--fs))">📆 今日打卡 ${state.checkins[t]?"✅ 已打卡"+(state.checkinTasks&&state.checkinTasks[t]?` · 主攻「${esc(taskName(state.checkinTasks[t]))}」`:"") :"未打卡"}</h4>
           <div class="checkin-grid">
             ${week.map(d=>{ const k=fmtDate(d); const on=!!state.checkins[k];
               return `<div class="ci ${on?"on":""} ${k===t?"today":""}" title="${k}${state.checkinTasks&&state.checkinTasks[k]?" · "+esc(taskName(state.checkinTasks[k])):""}"><span class="d">${d.getDate()}</span><span class="w">${"日一二三四五六"[d.getDay()]}</span></div>`; }).join("")}
           </div>
           <div class="heat" title="近 26 周打卡热力图（悬停日历格可看当天学了什么）">${heatCells()}</div>
-          <div class="muted" style="font-size:12.5px;margin-top:8px">本月打卡 ${monthCount()} 天 · 近 26 周 ${week8Count()} 天 · 累计 ${Object.keys(state.checkins).length} 天</div>
+          <div class="muted" style="font-size:calc(12.5px * var(--fs));margin-top:8px">本月打卡 ${monthCount()} 天 · 近 26 周 ${week8Count()} 天 · 累计 ${Object.keys(state.checkins).length} 天</div>
           ${recentTrail().length ? `<div class="trail">${recentTrail().map(([d,tid])=>`<span class="trail-item" title="${d}">${d.slice(5)} <b>${esc(taskName(tid))}</b></span>`).join("")}</div>` : ""}
         </div>
         <div style="margin-left:auto;display:flex;flex-direction:column;gap:8px;align-items:flex-end">
@@ -4819,7 +4833,7 @@ function maybeFirstVisitTip(){
   $("#mTag").textContent = "首次使用";
   $("#mTitle").textContent = "数据只存在这台设备上";
   $("#mBody").innerHTML = `
-    <div style="line-height:1.75;font-size:14px">
+    <div style="line-height:1.75;font-size:calc(14px * var(--fs))">
       <p style="margin:0 0 10px">学习记录<b>只保存在当前浏览器的本地存储</b>里，不联网同步。</p>
       <ul style="margin:0 0 14px;padding-left:18px;color:var(--ink-2)">
         <li>换设备 / 换浏览器 / 清理缓存 → 数据会丢失</li>
@@ -4846,7 +4860,7 @@ function renderTasks(){
   const total = TASK_IDS.length, done = TASK_IDS.filter(taskDone).length;
   $("#main").innerHTML = `
   <section class="active">
-    <h2 class="sec">路线任务 <span style="font-size:14px;color:var(--ink-3);font-weight:600">完成 ${done}/${total}</span></h2>
+    <h2 class="sec">路线任务 <span style="font-size:calc(14px * var(--fs));color:var(--ink-3);font-weight:600">完成 ${done}/${total}</span></h2>
     <p class="sub">点击勾选即完成 · 阶段头可折叠 · 数据自动保存</p>
     ${STAGES.map((st,si)=>{
       const ids = st.tasks.map((_,i)=>`${st.id}_${i}`);
@@ -5061,13 +5075,13 @@ function renderNotes(){
     <p class="sub">笔记：零散想法与知识点 · 日志：每天一条，复盘"今天真正学会了什么" · 错题本：没答上来的自测题</p>
     <div class="notes-grid">
       <div class="card">
-        <h4 style="margin:0 0 10px;font-size:14.5px">📓 学习笔记</h4>
+        <h4 style="margin:0 0 10px;font-size:calc(14.5px * var(--fs))">📓 学习笔记</h4>
         <textarea id="noteBox" placeholder="记录知识点、报错与解法、面试题……\n笔记存在本浏览器，可导出备份。">${esc(state.notes)}</textarea>
         <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
           <button class="btn primary small" id="noteSave">保存笔记</button>
           <span class="muted" id="noteStatus"></span>
         </div>
-        <h4 style="margin:16px 0 8px;font-size:14.5px;display:flex;align-items:center;gap:8px">📕 错题本（${state.wrong.length} 题）${state.wrong.length?`<button class="btn ghost small" id="wrongQuiz" style="margin-left:auto">🎲 随机复习</button>`:""}</h4>
+        <h4 style="margin:16px 0 8px;font-size:calc(14.5px * var(--fs));display:flex;align-items:center;gap:8px">📕 错题本（${state.wrong.length} 题）${state.wrong.length?`<button class="btn ghost small" id="wrongQuiz" style="margin-left:auto">🎲 随机复习</button>`:""}</h4>
         <div style="max-height:260px;overflow:auto" id="wrongList">
           ${state.wrong.length ? state.wrong.map((w,i)=>`<div class="wrong-item">
             <div class="wi"><b>${esc(w.title)}</b>${w.reason?`<span class="wr">${esc(w.reason)}</span>`:""}${w.times>0?`<span class="wr hot">❌ 答错 ${w.times} 次</span>`:""}<br>${esc(w.quiz)}</div>
@@ -5080,7 +5094,7 @@ function renderNotes(){
         </div>
       </div>
       <div class="card">
-        <h4 style="margin:0 0 10px;font-size:14.5px">📅 每日学习日志</h4>
+        <h4 style="margin:0 0 10px;font-size:calc(14.5px * var(--fs))">📅 每日学习日志</h4>
         <textarea id="logBox" rows="4" style="min-height:90px" placeholder="今天完成了什么？卡在哪？明天做什么？"></textarea>
         <div style="margin-top:8px"><button class="btn primary small" id="logAdd">记一条</button></div>
         <div style="margin-top:14px;max-height:300px;overflow:auto" id="logList">
@@ -5120,7 +5134,7 @@ function wrongQuizMode(){
   $("#mTitle").textContent = w.title || "复习";
   $("#mBody").innerHTML = `
     <div class="intro">先在心里回想答案，再点下方按钮核对 👇
-      ${w.reason?`<span style="display:block;margin-top:6px;font-size:12.5px;color:var(--ink-3)">错因：${esc(w.reason)}${w.times>0?` · 已答错 ${w.times} 次`:""}</span>`:""}
+      ${w.reason?`<span style="display:block;margin-top:6px;font-size:calc(12.5px * var(--fs));color:var(--ink-3)">错因：${esc(w.reason)}${w.times>0?` · 已答错 ${w.times} 次`:""}</span>`:""}
     </div>
     <div class="quiz">${esc(w.quiz || "（该错题没有记录题目，直接看详解）")}</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
@@ -5218,8 +5232,8 @@ function showExportModal(json, fname){
   $("#mTag").textContent = "备份导出";
   $("#mTitle").textContent = "📋 备份内容（复制保存）";
   $("#mBody").innerHTML = `
-    <p style="font-size:13px;color:var(--ink-2);margin:0 0 10px">当前浏览器不支持直接下载文件（微信/手机浏览器常见）。请点下方「📋 复制全部」，粘贴到<strong>备忘录 / 文件传输助手</strong>，另存为 <strong>${esc(fname)}</strong> 即可。</p>
-    <textarea id="dumpBox" readonly style="width:100%;height:220px;font-size:11px;font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.5;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--ink);white-space:pre;overflow:auto">${esc(json)}</textarea>
+    <p style="font-size:calc(13px * var(--fs));color:var(--ink-2);margin:0 0 10px">当前浏览器不支持直接下载文件（微信/手机浏览器常见）。请点下方「📋 复制全部」，粘贴到<strong>备忘录 / 文件传输助手</strong>，另存为 <strong>${esc(fname)}</strong> 即可。</p>
+    <textarea id="dumpBox" readonly style="width:100%;height:220px;font-size:calc(11px * var(--fs));font-family:ui-monospace,Menlo,Consolas,monospace;line-height:1.5;border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--bg);color:var(--ink);white-space:pre;overflow:auto">${esc(json)}</textarea>
     <div style="display:flex;gap:10px;margin-top:12px">
       <button class="btn primary" id="dumpCopy" style="flex:1">📋 复制全部</button>
       <button class="btn ghost" onclick="closeModal()">关闭</button>
@@ -5292,7 +5306,7 @@ function openSnapshots(){
   $("#mBody").innerHTML = `
     <div class="intro">快照保存在本浏览器，是防误操作的"后悔药"：<b>重置、导入覆盖前会自动留一份</b>，每天首次打开也会自动存一份。误删数据时可从这里找回。</div>
     ${rows}
-    <p class="muted" style="font-size:12.5px;margin:12px 0 0">恢复会用快照内容替换当前数据；恢复前建议先点"导出备份"留存当前数据。</p>`;
+    <p class="muted" style="font-size:calc(12.5px * var(--fs));margin:12px 0 0">恢复会用快照内容替换当前数据；恢复前建议先点"导出备份"留存当前数据。</p>`;
   $("#modal").classList.add("show");
   document.body.style.overflow = "hidden";
   document.querySelectorAll("[data-snap]").forEach(b=>b.addEventListener("click", ()=>{
@@ -5404,6 +5418,28 @@ document.addEventListener("visibilitychange", ()=>{ if(!document.hidden && pomo.
 })();
 window.addEventListener("beforeunload", ()=>{ clearInterval(ticker); pomoCommit(); });
 
+
+  /* ⌨ 字号调节 A-/A+（设置持久化到 localStorage） */
+  (function(){
+    const fsKey='bdlp_fs';
+    let fsScale=parseFloat(localStorage.getItem(fsKey))||1;
+    const root=document.documentElement;
+    function applyFs(){
+      root.style.setProperty('--fs',String(fsScale));
+      const v=document.getElementById('fsVal');
+      if(v) v.textContent=Math.round(fsScale*100)+'%';
+    }
+    function setFs(n){
+      fsScale=Math.max(0.7,Math.min(1.8,Math.round(n*10)/10));
+      localStorage.setItem(fsKey,String(fsScale));
+      applyFs();
+    }
+    const fmA=document.getElementById('fsMinus');
+    const fpA=document.getElementById('fsPlus');
+    if(fmA) fmA.addEventListener('click',function(){setFs(fsScale-0.1);});
+    if(fpA) fpA.addEventListener('click',function(){setFs(fsScale+0.1);});
+    applyFs();
+  })();
 </script>
 </body>
 </html>
