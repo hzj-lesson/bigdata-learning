@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大数据学习平台 · 大三冲刺 11 个月</title>
+<style>
+  :root{
+    --bg:#f4f6fa;--card:#ffffff;--ink:#1b2230;--ink-2:#49536a;--ink-3:#8a93a8;
+    --line:#e3e8f0;--accent:#2563eb;--accent-soft:#eaf0fe;
+    --red:#d93025;--red-soft:#fdeeec;--green:#0f9d58;--green-soft:#e8f6ef;
+    --amber:#c77700;--amber-soft:#fff4e0;--purple:#6b3fa0;--purple-soft:#f2ecfa;
+    --shadow:0 1px 3px rgba(20,30,60,.06),0 6px 22px rgba(20,30,60,.05);
+    --r:14px;
+  }
+  [data-theme="dark"]{
+    --bg:#12161f;--card:#1b2130;--ink:#e8ecf5;--ink-2:#aab3c7;--ink-3:#6b7590;
+    --line:#2a3247;--accent:#5b8def;--accent-soft:#1d2a49;
+    --red-soft:#3a1f1c;--green-soft:#12291e;--amber-soft:#33270e;--purple-soft:#261b38;
+    --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 22px rgba(0,0,0,.25);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",sans-serif;
+    line-height:1.7;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 18px 80px}
+
+  /* top bar */
+  .top{display:flex;align-items:center;gap:14px;padding:18px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .brand{font-size:19px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:12px;height:12px;border-radius:4px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:inline-block}
+  .top-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .count-chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13px;color:var(--ink-2);box-shadow:var(--shadow)}
+  .count-chip b{color:var(--accent);font-variant-numeric:tabular-nums}
+  .theme-btn{border:1px solid var(--line);background:var(--card);color:var(--ink-2);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;transition:.2s}
+  .theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* tabs */
+  .tabs{display:flex;gap:4px;margin:16px 0 20px;padding:5px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow-x:auto;box-shadow:var(--shadow)}
+  .tab{flex:1;min-width:92px;text-align:center;padding:9px 6px;border:none;background:transparent;color:var(--ink-3);font-size:13.5px;font-weight:700;border-radius:9px;cursor:pointer;transition:.2s;white-space:nowrap}
+  .tab:hover{color:var(--ink-2);background:var(--bg)}
+  .tab.active{background:var(--accent);color:#fff}
+  .tab .ic{display:block;font-size:15px;margin-bottom:2px}
+  @media(max-width:640px){.tab{min-width:74px;font-size:12px}}
+
+  main section{display:none}
+  main section.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  h2.sec{font-size:19px;margin:6px 0 4px;letter-spacing:-.01em}
+  p.sub{color:var(--ink-3);font-size:13.5px;margin:0 0 16px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px}
+
+  /* dashboard */
+  .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:16px}
+  .stat{padding:16px 18px}
+  .stat .k{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--ink-3);margin-bottom:6px}
+  .stat .v{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+  .stat .v small{font-size:13px;color:var(--ink-3);font-weight:600}
+  .stat .d{font-size:12.5px;color:var(--ink-3);margin-top:4px}
+  .ring-wrap{display:flex;align-items:center;gap:18px}
+  .ring{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;flex:none}
+  .ring .rv{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+  .ring .rl{font-size:11px;color:var(--ink-3)}
+  .today{flex:1;min-width:240px}
+  .today h4{margin:0 0 10px;font-size:14.5px}
+  .todo-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px;color:var(--ink-2)}
+  .todo-item:last-child{border-bottom:none}
+  .todo-item .no{flex:none;width:22px;height:22px;border-radius:7px;background:var(--accent-soft);color:var(--accent);font-size:11.5px;font-weight:800;display:grid;place-items:center}
+  .empty-hint{color:var(--ink-3);font-size:13.5px;padding:8px 0}
+  .btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.primary:hover{filter:brightness(1.08)}
+  .btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--ink-2)}
+  .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.small{padding:6px 11px;font-size:12.5px;border-radius:8px}
+
+  /* stages / tasks */
+  .stage{margin-bottom:14px;overflow:hidden}
+  .stage-hd{display:flex;align-items:center;gap:13px;padding:13px 18px;cursor:pointer;user-select:none;border-bottom:1px solid var(--line)}
+  .stage-hd .badge{font-size:11px;font-weight:800;color:#fff;background:var(--ink);border-radius:7px;padding:3px 9px;letter-spacing:.05em;flex:none}
+  .stage-hd h3{margin:0;font-size:15.5px;flex:1}
+  .stage-hd .when{font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+  .stage-hd .pct{font-size:12.5px;font-weight:800;color:var(--accent);min-width:44px;text-align:right;font-variant-numeric:tabular-nums}
+  .stage-hd .arrow{color:var(--ink-3);font-size:12px;transition:transform .2s}
+  .stage.collapsed .arrow{transform:rotate(-90deg)}
+  .stage-bd{display:none;padding:6px 18px 14px}
+  .stage:not(.collapsed) .stage-bd{display:block}
+  .task{display:flex;align-items:flex-start;gap:11px;padding:9px 4px;border-bottom:1px dashed var(--line);cursor:pointer}
+  .task:last-child{border-bottom:none}
+  .task input[type=checkbox]{width:17px;height:17px;margin-top:4px;accent-color:var(--accent);cursor:pointer;flex:none}
+  .task .t-main{flex:1}
+  .task .t-name{font-size:14.3px;font-weight:600}
+  .task .t-desc{font-size:12.5px;color:var(--ink-3);margin-top:2px}
+  .task.done .t-name{text-decoration:line-through;color:var(--ink-3)}
+  .task .t-est{font-size:11.5px;color:var(--ink-3);flex:none;margin-top:3px}
+
+  /* skills */
+  .skill-group{margin-bottom:16px}
+  .skill-group h4{margin:0 0 4px;font-size:14.5px;display:flex;align-items:center;gap:8px}
+  .skill-group .gsub{font-size:12.5px;color:var(--ink-3);margin:0 0 12px}
+  .skill-row{display:grid;grid-template-columns:1fr 130px 96px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .skill-row:last-child{border-bottom:none}
+  .skill-row .s-name{font-size:14px;font-weight:600}
+  .skill-row .s-name small{display:block;font-weight:400;color:var(--ink-3);font-size:12px}
+  .sbar{background:var(--bg);border-radius:8px;height:14px;overflow:hidden;border:1px solid var(--line)}
+  .sbar i{display:block;height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:8px;transition:width .4s}
+  .sbar.sg i{background:linear-gradient(90deg,#0f9d58,#38c172)}
+  .sbar.sa i{background:linear-gradient(90deg,#c77700,#f0a63a)}
+  .sbar.sd i{background:linear-gradient(90deg,#6b3fa0,#9b6bd4)}
+  .skill-ops{display:flex;gap:6px;justify-content:flex-end}
+  .skill-ops .btn{padding:5px 10px;font-size:12px;border-radius:8px}
+  .skill-row .s-pct{font-size:12px;color:var(--ink-3);text-align:right;font-variant-numeric:tabular-nums;min-width:38px}
+
+  /* pomodoro */
+  .pomo{display:flex;flex-direction:column;align-items:center;padding:30px 20px;gap:6px}
+  .pomo-ring{width:230px;height:230px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--accent) 0deg,var(--bg) 0deg);transition:background .1s}
+  .pomo-ring::before{content:"";position:absolute;inset:14px;background:var(--card);border-radius:50%;border:1px solid var(--line)}
+  .pomo-inner{position:relative;text-align:center}
+  .pomo-time{font-size:52px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .pomo-mode{font-size:13px;color:var(--ink-3);font-weight:700}
+  .pomo-round{font-size:12px;color:var(--ink-3);margin-top:2px}
+  .pomo-ops{display:flex;gap:10px;margin-top:16px}
+  .pomo-modes{display:flex;gap:6px;margin-top:14px}
+  .mode-btn{border:1px solid var(--line);background:var(--card);color:var(--ink-2);border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .mode-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .pomo-tip{max-width:520px;text-align:center;font-size:13px;color:var(--ink-3);margin-top:14px}
+
+  /* notes */
+  .notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.notes-grid{grid-template-columns:1fr}}
+  .notes-grid textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);padding:13px;font-size:13.5px;font-family:inherit;line-height:1.7;resize:vertical}
+  .notes-grid textarea:focus{outline:2px solid var(--accent-soft);border-color:var(--accent)}
+  .log-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:13.8px}
+  .log-item:last-child{border-bottom:none}
+  .log-item .ld{flex:none;font-size:11.5px;color:var(--ink-3);font-weight:700;padding-top:3px;min-width:92px}
+  .log-item .lt{flex:1;color:var(--ink-2);white-space:pre-wrap}
+  .log-item .del{background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:13px;padding:2px 6px;border-radius:6px}
+  .log-item .del:hover{background:var(--red-soft);color:var(--red)}
+  .muted{color:var(--ink-3);font-size:12.5px}
+
+  /* resources */
+  .res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .res-card h4{margin:0 0 10px;font-size:14.5px}
+  .res-card ul{margin:0;padding-left:2px;list-style:none}
+  .res-card li{margin-bottom:9px;font-size:13.8px}
+  .res-card a{color:var(--ink-2);text-decoration:none;font-weight:600;border-bottom:1px solid transparent}
+  .res-card a:hover{color:var(--accent);border-color:var(--accent)}
+  .res-card .rd{display:block;font-size:12px;color:var(--ink-3);font-weight:400}
+
+  /* data mgmt */
+  .data-bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
+  .data-bar .muted{margin-right:auto}
+
+  /* modal */
+  .modal-mask{position:fixed;inset:0;background:rgba(10,15,30,.55);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:36px 16px;overflow:auto}
+  .modal-mask.show{display:flex;animation:fade .2s ease}
+  .modal{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);max-width:760px;width:100%;animation:slideup .25s ease}
+  @keyframes slideup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .modal-hd{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--card);border-radius:16px 16px 0 0;z-index:2}
+  .modal-hd .badge{font-size:11px;font-weight:800;color:#fff;background:var(--accent);border-radius:7px;padding:3px 9px;letter-spacing:.05em;flex:none}
+  .modal-hd h3{margin:0;font-size:16.5px;flex:1}
+  .modal-x{background:none;border:none;color:var(--ink-3);font-size:18px;cursor:pointer;padding:4px 8px;border-radius:8px}
+  .modal-x:hover{background:var(--red-soft);color:var(--red)}
+  .modal-bd{padding:18px 22px 8px;font-size:14.5px;color:var(--ink-2);max-height:64vh;overflow:auto}
+  .modal-bd h4{font-size:13px;letter-spacing:.05em;color:var(--ink-3);margin:16px 0 8px;font-weight:800}
+  .modal-bd h4:first-child{margin-top:0}
+  .modal-bd .intro{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink);margin-bottom:4px}
+  .modal-bd details{background:var(--amber-soft);border:1px dashed #e2c98a;border-radius:10px;padding:10px 14px;margin:4px 0 6px}
+  .modal-bd details summary{cursor:pointer;font-size:13.5px;font-weight:800;color:#8a5400;user-select:none}
+  .modal-bd details summary:hover{opacity:.8}
+  .modal-bd .terms-list{margin:8px 0 2px;padding:0;list-style:none}
+  .modal-bd .terms-list li{padding:6px 0 6px 2px;font-size:13.5px;color:var(--ink);border-bottom:1px dashed rgba(194,164,90,.35)}
+  .modal-bd .terms-list li:last-child{border-bottom:none}
+  .modal-bd .terms-list li::before{content:"";display:none}
+  .modal-bd .terms-list b{color:var(--amber);font-weight:800;background:rgba(255,255,255,.55);padding:1px 6px;border-radius:5px;margin-right:6px}
+  .modal-bd .tl-eg{display:block;color:var(--ink-3);font-size:12.5px;margin-top:1px}
+  .modal-bd ul{margin:0;padding-left:2px;list-style:none}
+  .modal-bd ul li{position:relative;padding:5px 0 5px 20px;font-size:14px}
+  .modal-bd ul li::before{content:"▸";position:absolute;left:2px;color:var(--accent);font-weight:800}
+  .modal-bd ul li b{color:var(--ink)}
+  .modal-bd code{background:var(--bg);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:12.5px;font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--ink)}
+  .modal-bd .pit{background:var(--amber-soft);border-radius:10px;padding:11px 14px;font-size:13.5px;color:#8a5400;margin-top:2px}
+  .modal-bd .pit b{color:#5c3800}
+  .modal-bd .quiz{background:var(--green-soft);border-radius:10px;padding:11px 14px;font-size:13.5px;color:#0b6b3f;margin-top:2px}
+  .modal-bd .quiz b{color:#084a2c}
+  .modal-ft{padding:12px 22px 18px;text-align:right}
+  .kbtn{border:1px solid var(--line);background:var(--accent-soft);color:var(--accent);border-radius:7px;padding:3px 9px;font-size:12px;font-weight:700;cursor:pointer;flex:none;transition:.15s}
+  .kbtn:hover{background:var(--accent);color:#fff}
+  .task .kbtn{margin-top:2px}
+  .skill-row .kbtn{padding:4px 9px}
+
+  /* 打卡 */
+  .checkin-grid{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .ci{width:34px;height:44px;border-radius:8px;background:var(--bg);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--ink-3);gap:2px}
+  .ci.on{background:var(--green-soft);border-color:var(--green);color:var(--green);font-weight:800}
+  .ci .d{font-size:13px;font-weight:700}
+  .ci .w{font-size:9px}
+  .ci.today{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+  /* 掌握度 */
+  .mbtn{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink-3);font-size:11px;cursor:pointer;margin-top:2px;display:grid;place-items:center;font-weight:800;transition:.15s}
+  .mbtn[data-m="1"]{border-color:var(--amber);color:var(--amber);background:var(--amber-soft)}
+  .mbtn[data-m="2"]{border-color:var(--green);color:var(--green);background:var(--green-soft)}
+  .mbtn:hover{transform:scale(1.12)}
+  .mastery-bar{display:flex;gap:8px;margin:4px 0 10px}
+  .m-choice{flex:1;border:1.5px solid var(--line);background:var(--card);border-radius:9px;padding:8px 4px;font-size:13px;font-weight:700;color:var(--ink-3);cursor:pointer;transition:.15s}
+  .m-choice[data-m="0"]:hover,.m-choice[data-m="0"].sel{border-color:var(--ink-3);color:var(--ink)}
+  .m-choice[data-m="1"]:hover,.m-choice[data-m="1"].sel{border-color:var(--amber);color:var(--amber);background:var(--amber-soft)}
+  .m-choice[data-m="2"]:hover,.m-choice[data-m="2"].sel{border-color:var(--green);color:var(--green);background:var(--green-soft)}
+  .wrong-btn{width:100%;border:1.5px dashed var(--red);background:var(--red-soft);color:var(--red);border-radius:9px;padding:9px;font-size:13px;font-weight:700;cursor:pointer;margin-top:2px}
+  .wrong-btn:hover{background:var(--red);color:#fff}
+  /* 搜索 */
+  .search-wrap{position:relative;flex:1;min-width:180px;max-width:340px}
+  .search-input{width:100%;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px 8px 34px;font-size:13.5px;color:var(--ink);outline:none;transition:.2s}
+  .search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .search-ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink-3);pointer-events:none}
+  .search-res{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 40px rgba(10,20,50,.18);max-height:340px;overflow:auto;z-index:60;display:none}
+  .search-res.show{display:block}
+  .sr-item{padding:9px 14px;font-size:13.5px;cursor:pointer;border-bottom:1px dashed var(--line);display:flex;gap:8px;align-items:baseline}
+  .sr-item:last-child{border-bottom:none}
+  .sr-item:hover{background:var(--accent-soft)}
+  .sr-item .sg{flex:none;font-size:10.5px;font-weight:800;color:var(--ink-3);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+  .sr-item .st{color:var(--ink-2)}
+  .sr-empty{padding:12px 14px;font-size:13px;color:var(--ink-3)}
+  /* 备份提醒 */
+  .tip-bar{display:flex;align-items:center;gap:10px;background:var(--amber-soft);border:1px solid #e2c98a;border-radius:12px;padding:10px 16px;font-size:13.5px;color:#8a5400;margin-bottom:14px;flex-wrap:wrap}
+  .tip-bar b{color:#5c3800}
+  .tip-bar .x{margin-left:auto;background:none;border:none;color:#8a5400;cursor:pointer;font-size:15px}
+  /* 错题本 */
+  .wrong-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line);font-size:13.8px}
+  .wrong-item:last-child{border-bottom:none}
+  .wrong-item .wi{flex:1;color:var(--ink-2)}
+  .wrong-item .wi b{color:var(--red)}
+  .wrong-item .wd{font-size:11.5px;color:var(--ink-3);white-space:nowrap;margin-top:2px}
+  .wrong-item .btn{padding:4px 9px;font-size:12px}
+
+  footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3)}
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:999px;font-size:13.5px;font-weight:600;opacity:0;transition:.3s;z-index:99;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand"><span class="dot"></span>大数据学习平台 <span style="font-size:12px;color:var(--ink-3);font-weight:600">· 大三冲刺版</span></div>
+    <div class="search-wrap">
+      <span class="search-ic">🔍</span>
+      <input class="search-input" id="searchInput" placeholder="搜索任务 / 技能 / 名词…" autocomplete="off">
+      <div class="search-res" id="searchRes"></div>
+    </div>
+    <div class="top-right">
+      <span class="count-chip">距实习投递 <b id="cd-intern">-</b> 天</span>
+      <span class="count-chip">距秋招提前批 <b id="cd-fall">-</b> 天</span>
+      <button class="theme-btn" id="themeBtn">🌙 深色</button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="dash"><span class="ic">📋</span>仪表盘</button>
+    <button class="tab" data-tab="tasks"><span class="ic">🗂️</span>路线任务</button>
+    <button class="tab" data-tab="skills"><span class="ic">📈</span>技能进度</button>
+    <button class="tab" data-tab="pomo"><span class="ic">🍅</span>番茄钟</button>
+    <button class="tab" data-tab="notes"><span class="ic">📝</span>笔记日志</button>
+    <button class="tab" data-tab="res"><span class="ic">🔗</span>资源</button>
+  </nav>
+
+  <main id="main"></main>
+
+  <div class="tip-bar" id="backupTip" style="display:none">
+    <span>⚠️ <b>数据备份提醒：</b><span id="backupTipTxt"></span>，建议立即导出，防止浏览器数据丢失</span>
+    <button class="btn ghost small" id="tipExport">⬇ 现在导出</button>
+    <button class="tip-x" id="tipClose">✕</button>
+  </div>
+
+  <div class="card data-bar">
+    <span class="muted">数据保存在本浏览器（localStorage），换设备/清缓存会丢失</span>
+    <button class="btn ghost small" id="exportBtn">⬇ 导出备份</button>
+    <button class="btn ghost small" id="importBtn">⬆ 导入</button>
+    <button class="btn ghost small" id="resetBtn" style="color:var(--red)">重置全部</button>
+    <input type="file" id="importFile" accept=".json" style="display:none">
+  </div>
+
+  <footer>生成于 2026-08-31 · 学习数据仅存本地 · 建议每两周校准一次路线</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- 知识点详情弹窗 -->
+<div class="modal-mask" id="modal">
+  <div class="modal">
+    <div class="modal-hd">
+      <span class="badge" id="mTag">详解</span>
+      <h3 id="mTitle"></h3>
+      <button class="modal-x" id="mClose">✕</button>
+    </div>
+    <div class="modal-bd" id="mBody"></div>
+    <div class="modal-ft"><button class="btn ghost small" id="mClose2">关闭</button></div>
+  </div>
+</div>
+<script>
+"use strict";
+/* ============ 工具 ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove("show"), 2200); }
+
+/* ============ 数据定义 ============ */
+const STAGES = [
+  { id:"s0", badge:"S0", title:"打地基：能写能查能跑通", when:"2026.09 – 2026.10", tasks:[
+    ["SQL 基础：JOIN / 聚合 / CTE", "刷完《SQL 基础教程》前 2/3，每种 JOIN 手写一遍"],
+    ["SQL 窗口函数专项", "row_number / lag / sum over，直到能独立写出 7 日留存 SQL"],
+    ["SQL 执行计划阅读", "EXPLAIN 能读懂：全表扫描 / 索引 / filesort"],
+    ["刷完 100 道 SQL 题", "牛客 + LeetCode，重点：连续登录、留存率、TopN"],
+    ["Python 基础语法", "列表 / 字典 / 函数 / 异常，能写 200 行内脚本"],
+    ["pandas 数据处理", "分组 / 透视 / 合并 / 缺失值处理"],
+    ["requests + 文件读写", "抓一个公开接口并落成 CSV"],
+    ["Linux 命令 + Shell", "管道 / crontab / 日志排查"],
+    ["Git 提交与分支", "日常提交、分支、PR 全流程熟练"],
+    ["统计学补一轮", "描述统计、分布、假设检验、AB 实验思想"],
+    ["项目 0：抓数→清洗→入库→3 张图", "Python + MySQL 全流程，代码推 GitHub"]
+  ]},
+  { id:"s1", badge:"S1", title:"数据工程核心：跑通一条离线链路", when:"2026.11 – 2027.01", tasks:[
+    ["维度建模", "事实表/维表、星型模型、SCD，读《数据仓库工具箱》核心章节"],
+    ["数仓分层设计", "ODS / DWD / DWS / ADS 职责与命名规范"],
+    ["PySpark ETL", "分区 / shuffle / 宽窄依赖 / 数据倾斜"],
+    ["Hive 开发", "HiveQL、分区分桶、常见调优手段"],
+    ["调度与数据同步", "DolphinScheduler 或 Airflow + DataX"],
+    ["OLAP 引擎入门", "Doris / StarRocks / ClickHouse 选一个跑通"],
+    ["项目 1：端到端离线数仓（主力）", "采集→ODS→DWD→DWS→ADS→调度→BI 看板"],
+    ["交付物：数据字典 + 分层文档 + 建表脚本", "写下来才算完成"]
+  ]},
+  { id:"s2", badge:"S2", title:"差异化 + 投递：叠 AI 标签，开投实习", when:"2027.02 – 2027.04", tasks:[
+    ["语料工程", "清洗 / 去重 / 质量打分 / 格式规范化"],
+    ["embedding + 向量库", "Milvus 或 pgvector 跑通入库与检索"],
+    ["RAG 检索链路", "搭一个可追问的知识库问答应用"],
+    ["数据治理", "质量监控 / 血缘 / 指标体系 / SLA"],
+    ["项目 2：AI-Ready 数据链路", "把项目 1 的数据改造成可检索、可评估"],
+    ["简历 V1（四段式）", "背景–动作–结果–量化，每段量化"],
+    ["投出 30 份实习简历", "每被拒一次，补一个知识点"],
+    ["云平台实操", "阿里云 MaxCompute / DataWorks 跑通一个流程"]
+  ]},
+  { id:"s3", badge:"S3", title:"实习沉淀 → 秋收割", when:"2027.05 – 2027.10", tasks:[
+    ["实习素材量化记录", "做过的表、任务优化、节省资源，全部记下来"],
+    ["八股专项", "Hadoop / Hive / Spark / Flink 高频考点 + 网络 OS 基础"],
+    ["项目复盘：扛住 15 分钟追问", "两个项目各写 3 页 Q&A"],
+    ["简历 V3 + 作品集 README", "README 写成技术博客水准"],
+    ["秋招投递", "7 月提前批 + 9–10 月正式批"]
+  ]}
+];
+const SKILL_GROUPS = [
+  { id:"g1", name:"第一层 · 计算机底层", sub:"决定三年后的天花板，校招笔试硬门槛", items:[
+    ["algo","数据结构与算法","LeetCode 100 题"],
+    ["db","数据库原理","事务 / 索引 / 执行计划"],
+    ["net","计算机网络","HTTP / TCP / RPC"],
+    ["os","操作系统","进程 / 内存 / IO"]
+  ]},
+  { id:"g2", name:"第二层 · 工程素养", sub:"决定你像不像干过活的人", items:[
+    ["git","Git 与代码规范","提交 / 分支 / PR"],
+    ["linux","Linux + Shell","命令 / 脚本 / crontab"],
+    ["docker","Docker","Dockerfile / compose"],
+    ["api","API 与接口思维","curl / REST"]
+  ]},
+  { id:"g3", name:"第三层 · 周边增值", sub:"学 20% 深度换 80% 交付能力", items:[
+    ["viz","数据可视化","ECharts / Superset"],
+    ["backend","后端 API","FastAPI 数据服务"],
+    ["front","前端够用级","HTML / CSS / 基础 JS"],
+    ["crawl","工程化采集","增量 / 去重 / 合规"],
+    ["cloud","云平台","阿里云 DataWorks"]
+  ]},
+  { id:"g4", name:"第四层 · AI 加成", sub:"你的差异化标签：让数据 AI-Ready", items:[
+    ["prompt","提示词与 AI 工具链","AI 辅助写码写 SQL"],
+    ["corpus","语料工程","清洗 / 去重 / 质量评估"],
+    ["rag","向量库 + RAG","Milvus / pgvector"],
+    ["ml","经典 ML 基础","特征工程 / 评估指标"]
+  ]},
+  { id:"g5", name:"第五层 · 管理业务护城河", sub:"专业名里'管理与应用'的价值", items:[
+    ["kpi","指标体系与口径","北极星 / AARRR / 留存"],
+    ["gov","数据治理与合规","元数据 / 血缘 / 安全分级"],
+    ["biz","业务领域知识","零售 / 金融 / 内容选一"],
+    ["doc","表达与文档","金字塔原理 / 设计文档"]
+  ]}
+];
+const TERMS = {}; /* ===== S0 名词解释 ===== */
+Object.assign(TERMS, {
+"s0_0":[
+  ["SQL","结构化查询语言，一种专门用来跟数据库'对话'的语言——你想从数据库里取什么数据，就用它来表达", "就像点菜时跟服务员说的话：'来一份鱼香肉丝'（SELECT 鱼香肉丝 FROM 菜单）"],
+  ["数据库","存数据的仓库，按'表'的形式组织。你平时用的 Excel 表格就是它的简化版", "一个 Excel 工作簿里有很多 Sheet，每个 Sheet 就是一张'表'"],
+  ["表（Table）","数据库里的二维表格：一行是一条记录（一个订单），一列是一个字段（金额、时间）", "学校的花名册：一行一个学生，一列一个属性（姓名、学号）"],
+  ["查询（Query）","用 SQL 向数据库问问题并得到结果的过程，本质是'从表里按条件筛选、加工数据'", "在 Excel 里筛选出'金额大于 100 的订单'，就是一次查询"],
+  ["JOIN（连接）","把两张表按某个共同字段拼成一张大表的操作，JOIN 就是'连接'的意思", "把'订单表'和'用户表'按用户 ID 拼起来，就能看到每个订单是谁下的"],
+  ["聚合","把多行数据压成一行汇总结果：求和、计数、平均", "全班 50 个人的成绩，算出平均分——50 行变 1 行"],
+  ["CTE","WITH 开头的临时表语法，把复杂的查询拆成几步，每步先算出一个中间结果再往下用", "做菜先备料（切好的菜放一边），再做主菜——备料就是 CTE"],
+  ["NULL","数据库里的'空值'，表示这个位置没有数据，不是 0 也不是空字符串", "报名表上没填手机号，这一格就是 NULL"],
+  ["DISTINCT","去重关键字：去掉查询结果里重复的行", "统计有哪些城市下单了：城市列表去重后就是结果"]
+],
+"s0_1":[
+  ["窗口函数","一种特殊的计算：不把多行压成一行，而是在每一行旁边附加上'按窗口算出来的值'", "给每个学生算'本班平均分'，但每个学生那一行还在，旁边多了一列平均分"],
+  ["聚合函数","SUM/COUNT/AVG/MAX/MIN 这类把多行汇总成一个值的函数", "COUNT 是数个数，SUM 是求和，AVG 是求平均"],
+  ["PARTITION BY","窗口函数里'按什么分组开窗口'——把数据先分小组，每个小组内各自计算", "按班级分组，每个班级内部各自排名次"],
+  ["ORDER BY","排序：让结果按某列升序（ASC）或降序（DESC）排列", "成绩单按分数从高到低排"],
+  ["ROW_NUMBER","给每个窗口内的行编序号：1、2、3……", "小组内按身高排队，喊'报数'从 1 开始"],
+  ["TopN","取排名前 N 名的问题，是窗口函数最经典的面试题", "'每个班成绩前 3 名'就是 Top3"],
+  ["留存率","第 N 天还来使用的用户比例，衡量产品粘性", "100 个新用户第 2 天还有 40 个来，次日留存率就是 40%"],
+  ["LAG / LEAD","取当前行前面/后面第 N 行的值，常用来算环比（和上一期比）", "看上一期的销售额，和这期对比涨了没"]
+],
+"s0_2":[
+  ["执行计划（EXPLAIN）","数据库给你看'这条 SQL 打算怎么执行'的说明书：先查哪张表、用没用索引、扫了多少行", "导航软件给你看规划的路线：走哪条路、几个红绿灯、多久到"],
+  ["索引（Index）","数据库为加速查询建的'目录'，类似书的目录或字典的拼音索引", "查字典先翻拼音索引找到页码，而不是一页页翻"],
+  ["全表扫描","查询时把整张表的每一行都翻一遍（type=ALL），数据量大时非常慢", "在一本没有目录的书里找一句话，只能从头翻到尾"],
+  ["回表","先用索引找到位置，再回到原始表里取完整数据的过程", "先查目录知道在哪页，再翻到那页读内容"],
+  ["覆盖索引","查询需要的字段全在索引里，不用回表，最快", "目录页上就写全了你要的信息，不用再翻正文"],
+  ["Using filesort","执行计划里的提示：结果需要额外排序，通常说明排序没走索引，可能变慢", "本来按学号排好序的名单，你要按成绩排，得重新排一遍"],
+  ["B+ 树","MySQL 索引底层的树状结构，查询快的原因：层数少、查找次数少", "像一栋楼的楼层索引：先看 1 楼门牌区段，再上一层，几层就找到房间"]
+],
+"s0_3":[
+  ["牛客 / LeetCode","在线刷题网站：上面有大量 SQL 和算法题，校招笔试前都在这练手", "像驾考刷题 App，考前多刷题，考试不慌"],
+  ["窗口函数","见上一条详解的名词表：跨行计算、不合并行的函数"],
+  ["连续登录","'连着 N 天每天都登录'的意思，是面试高频题", "连着 7 天每天打卡，断了重来"],
+  ["留存率","见 s0_1：第 N 天还在用的用户比例"],
+  ["TopN","见 s0_1：取排名前 N 名的问题"],
+  ["困难档","题库里的难度分级，SQL 困难题通常是'连续登录、留存、TopN'这类组合题"],
+  ["一题多解","同一道题用不同写法做出来：子查询、窗口函数、JOIN 各写一遍，加深理解", "一条路可以开车、骑车、走路，都到目的地但路线不同"]
+]
+});
+Object.assign(TERMS, {
+"s0_4":[
+  ["Python","一种简单易学的编程语言，数据岗位最主流的工具，像'会算数的瑞士军刀'", "做数据分析的通用语言：读数据、算数据、画图都靠它"],
+  ["变量","程序里给数据起的名字，可以存数字、文字、列表等", "数学里的 x=5，x 就是变量"],
+  ["列表（list）","Python 里存一串数据的结构，用方括号 []", "购物清单：['苹果','香蕉','牛奶']"],
+  ["字典（dict）","存'键→值'对应关系的结构，用大括号 {}，查起来快", "通讯录：{'张三':'138xxxx','李四':'139xxxx'}，按名字查电话"],
+  ["函数","一段有名字、可重复调用的代码块，输入参数、返回结果", "计算器上的'开方'按钮：按一下输入数字，输出结果"],
+  ["f-string","Python 里把变量插进字符串的写法：f'你好{名字}'", "模板填空：'你好，{名字}！' 把名字填进去"],
+  ["try/except","异常处理语法：代码出错时不崩溃，而是走你写的'兜底'逻辑", "过马路前先左右看（try），万一有车（出错）就停下等（except）"],
+  ["模块 / import","别人写好、可以直接引用的代码库；import 就是'引入'它", "工具箱里借工具：import 螺丝刀，就能拧螺丝了"],
+  ["pip","Python 的'应用商店'，用它安装第三方库", "pip install pandas = 从应用商店下载安装 pandas 这个软件"]
+],
+"s0_5":[
+  ["pandas","Python 处理表格数据的王牌库，功能像'Excel 的超级加强版'", "用代码操作表格：筛选、排序、分组、合并，比 Excel 灵活得多"],
+  ["DataFrame","pandas 里的表格对象：有行有列，能整体操作", "一张 Excel 表读进 Python，就是一个 DataFrame"],
+  ["Series","DataFrame 里的一列（带名字的数组）", "表格里'销售额'这一整列"],
+  ["索引（index）","表格里每行的'标签'，默认是 0,1,2…，也可以指定", "Excel 最左侧的行号"],
+  ["布尔筛选","按条件筛选行：df[df['金额']>100] 意思是'金额大于 100 的行'", "在 Excel 里给'金额>100'加筛选条件"],
+  ["groupby","按某列分组再计算，对应 SQL 的 GROUP BY", "按班级分组，算每个班的平均分"],
+  ["merge","把两个表格按共同列拼接（对应 SQL 的 JOIN）", "把订单表和用户表按用户 ID 拼成一张表"],
+  ["NaN","pandas 里表示'缺失值'的标记，不是 0", "表格里没填的空格"],
+  ["透视表 pivot_table","把数据按'行、列、值'重排成汇总表格", "Excel 的数据透视表：行列交叉处是汇总值"]
+],
+"s0_6":[
+  ["requests","Python 里发网络请求的库：向网址要数据", "在浏览器地址栏输入网址按回车——requests 就是用代码干这件事"],
+  ["HTTP 请求","浏览器/程序向服务器'要东西'的请求：GET 是取数据，POST 是提交数据", "GET=去店里取货，POST=下单让店里做"],
+  ["API（接口）","程序之间约定的'取数通道'：一个网址，请求它返回结构化数据（通常是 JSON）", "餐厅的点餐窗口：你说'来一份套餐'，窗口给你出餐"],
+  ["JSON","一种通用数据格式：大括号套方括号，人和程序都能看懂", "{'城市':'北京','温度':25} 一条天气数据"],
+  ["状态码","HTTP 返回的状态数字：200 成功、403 禁止访问、404 找不到", "快递单上的状态：已签收、拒收、查无此人"],
+  ["headers（请求头）","请求里带的附加信息：浏览器标识、鉴权令牌等，很多接口必须带", "进小区要刷门禁卡，headers 就是那张卡"],
+  ["User-Agent","请求头里'你是谁'的标识，很多网站用它识别爬虫并拦截", "安检时的身份证：告诉对方你是谁"],
+  ["CSV","一种简单的表格文本格式：一行一条记录，逗号分隔字段", "Excel 导出的'另存为 CSV'就是这种格式"],
+  ["robots.txt","网站声明'哪些内容允许被爬取'的文件，遵守它是基本礼貌和合规底线", "商店门口贴着'谢绝入内'的牌子，你得尊重"]
+],
+"s0_7":[
+  ["Linux","服务器上最常用的操作系统（和你电脑的 Windows 不同），命令行操作", "数据中心里的电脑几乎都装它；你会像'黑客'一样用命令干活"],
+  ["命令行 / Shell","用打字输入命令来操作电脑的方式，而不是点图标", "和电脑对话：'列出这个文件夹'就输入 ls"],
+  ["管道（|）","把上一个命令的输出，喂给下一个命令当输入", "工厂流水线：A 机器的成品直接进 B 机器继续加工"],
+  ["权限（rwx）","文件/目录的读（r）写（w）执行（x）权限，分所有者/组/其他人", "文件像房间：主人能进，客人只能看"],
+  ["进程（process）","正在运行的程序实例，用 ps 查看、kill 结束", "你打开了一个计算器窗口，那就是一个进程"],
+  ["端口（port）","程序监听的'门牌号'，网络数据按端口找到对应程序", "一栋楼（服务器）有很多门（端口），8080 是其中一扇"],
+  ["grep","在文本里按关键词搜索的命令", "在一本小说里查找'凶手'出现的所有位置"],
+  ["crontab","Linux 的定时任务工具：到点自动执行命令", "闹钟：每天凌晨 2 点自动执行备份脚本"],
+  ["Shell 脚本","把一串命令写进文件批量执行，.sh 结尾", "把'开机→打卡→收邮件'写成一键脚本，双击全做"]
+]
+});
+Object.assign(TERMS, {
+"s0_8":[
+  ["Git","代码版本管理工具：记录你每一次修改，随时可以回退到任何版本", "写论文的'另存为 v1、v2、v3'，但 Git 自动帮你存所有版本还能对比"],
+  ["仓库（repository）","Git 管理的一个项目文件夹，里面记录了所有历史版本", "一个项目一个'档案室'，里面全是历史存档"],
+  ["commit（提交）","把当前修改'存档'下来的动作，每次提交有说明文字", "游戏存档：打完一个关卡存一次档，附注'第 3 关存档'"],
+  ["分支（branch）","从主线上分出去的开发线，互不干扰，做完再合并", "两拨人分别画两幅画的草稿，最后拼成完整作品"],
+  ["pull / push","从远程仓库拉取更新 / 把本地提交推送到远程", "pull=把网盘文件下载到电脑，push=把电脑文件上传到网盘"],
+  ["PR（Pull Request）","请求把某分支的修改合并进主分支，附带 review（评审）流程", "写完的方案提交给主管审批，主管点头才生效"],
+  ["merge（合并）","把分支的修改合并到另一个分支", "两条支流汇成一条河"],
+  ["冲突（conflict）","两个人改了同一处代码，合并时系统不知道听谁的，需要手动解决", "你和同事同时改了同一个表格的同一格"],
+  [".gitignore","声明'哪些文件不要纳入版本管理'的配置文件", "给档案室列一份'不收的文件清单'：临时文件、密码文件"]
+],
+"s0_9":[
+  ["统计（statistics）","收集、整理、分析数据的数学方法，是数据分析的'判断依据'", "不能光说'感觉销量涨了'，要用数据证明涨了多少、是否可信"],
+  ["均值 / 中位数","均值=总和÷个数；中位数=排序后正中间的值。有极端值时中位数更'稳'", "全班工资：老板 100 万拉高了均值，中位数更能代表普通员工"],
+  ["方差 / 标准差","衡量数据'分散程度'的指标：越大说明数据越参差不齐", "两个班平均分一样，但一个班分数集中、另一个两极分化——方差不同"],
+  ["分布（distribution）","数据'长什么样'的规律：正态分布像钟形曲线，长尾分布是少数人占大头", "身高分布是中间多两头少（正态）；收入分布是少数人特别高（长尾）"],
+  ["正态分布","最常见的数据形态：中间高两边低、左右对称的钟形曲线", "大多数人的身高集中在平均身高附近，特别高和特别矮的少"],
+  ["假设检验","用数据判断'这个差异是不是真的'的统计方法：先假设没差异，再看数据支不支持推翻它", "怀疑硬币有假：抛 100 次全是正面，'硬币公平'的假设就被推翻了"],
+  ["p 值","假设检验的输出指标：'如果真没差异，出现当前结果的可能性'。p&lt;0.05 表示差异显著", "p 值越小，说明'纯靠运气'解释不通，越可能是真有差异"],
+  ["AB 实验","把用户随机分两组，一组用新方案、一组用旧方案，对比哪个好", "奶茶店新品试卖：A 店卖原味、B 店卖新品，比销量"],
+  ["相关 vs 因果","相关=两个变量一起变（可能只是巧合）；因果=一个真的导致另一个", "冰淇淋销量和溺水人数相关，但冰淇淋不导致溺水（背后是夏天）"]
+],
+"s0_10":[
+  ["项目（project）","一个完整的、能讲清楚'做了什么、为什么做、结果如何'的作品", "不是作业，是你面试时拿得出手、能讲 10 分钟的东西"],
+  ["数据清洗","处理脏数据的过程：去重、补缺失、删异常、统一格式", "做饭前先摘菜洗菜——不干净的数据算出来的结论也不可信"],
+  ["入库","把数据导入数据库，之后可以随时用 SQL 查", "把文件整理好放进档案柜，贴好标签方便找"],
+  ["EDA（探索性分析）","动手分析前先'看一眼数据'：分布、缺失、异常，形成直觉", "买二手电脑先开机看看配置和外观，再决定怎么用"],
+  ["可视化（可视化图表）","把数据画成图，让人一眼看懂", "同样的销量数据：看表格和看折线图，感受完全不同"],
+  ["README","项目的说明文档，放在仓库最显眼处：项目是什么、怎么跑、结构如何", "新员工入职手册：看一眼就知道公司是干嘛的、流程怎么走"],
+  ["GitHub","全球最大的代码托管平台：把你的项目放上去，全世界都能看", "代码界的'作品展示墙'，面试官都会来看"],
+  ["MySQL","最流行的开源关系型数据库之一，你的项目 0 数据就存它", "一个功能强大的 Excel，但支持上亿行数据、多人同时访问"]
+],
+"s1_0":[
+  ["数据仓库（数仓）","专门存'用于分析的历史数据'的仓库，和业务系统数据库分开", "业务库是收银台的流水账本；数仓是月底做经营分析用的总账"],
+  ["维度建模","设计数仓表结构的方法：把业务拆成'事实'（发生了什么）和'维度'（谁/何时/在哪）", "记流水账：'张三今天在京东买了 100 元手机' = 事实（100元）+ 维度（张三/今天/京东）"],
+  ["事实表（Fact）","记录业务事件本身的表：一行一个事件，主要放金额、数量这类'度量'", "收银小票：一行一单，含金额、数量"],
+  ["维表（Dimension）","描述'谁、何时、何地'的背景信息的表：用户表、时间表、商品表", "花名册：记录每个人的属性（姓名、部门、职级）"],
+  ["粒度（granularity）","事实表里'一行代表什么'的细化程度", "按订单记=一行一单；按订单明细记=一行一件商品，后者粒度更细"],
+  ["星型模型","中间一张事实表 + 周围一圈维表的设计，像星星", "太阳（事实表）被行星（维表）围着转"],
+  ["SCD（缓慢变化维）","处理'维度属性变了但历史不能丢'的策略：SCD1 覆盖、SCD2 留历史版本", "用户搬家改地址：是直接改掉（SCD1），还是记下旧地址留档（SCD2）"],
+  ["主键 / 外键","主键=一行数据的唯一编号；外键=指向另一张表主键的字段，用于关联", "身份证号=主键；订单表里的'用户ID'=外键，指向用户表"]
+]
+});
+Object.assign(TERMS, {
+"s1_1":[
+  ["ODS 层","数仓最底层：把业务系统的原始数据原样搬进来，基本不加工", "把商家发来的货原封不动堆在仓库门口，还没拆箱"],
+  ["DWD 层","明细层：清洗、去重、统一格式后的'干净明细数据'", "把货拆箱、检查、贴好标签，入库摆放整齐"],
+  ["DWS 层","汇总层：按主题做好的'半成品汇总'，如按天/按用户汇总", "把货按种类提前打包成'标准礼盒'，随时能卖"],
+  ["ADS 层","应用层：面向具体报表的最终结果表，直接给业务看", "柜台上的成品礼盒，客人（报表）拿了就走"],
+  ["ETL","抽取（Extract）→ 转换（Transform）→ 加载（Load）：数据加工的全流程", "从源水池抽水（E）→ 过滤净化（T）→ 灌进目标水池（L）"],
+  ["分区表（partition）","按某字段（通常是日期）把大表切成多个目录存储，查询只扫需要的部分", "档案按年份分柜子：查 2026 年的只开 2026 的柜子，不用全翻"],
+  ["增量 / 全量","增量=只同步新增/变化的数据；全量=每次全部重新同步", "增量=今天只记今天的新账；全量=把账本从头重抄一遍"],
+  ["数据血缘","数据'从哪来、经过谁、到哪去'的依赖关系图", "一盘菜的溯源：从哪个菜市场、哪个摊位买来的"],
+  ["拉链表","记录'每个历史时期长什么样'的表：带生效/失效时间", "员工入职记录：什么时候在职、什么时候离职，都有档"]
+],
+"s1_2":[
+  ["Spark","大数据离线计算引擎：能把几 TB 的数据拆到很多台机器上并行计算", "一个大活派给 100 个人同时干，最后汇总——这就是分布式计算"],
+  ["PySpark","Spark 的 Python 接口：用 Python 写 Spark 任务", "同一个引擎，换了个方向盘（Python 语法）"],
+  ["分布式计算","把数据和计算任务拆散到多台机器上同时跑，再合并结果", "100 个人每人搬 1% 的砖，比一个人搬快 100 倍"],
+  ["分区（partition）","Spark 把数据切成很多块，每块在不同机器/线程上并行处理", "披萨切成 8 块，4 个人每人 2 块同时吃"],
+  ["Shuffle","数据在机器之间'搬家'的过程（分组、join 都要），最贵、最慢的环节", "全班重新分宿舍，所有人拖着行李换房间——非常耗时"],
+  ["数据倾斜","某个分区的数据特别多，导致别人干完了它还在干，拖慢整体", "小组作业 9 个人干 1% 的活，1 个人干 91% 的活，全班等它"],
+  ["宽依赖 / 窄依赖","窄依赖=每块数据只被用一次（快）；宽依赖=需要跨机器搬数据（shuffle，慢）", "窄=每人手里的活自己干完；宽=需要互相交换材料"],
+  ["懒执行","Spark 的转换操作只是'记账'，真正执行要等到'行动'操作触发", "写了个'明天要做的事'清单，明天才真正去做"],
+  ["数据倾斜的'加盐'","给导致倾斜的热点 key 加随机后缀拆散，再两阶段聚合", "把'北京'拆成'北京-1、北京-2…'分头处理，再合并结果"],
+  ["广播变量（broadcast）","把小表复制到每台机器上，避免 join 时全网搬大表", "开会时把议程复印给每个人，而不是全场传阅一份"]
+],
+"s1_3":[
+  ["Hive","数仓工具：让你用 SQL 操作海量数据（底层转成分布式作业）", "给 Hadoop 装了个'SQL 翻译官'：你说 SQL，它安排机器干活"],
+  ["HDFS","Hadoop 的分布式文件系统：文件被拆成多块存到多台机器，还自动备份", "文件碎成多块存在 3 个保险柜，坏一个柜子还能拼回来"],
+  ["元数据（metadata）","'数据的数据'：描述表结构、字段、存储位置的信息", "档案的目录卡：这张表叫什么、有哪些列、放哪个柜子"],
+  ["分区表","见 s1_1：按日期等字段分目录存储，查询只扫需要的分区"],
+  ["分桶表","按某列的哈希值把数据分到固定数量的文件里，利于抽样和 join 优化", "按姓氏首字母把学生分到 26 个文件柜"],
+  ["Parquet / ORC","列式存储文件格式：按列压缩存储，查询快、体积小，是主流格式", "同样 100 页资料：按'每页整存'（行式）vs 按'所有页的第一行装订'（列式）"],
+  ["小文件问题","产生了成千上万个小文件，导致任务调度和查询变慢", "100 张纸分别装进 100 个信封，找起来很麻烦；不如订成一本书"],
+  ["严格模式","Hive 的安全开关：禁止危险的查询（如分区表不带分区条件）", "给电钻装儿童锁，防止误操作伤到自己"],
+  ["执行引擎","真正跑 SQL 的底层计算框架：MR 慢、Tez/Spark 快", "同一个翻译官（Hive），配不同的司机（引擎）"]
+],
+"s1_4":[
+  ["调度系统","自动按时按顺序执行任务的系统：谁先跑、谁后跑、失败了怎么处理", "工厂的生产排程表：原料先到位→加工→质检，一环扣一环"],
+  ["DAG（有向无环图）","任务依赖关系的图：从上游到下游单向流动，不能有循环", "流水线：A 工序做完才能做 B，B 做完才能做 C，不能倒着来"],
+  ["DolphinScheduler / Airflow","两种常用的开源调度工具，都是把任务编排成 DAG 来跑", "一个是'自动化流程机器人'，你告诉它顺序和规则，它每天执行"],
+  ["依赖（dependency）","下游任务必须等上游任务成功后才能开始", "先买菜才能做饭，做饭依赖买菜完成"],
+  ["幂等性（idempotent）","同一个任务跑多少次，结果都一样（不会重复、不会叠加）", "同一封快递单，重复打印 10 次，还是同一份快递"],
+  ["重跑（rerun）","任务失败或数据有问题后，重新执行某天/某个任务", "账记错了，把那天重新记一遍，覆盖错的"],
+  ["数据同步","把数据从源系统搬到目标系统的过程（如 MySQL→Hive）", "把手机照片传到网盘，源和目标是两个地方"],
+  ["增量水位线","记录'上次同步到哪了'的标记（时间戳或 ID），下次从那里继续", "读书的书签：下次从书签页继续读，不用从头翻"],
+  ["SLA","服务等级承诺：数据必须在什么时间前就绪", "跟客户承诺'每天早 8 点前出昨日日报'，晚一分钟算违约"],
+  ["告警","任务失败/数据异常时自动通知（短信、群消息）", "家里烟雾报警器：异常了立刻响铃通知你"]
+]
+});
+Object.assign(TERMS, {
+"s1_5":[
+  ["OLTP / OLAP","两类数据库：OLTP 管日常业务（写多查少）；OLAP 管分析查询（查多、查询巨大）", "OLTP=收银台（每笔交易都要记）；OLAP=财务分析室（每月汇总分析）"],
+  ["OLAP 引擎","专门为'大查询、快分析'设计的数据库：Doris、StarRocks、ClickHouse", "给分析师用的'超级计算器'，专治大数据量查询慢"],
+  ["列式存储","按'列'存储数据（同一列放一起）并压缩，分析查询快", "行式=每行装一个信封；列式=所有'金额'放一个盒子，查金额只开这个盒"],
+  ["向量化执行","CPU 一次处理一批数据（而不是一行一行），大幅提速", "一次性烤一盘饼干，而不是一个一个烤"],
+  ["物化视图","把常用查询的结果预先算好存起来，查询直接读结果，秒回", "提前算好的'成绩汇总表'，不用每次现场重新算"],
+  ["预聚合","在写入时就把汇总结果算好（Rollup），查询时直接读", "每收一笔钱就同步记一次当日总额，月底直接看总额"],
+  ["去重（bitmap）","统计不重复用户数（count distinct）在海量数据下很慢，用位图技术加速", "统计这周来过多少人：每人发一张带编号的卡片，看有多少张不同编号"],
+  ["并发","同时有多少个查询/用户在用系统", "餐厅同时接待多少桌客人"]
+],
+"s1_6":[
+  ["业务域","你分析的业务范围：如'电商交易'、'内容播放'，决定表怎么设计", "研究'外卖'这个业务域，就围绕点餐-出餐-配送-评价来建数"],
+  ["GMV","成交总额：所有订单金额的总和（电商最核心指标）", "一个月卖了多少钱"],
+  ["转化率","从'看到'到'完成目标动作'的比例：点击→下单的转化", "100 人看了商品页，5 人下单，转化率 5%"],
+  ["客单价","平均每个订单的金额：GMV ÷ 订单数", "平均一单多少钱"],
+  ["复购率","买过一次后再次购买的用户比例，衡量客户粘性", "100 个顾客里有 30 个回头客，复购率 30%"],
+  ["指标体系","围绕业务目标设计的一组互相配合的指标", "体检套餐：血压、血糖、血脂……多个指标一起看身体"],
+  ["架构图","用图形表达系统各部分的组成和关系", "楼盘的户型图：一眼看清结构"],
+  ["数据字典","记录每张表、每个字段含义的文档：表名、字段、类型、含义、口径", "菜谱的'食材清单表'：每个原料叫什么、用多少"],
+  ["数据口径","一个指标'怎么算'的明确定义（含边界条件）", "'用户数'是注册用户还是活跃用户？这就是口径问题"]
+],
+"s1_7":[
+  ["DDL","建表语句：CREATE TABLE，定义表名、字段、类型、注释", "买房时的'户型图纸'：把结构定下来，之后按图施工"],
+  ["COMMENT（注释）","给表/字段写说明文字，让别人看懂这是啥", "给文件柜贴标签：'一季度报销单'"],
+  ["数据字典","见 s1_6：表字段的'说明书'"],
+  ["血缘关系","见 s1_1：数据从哪来、到哪去"],
+  ["文档（documentation）","把设计、口径、用法写下来的东西——写不清楚=白做", "家电说明书：不看它你也能用，但出了问题才觉得它重要"],
+  ["评审（review）","让别人检查你的设计并提意见，是工程标准流程", "论文给导师过目，导师提修改意见"],
+  ["GitHub 仓库组织","把代码按规范分目录管理：sql/、docs/、scheduler/ 等", "整理房间：书放书柜、衣服放衣柜，找东西快"]
+],
+"s2_0":[
+  ["语料","喂给大模型学习/生成的文本原料：网页、书籍、对话、代码等", "大模型是'厨师'，语料是'食材'——食材差，菜再好也白搭"],
+  ["大模型","如 GPT 这类超大规模 AI 模型：学习海量文本后能生成回答", "读过海量书的'超级学霸'，问它什么都答"],
+  ["Pipeline（流水线）","把多步处理串成一条自动流程：清洗→去重→过滤→入库", "汽车生产线：一个环节接一个环节，全部自动"],
+  ["清洗（clean）","去掉噪声数据：广告、乱码、HTML 标签、低质量内容", "摘菜：去掉烂叶子、泥土、虫子"],
+  ["去重（dedup）","删除重复数据，防止模型重复学习浪费算力", "同一本书买了两本，退掉一本"],
+  ["SimHash / MinHash","近似去重的算法：把文档转成'指纹'，指纹相似的判为重复", "给每篇文章提取'DNA'，DNA 高度相似的就是双胞胎"],
+  ["质量打分","用规则或模型给每条数据打分，低于阈值的淘汰", "招聘筛简历：先按学历/经验打分，低于分数线的不进入下一轮"],
+  ["PII（个人信息）","能识别出具体个人的信息：姓名、手机号、身份证、地址", "个人信息一旦泄露就可能被用来诈骗，必须过滤"],
+  ["配比（比例）","不同来源数据的混合比例，影响模型'偏科'程度", "营养餐：荤素搭配的比例，纯吃肉会营养不良"]
+]
+});
+Object.assign(TERMS, {
+"s2_1":[
+  ["embedding（向量）","把文字变成一串数字（向量），语义相近的文字数字也相近", "给每句话发一个'语义坐标'，意思像的两句话坐标也挨得近"],
+  ["向量","一串数字 [0.1, -0.3, 0.8…]，计算机用这串数字表示一个事物的特征", "身高、体重、鞋码三个数字描述一个人——向量就是这种'特征串'"],
+  ["余弦相似度","衡量两个向量方向的接近程度：1 最像，0 无关", "两个人都爱打篮球、听摇滚，他们的'兴趣向量'方向就接近"],
+  ["向量数据库","专门存向量、支持按相似度快速检索的数据库：Milvus、pgvector", "图书馆按'内容相近程度'排书的检索系统"],
+  ["语义检索","按'意思'而不是'字面'搜索：搜'怎么退钱'也能找到'退款流程'", "同义词、口语都能命中，而不是只能字面匹配"],
+  ["切块（chunking）","把长文档切成小段再入库，检索时按段召回", "把长篇小说按章拆开，找内容时先定位到某一章"],
+  ["Token","模型处理文字的最小单位：一个词或半个词", "中文按词/字切：'今天天气好' 拆成几个 token"],
+  ["TopK","检索时返回最相似的 K 条结果", "搜'附近餐厅'返回前 5 家，TopK=5"],
+  ["召回率","检索系统'该找到的有没有找到'的比例", "考卷有 10 道必考题，你复习到 8 道，召回率 80%"]
+],
+"s2_2":[
+  ["RAG","检索增强生成：先检索你的知识库，再让大模型基于检索结果回答", "开卷考试：先翻书找到答案（检索），再照着书答（生成）——不许瞎编"],
+  ["索引（index）","见 s0_2：这里指把文档加工成可检索形式的过程（切块+向量化+入库）", "给书编目录，方便后面快速查找"],
+  ["微调（fine-tuning）","用少量数据继续训练模型，改变它的行为/风格（成本高）", "请家教针对性地补习某一科——贵，但改变特定能力"],
+  ["幻觉（hallucination）","大模型一本正经地编造不存在的答案", "学渣没复习却斩钉截铁地说'这题选 C'"],
+  ["提示词（prompt）","你发给大模型的指令文本", "给服务员下的'点单指令'"],
+  ["重排（rerank）","粗筛出 50 条后，用更精细的模型重新排序，取最好的 5 条", "海选 50 人进复试，评委精排后留下 5 人"],
+  ["BM25","传统的关键词检索算法：按词匹配打分，是向量检索的'搭档'", "按字面搜：'苹果'只搜含'苹果'二字的"],
+  ["上下文（context）","喂给模型的'背景资料'，RAG 里就是检索到的文档片段", "回答前先给模型看的'参考资料'"],
+  ["Golden Set","人工准备的'问题-正确答案'测试集，用来评估检索效果", "标准答案卷：拿它来给系统打分"]
+],
+"s2_3":[
+  ["数据治理","让数据'准、稳、统一、可用'的管理体系：质量、安全、标准、资产", "图书馆管理：书要编号（标准）、不能丢（安全）、分类清楚（质量）"],
+  ["数据质量","数据的可靠程度：完整、准确、一致、及时、唯一、有效六个维度", "一份信息完整的报名表 vs 一份缺电话少地址的报名表"],
+  ["元数据","见 s1_3：描述数据的数据（表结构、字段含义、负责人）", "档案的封面标签"],
+  ["数据血缘","见 s1_1：数据的来龙去脉依赖关系", "一道菜的溯源链条：产地→菜市场→厨房→餐桌"],
+  ["脱敏","把敏感信息打码处理：手机号 138****1234", "证件照上的打码，既可用又保护隐私"],
+  ["分级分类","按敏感程度给数据分级：公开/内部/敏感/机密，不同级别不同管控", "文件分为公开/内部/绝密，绝密文件锁保险柜"],
+  ["最小权限原则","只给每个人'干活必需'的最少数据权限", "员工卡只能刷自己部门的门，不能全楼通行"],
+  ["个保法","《个人信息保护法》：处理个人信息要合法、正当、必要", "不能随便收集、买卖个人信息，违法要担责"],
+  ["DataOps","把治理动作自动化：质量规则自动跑、异常自动报警", "给数据上'自动体检仪'，每天自动查，异常自动叫医生"]
+],
+"s2_4":[
+  ["AI-Ready","数据做好'被 AI 使用'的准备：元数据完整、可检索、可评估、可追溯", "给数据'装上 AI 能读懂的说明书'"],
+  ["元数据语义化","给字段补上'业务含义'：'user_id' 注明'用户唯一标识，来自注册表'", "给编号加上中文说明，AI 和人都能看懂"],
+  ["知识库问答","把知识做成可检索的库，用户提问自动找到相关内容回答", "公司'自助问答机器人'：员工问'报销流程'，它从资料库找答案"],
+  ["结构化数据","表格形式的数据（行和列），如订单表；反之是文本、图片等非结构化", "Excel 表格 vs 一篇文章"],
+  ["语料化","把表格数据转成'能检索的文本/文档'的过程", "把台账条目改写成一篇篇说明文，才能被检索到"],
+  ["增量更新","新数据出现时自动补充进检索库，不用全量重建", "每天新发的通知自动归档，不用把整个档案室重排一遍"],
+  ["效果评估","用测试集和指标衡量系统好不好（命中率、忠实度等）", "期末考：用标准卷测水平，而不是'感觉学得不错'"]
+]
+});
+Object.assign(TERMS, {
+"s2_5":[
+  ["简历（resume）","求职时给面试官看的一页纸自我介绍：经历、技能、项目", "你的'产品说明书'：15 秒内让面试官决定要不要深入了解你"],
+  ["四段式","写项目经历的模板：背景→动作→结果→量化", "作文结构：起因→经过→结果，加上'具体数字'更可信"],
+  ["量化","用数字说话：'提升了性能'不如'查询从 300 秒降到 35 秒'", "'跑得很快' vs '百米 9 秒 8'——数字才有说服力"],
+  ["技术栈","你会用的技术清单：SQL、Python、Spark、Hive……", "厨师的'会做的菜系'：川菜、粤菜、西餐"],
+  ["JD（职位描述）","招聘信息里的岗位要求，你的简历要'对上'它的关键词", "招聘启事：要会 X、懂 Y，简历就重点写 X 和 Y"],
+  ["内推","请在职员工帮你推荐投递，简历命中率更高", "朋友帮你递简历给 HR，比海投容易进入面试"],
+  ["GitHub 链接","简历上的代码作品入口，面试官会点开看", "作品集：光说会写代码，不如放个仓库给人看"],
+  ["star 法则","情境-任务-行动-结果的讲故事结构（面试讲项目用）", "讲一件完整的事：当时啥情况→我要干啥→我干了啥→结果咋样"]
+],
+"s2_6":[
+  ["投递","把简历提交给公司的过程：官网、招聘平台、内推都是渠道", "投简历=向公司'自荐'，多投多机会"],
+  ["海投","大量投递不同公司/岗位，扩大覆盖面", "广撒网捕鱼：网撒得大，捞到鱼的概率高"],
+  ["提前批","正式校招前的一轮招聘，竞争相对小、offer 先到先得", "演唱会预售票：先到先选好位置"],
+  ["笔试","投递后的线上考试：算法题、SQL 题、性格测试等", "入学考试：先过了笔试才有面试资格"],
+  ["一面 / 二面 / 三面","多轮面试：一面技术基础、二面项目深挖、三面主管聊业务和潜力", "闯关游戏：第一关打小怪，第二关打 Boss，第三关见关主"],
+  ["复盘","面试后回顾：哪里答得好、哪里卡壳、下次怎么改进", "考试后看错题本：错在哪，下次不再错"],
+  ["offer","公司发来的录用通知", "收到录用通知书，可以签合同上班了"],
+  ["投递矩阵","把目标公司分三档：冲（大厂）+ 稳（中型）+ 保（保底）", "志愿填报：冲一冲、稳一稳、保一保"]
+],
+"s2_7":[
+  ["云计算","把服务器、存储、算力通过网络租给你用，按量付费，不用自己买机器", "不用自己买发电机，直接接电网用电，按度数交钱"],
+  ["阿里云","国内最大的云计算厂商，提供数据相关的全套服务", "云上的'水电煤'供应商：要计算、存储、数仓都能租"],
+  ["MaxCompute","阿里云的大数据计算引擎：海量数据 SQL 分析", "云上的'超级计算器'，几 TB 数据也能算"],
+  ["DataWorks","阿里云的数据开发平台：建表、开发、调度、监控、血缘一体化", "云上的'数据工厂车间'：从原料（原始数据）到成品（报表）全流程"],
+  ["OSS","对象存储：存文件、图片、备份的云盘服务", "云上的大仓库：什么文件都能往里放，随取随用"],
+  ["Serverless","不用管服务器，云自动伸缩，用多少算多少", "点外卖按份付钱，不用自己开餐厅"],
+  ["认证（ACA/ACP）","阿里云官方认证：证明你会用它的产品，简历加分", "驾驶证：证明你有资格上路"],
+  ["免费试用","云厂商给学生/新用户提供的免费额度，实操练习用", "免费试吃：先尝尝好不好吃再决定买不买"],
+  ["按量计费","用多少资源付多少钱，任务跑得慢=花钱多", "出租车打表：路程长、堵车都加钱"]
+],
+"s3_0":[
+  ["实习","在校期间去公司做真实工作，是秋招简历的'硬通货'", "见习期：提前体验真实职场，学到课本没有的东西"],
+  ["素材","实习中记录下的'能写进简历/面试讲'的具体经历", "拍素材：实习像拍纪录片，素材越多剪出来的片子越精彩"],
+  ["导师（mentor）","带你工作的老员工，你的学习资源", "师傅带徒弟：多问、多学、多记录"],
+  ["业务方","提需求、用数据做决策的人（产品经理、运营、老板）", "你的'客户'：他们提需求，你交付数据"],
+  ["复盘总结","定期回顾：做了什么、学到什么、问题在哪", "写日记+每周小结：进步都藏在复盘里"],
+  ["量化记录","把经历记成带数字的素材：'维护 20 张表、优化 15 个任务'", "数字是简历的灵魂：没有数字的经历像没调味的菜"]
+]
+});
+Object.assign(TERMS, {
+"s3_1":[
+  ["八股","行业黑话：面试常考的基础理论题（原理、机制类），题目固定得像八股文", "驾考科目一的题库：背熟+理解，考试才稳"],
+  ["HDFS","见 s1_3：Hadoop 的分布式文件系统", "把大文件拆碎存在多台机器上，坏了一块还能拼回"],
+  ["YARN","Hadoop 的资源调度器：给每个任务分配 CPU 和内存", "工地的包工头：谁干多少活、分多少材料，他来安排"],
+  ["MapReduce","Hadoop 的计算模型：Map（分头处理）+ Reduce（汇总结果）", "先分组分头统计（Map），再把统计结果合并（Reduce）"],
+  ["RDD","Spark 的核心数据抽象：一个被拆成多块的分布式数据集", "一张被切成很多份、分给很多人同时处理的'大表'"],
+  ["DAG","见 s1_4：任务依赖关系图，Spark 用它编排计算步骤", "做饭流程：洗菜→切菜→炒菜，Spark 按图一步步执行"],
+  ["Stage（阶段）","Spark 把计算按 shuffle 切成的执行阶段", "流水线的'工序段'：每段干一段活，段与段之间交接（shuffle）"],
+  ["Watermark（水位线）","Flink 里'等待迟到数据到什么时候'的时间标记", "会议'迟到 5 分钟不等了'的规则：水位线就是这条线"],
+  ["Exactly-Once","流计算'一条数据只算一次'的保证，不丢不重", "记账只记一次：不多记、不漏记"],
+  ["背压（反压）","下游处理不过来时，让上游'慢点发'的机制", "餐厅排队：厨房忙不过来，前台就放慢叫号"],
+  ["ACID","事务四大特性：原子性、一致性、隔离性、持久性", "转账要么全成功要么全失败（原子）；不能出现'钱扣了但没到账'"]
+],
+"s3_2":[
+  ["深挖（追问）","面试官针对你的项目连环提问，直到挖出你的真实水平", "警察问案：细节对不上就露馅——所以项目必须真做过"],
+  ["Q&A 文档","预先把面试官可能问的问题和答案写下来的文档", "考前押题卷：把常见问题提前写好答案，背熟"],
+  ["STAR 法则","见 s2_5：情境-任务-行动-结果，讲故事的框架", "讲清一件事的'前因-经过-结果'"],
+  ["模拟面试","找同学/学长扮演面试官练习，录下来回放找问题", "驾考模拟考：先模拟几遍，真考不慌"],
+  ["兜底回答","遇到不会的问题时的诚实应对：'这块当时是XX处理的，我还没深究'", "面试不是考试，诚实+学习意愿比硬编强"],
+  ["埋钩子","回答时主动引导面试官问你擅长的部分", "介绍时说'这里我做了倾斜优化，您可以细问'——把话题引向你的强项"],
+  ["脱稿","不依赖笔记，能自然流畅地讲出来", "真会开车的人不需要看纸条提示怎么踩刹车"]
+],
+"s3_3":[
+  ["作品集（portfolio）","展示你能力的作品集合：GitHub 仓库、项目文档、效果截图", "设计师的作品集相册，数据岗的'作品集'就是仓库+文档"],
+  ["置顶仓库","GitHub 个人主页上置顶展示的项目，第一眼被看到", "作品集封面：最好的作品放最前面"],
+  ["README","见 s0_10：项目说明文档，写得好=项目显得专业", "项目说明书：陌生人照着能跑起来"],
+  ["信息密度","单位篇幅里装的有效信息量：一句话顶三句", "广告语'怕上火喝王老吉'——信息密度极高"],
+  ["技术栈矩阵","把技能按熟练度分档：熟练/熟悉/了解，诚实标注", "简历上的'技能自评表'：别把'听说过'写成'精通'"],
+  ["可验证性","简历上的每个链接、每个说法都能点开验证是真的", "简历说'做过数仓'，点开 GitHub 有代码、有文档、有提交记录"],
+  ["个人亮点","简历顶部 2-3 行浓缩你的核心卖点", "电影海报的标语：一句话让人记住你"]
+],
+"s3_4":[
+  ["秋招","秋季校园招聘（7-11 月），应届生最大规模求职季", "毕业季的'招聘大集'：岗位最多、机会最大"],
+  ["提前批","正式批之前的一轮，大厂先抢人，竞争相对小", "商场 VIP 预售日：先到先选"],
+  ["补录","正式批后没招满的岗位补充招聘", "演唱会结束后补售票：机会还在但看运气"],
+  ["行测","公务员/国企笔试的行政能力测试（逻辑、数学、语言）", "能力测试：不考专业知识，考反应和逻辑"],
+  ["性格测评","网上做的性格问卷，前后回答要一致，别乱选", "心理测试：主要看稳定性，前后矛盾会被标记"],
+  ["HR 面","最后一轮人力资源面试：聊薪资、稳定性、入职时间", "谈'签约细节'的环节：待遇、合同、到岗时间"],
+  ["offer 谈判","拿到多个录用后对比选择、争取更好条件", "货比三家后谈价格"],
+  ["保底 offer","先拿到的相对稳妥的录用，让你有底气冲更好的", "先确保有学上，再冲更好的学校"],
+  ["面经","前人分享的面试题目和经验，是复习的重要资料", "学长学姐的'考试回忆版'"]
+]
+});
+/* ===== 技能名词解释（一） ===== */
+Object.assign(TERMS, {
+"algo":[
+  ["算法","解决问题的一系列步骤。数据结构是'怎么存'，算法是'怎么算'", "菜谱就是做菜的算法：步骤清楚了，谁都能做"],
+  ["时间复杂度","算法运行时间随数据量增长的快慢，用 O(大O) 表示", "找一本书：目录查找（O(logn)）比一页页翻（O(n)）快得多"],
+  ["数组 / 链表","两种基础存储：数组连排内存（按下标快速取）；链表节点串联（插入删除快）", "数组=电影院连排座位；链表=火车车厢，每节连接着下一节"],
+  ["哈希表（Hash）","用'键'直接算出存储位置的结构，查询 O(1)", "储物柜：按编号直接找到格子，不用一个个翻"],
+  ["栈 / 队列","两种特殊结构：栈后进先出（叠盘子）；队列先进先出（排队）", "栈=叠盘子，后放的先拿；队列=排队打饭，先来的先吃"],
+  ["递归","函数调用自己，把大问题拆成更小的同类问题", "俄罗斯套娃：打开一层还有一层，直到最小那一层"],
+  ["二分查找","有序数据里每次砍一半的查找法", "猜数字：对方说'大了/小了'，每次都猜中间值，最快找到"],
+  ["排序","把数据按大小排好序：快排 O(nlogn) 是主流", "把成绩从高到低排榜"],
+  ["双指针 / 滑动窗口","数组题两大套路：两个指针互相配合 / 窗口在数组上滑动", "两个同学同时从数组两端往中间走；或一个窗口从左往右扫"],
+  ["暴力解法","最简单直接但可能很慢的解法，笔试时先写它保底", "一个个试，虽然笨但一定对"]
+],
+"db":[
+  ["事务（transaction）","一组'要么全成、要么全不成'的操作", "转账：扣款+入账必须一起成功，不能只扣款不入账"],
+  ["ACID","见 s3_1：事务的四大特性，数据库可靠性的基石"],
+  ["隔离级别","多个事务同时跑时'互相能看到多少'的等级，越高越安全但越慢", "宿舍四档窗帘：全透明（读未提交）→ 半透明 → 全遮（串行化）"],
+  ["脏读 / 不可重复读 / 幻读","隔离级别要解决的三个问题：读到别人没提交的修改 / 同一行两次读不一样 / 两次查询行数变了", "账本被改动：A 看到未入账的修改；B 两次读余额不同；C 两次查行数不同"],
+  ["索引","见 s0_2：数据库的'目录'，加速查询"],
+  ["B+ 树","见 s0_2：MySQL 索引的底层结构"],
+  ["MVCC","多版本并发控制：读的时候不锁，靠'多版本快照'保证一致性", "开会时有人改 PPT，你看到的是你打开时的版本（快照）"],
+  ["锁（lock）","并发控制手段：别人改数据时锁住，防止同时改乱", "公厕的锁：里面有人，外面就得等"],
+  ["慢查询","执行时间超过阈值（如 1 秒）的 SQL，是优化的目标", "上菜超过 30 分钟的菜，厨师要反思"],
+  ["连接池","预先建好一批数据库连接循环使用，避免频繁开关", "餐厅常备 10 张台，客人来了直接坐，不用现摆桌椅"]
+],
+"net":[
+  ["HTTP","网页传输的'语言/协议'：浏览器和服务器用它对话", "服务员与厨房之间传菜的标准流程"],
+  ["TCP / UDP","两种传输协议：TCP 可靠（确认+重传）、UDP 快但可能丢", "TCP=挂号信（必达，慢）；UDP=平信（快，可能丢）"],
+  ["三次握手","TCP 建立连接前的三次确认，确保双方都在线", "打电话：'喂？''喂，能听到吗？''能听到，开始说'"],
+  ["四次挥手","断开连接的四次确认，双方各自说再见", "挂电话前互相道别：我说完了→你知道了→你说完了→我知道了"],
+  ["IP / 端口","IP 找机器（哪栋楼），端口找程序（哪扇门）", "地址=IP：找到楼；门牌=端口：找到房间"],
+  ["DNS","把域名翻译成 IP 的'通讯录'", "输入 baidu.com，DNS 告诉你服务器 IP 是啥"],
+  ["状态码","见 s0_6：HTTP 返回的状态数字（200/403/404/500）"],
+  ["RPC","远程调用：像调用本地函数一样调用另一台机器上的服务", "打电话叫对面同事帮你查个文件，你只关心结果"],
+  ["序列化","把对象转成能传输的字节流，到了再还原", "行李打包托运（序列化），到站拆包（反序列化）"],
+  ["抓包","用工具拦截查看网络传输内容的排查手段", "装个摄像头看快递运输途中发生了什么"]
+],
+"os":[
+  ["操作系统（OS）","管理电脑硬件和软件资源的基础软件：Windows、Linux、macOS", "公司的大管家：分配工位（内存）、安排会议（CPU）、管理仓库（磁盘）"],
+  ["进程 / 线程","进程=运行中的程序（独立资源）；线程=进程内的执行小分队（共享资源）", "进程=一家餐厅（独立门店）；线程=店里的多个服务员（共享门店）"],
+  ["协程","用户态的超轻量'线程'，切换极快，Python 异步常用", "一个服务员同时服务多桌：不用换人，来回跑就行"],
+  ["虚拟内存","把磁盘当内存的扩展，进程以为自己有海量内存", "信用卡：额度比存款高，但别刷爆（否则卡死/OOM）"],
+  ["死锁","两个进程互相等对方释放资源，谁也动不了", "两个人面对面让路：你往左他往左，都堵住"],
+  ["OOM（内存耗尽）","内存不够用，程序被系统杀掉（Out Of Memory）", "房间堆满东西，新东西放不下，人被赶出去"],
+  ["Load Average","系统'忙碌程度'指标：1 表示刚好满负荷", "餐厅上座率：0.5 半满，2.0 已经挤爆在排队"],
+  ["IO（输入输出）","读写磁盘/网络的数据操作，比内存慢几个数量级", "内存=手边，磁盘=仓库，仓库取货慢很多"],
+  ["Page Cache","操作系统把磁盘读过的数据缓存到内存，加速重复读", "常看的文件放在桌面，而不是每次去仓库取"]
+],
+"git":[
+  ["Git","见 s0_8：代码版本管理工具"],
+  ["仓库 / commit / 分支 / merge","见 s0_8：项目存档、提交、分支开发、合并"],
+  ["暂存区（staging）","commit 前的中转区：add 进去的文件才会被提交", "提交前的'待发箱'：确认无误再发出去"],
+  ["回滚（rollback）","把代码恢复到之前的某个版本", "游戏读档：回到之前保存的进度"],
+  ["clone","把远程仓库完整复制到本地", "把网盘项目整个下载到电脑"],
+  ["fork","把别人的仓库复制一份到自己名下（开源贡献流程）", "把开源项目'抄一份'到自己地盘上改，改好了再还给原项目（PR）"],
+  ["rebase","把分支的'根'移到最新的主分支上，历史更线性整洁", "把草稿的起点对齐到最新版再改，合并时更顺"],
+  ["gitignore","见 s0_8：声明不纳入版本管理的文件清单"]
+],
+"linux":[
+  ["Linux","见 s0_7：服务器主流操作系统"],
+  ["命令行 / 管道 / 权限 / 进程 / 端口 / crontab","见 s0_7 名词表"],
+  ["awk / sed","文本处理命令：awk 按列处理、sed 替换修改", "awk=按列抽数据；sed=全局查找替换"],
+  ["软链接 / 硬链接","快捷方式（软）/ 同一文件的另一个名字（硬）", "软=桌面快捷方式；硬=文件有两个入口，内容一份"],
+  ["环境变量","系统全局的'配置项'：PATH 决定命令在哪找", "手机的'默认应用'设置：系统知道用谁打开文件"],
+  ["nohup","让命令在后台持续运行、关终端也不中断", "挂机下载：关掉 App 窗口，下载还在继续"],
+  ["守护进程（daemon）","常驻后台服务的进程（如数据库服务）", "酒店前台 24 小时值班，随时响应"],
+  ["SSH","远程登录服务器的安全通道", "远程遥控：从你电脑安全地操作云上服务器"]
+],
+"docker":[
+  ["Docker","容器化工具：把程序和它的环境打包成一个'标准集装箱'，到处能跑", "标准集装箱：在 A 码头装好货，B 码头直接卸，不受码头差异影响"],
+  ["镜像（image）","打包好的'环境模板'，只读", "安装光盘：内容固定，不能改"],
+  ["容器（container）","镜像的运行实例，可启动、停止", "用安装光盘装出来的系统：能开机、能使用"],
+  ["Dockerfile","构建镜像的'配方文件'：一步步描述怎么搭环境", "菜谱：原料、步骤写清楚，照着就能做出菜"],
+  ["docker-compose","一个配置文件同时启动多个容器（数据库+应用）", "一个开关同时打开客厅灯、厨房灯、卧室灯"],
+  ["端口映射","把容器内部端口暴露到宿主机（-p 8080:80）", "把店里的 80 号包厢映射成大厦的 808 房间"],
+  ["数据卷（volume）","把容器目录挂到宿主机，容器删了数据还在", "把文件存在家里的保险柜，而不是随身包里（包丢了就没了）"],
+  ["镜像加速","国内访问 Docker Hub 慢，用镜像源加速拉取", "走专线快递，比普通快递快"],
+  ["微服务","把一个大系统拆成多个独立小服务，各自容器化部署", "一个大公司拆成多个小部门，各自独立运营"]
+]
+});
+Object.assign(TERMS, {
+"api":[
+  ["API","见 s0_6：程序间取数据的'约定通道'（一个网址返回数据）"],
+  ["REST","一种 API 设计风格：网址表示资源、方法表示动作", "约定俗成的'点菜规则'：GET=看看有啥菜，POST=下单"],
+  ["端点（endpoint）","API 的具体网址（路径），如 /api/orders", "菜单上的菜名：报菜名（路径）就能上菜"],
+  ["curl","命令行里发 HTTP 请求的工具，调试接口必备", "在终端里'手动点外卖'，看接口返回啥"],
+  ["鉴权（auth）","验证'你是谁、有没有权限'的过程", "进大楼要刷卡：鉴权就是刷卡验证身份"],
+  ["Token","登录后拿到的'临时通行证'，请求时带上证明身份", "游乐场的腕带：带上就能无限玩"],
+  ["API Key","调用接口的'钥匙'：唯一标识你的调用身份", "停车场的月卡：凭卡进场"],
+  ["限流（rate limit）","限制单位时间内的调用次数，防止滥用", "食堂限购：每人每顿最多打 3 份"],
+  ["超时（timeout）","请求超过设定时间就放弃，避免无限等待", "快递 7 天没到就申请退款，不等了"],
+  ["幂等","见 s1_4：同样的请求重复发，结果不变", "重复按电梯按钮，电梯不会来两次"]
+],
+"viz":[
+  ["数据可视化","把数据画成图，让规律和问题一眼可见", "同样的销量，表格 vs 折线图：趋势一目了然"],
+  ["BI（商业智能）","把数据变成报表/看板供业务决策的工具和流程", "老板的'驾驶舱仪表盘'：GMV、转化率都在这看"],
+  ["看板（dashboard）","一块集中展示多个关键指标的仪表盘页面", "车的仪表盘：速度、油量、转速一次全看到"],
+  ["ECharts","百度开源的 JS 图表库：写配置就能出各种图", "图表的'预制零件箱'：选好样式拼起来"],
+  ["Superset / Metabase","开源 BI 工具：连上数据库拖拽出图表看板", "自动出图的'报表车间'：接上数据源，点几下出图"],
+  ["KPI 卡","看板顶部的单个核心指标卡片（数字+涨跌）", "仪表盘上最醒目的'大数字'：今日销售额 120 万 ↑12%"],
+  ["同比 / 环比","同比=和去年同期比；环比=和上一期（上月/上周）比", "今年 8 月 vs 去年 8 月（同比）；8 月 vs 7 月（环比）"],
+  ["下钻（drill-down）","从汇总点进去看明细：从全国点进华东→上海", "从总账点开看明细账"],
+  ["坐标轴截断","图表 Y 轴不从 0 开始，会夸大差异（误导性图表）", "把尺子的 0 刻度藏起来，1cm 差距看起来像 10cm"]
+],
+"backend":[
+  ["后端（backend）","用户看不见的服务端程序：处理数据、提供接口", "餐厅后厨：前台（前端）点单，后厨做菜（后端）"],
+  ["FastAPI","Python 的现代后端框架：写接口又快又简单", "做菜的'快速料理包'：几步就出一道菜（一个接口）"],
+  ["路由（route）","网址路径和对应处理函数的映射关系", "菜单：'鱼香肉丝'对应'后厨 3 号灶'"],
+  ["GET / POST","两种请求方法：GET 取数据（带参数在网址里）；POST 提交数据（在请求体里）", "GET=查快递；POST=寄快递"],
+  ["JSON","见 s0_6：接口返回的通用数据格式"],
+  ["Pydantic","FastAPI 的数据校验库：自动检查参数对不对", "点单时的'确认环节'：辣度选几、要不要香菜，先确认再下单"],
+  ["数据库连接池","见 db 名词表：复用数据库连接，避免反复开关"],
+  ["HTTPException","后端主动返回错误信息的方式（如 404 找不到数据）", "明确回答'没这道菜'，而不是愣着不吭声"],
+  ["环境变量","见 linux 名词表：敏感配置（数据库密码）放环境变量，不写进代码", "密码写在便签上贴门口 vs 锁在保险柜"]
+],
+"front":[
+  ["前端（frontend）","用户直接看到的页面部分：浏览器里显示的东西", "餐厅门面：顾客看到的一切"],
+  ["HTML / CSS / JavaScript","网页三件套：结构、样式、交互", "HTML=毛坯房结构，CSS=装修，JS=水电智能系统"],
+  ["fetch","浏览器里发请求取数据的 API", "页面自己'打电话'给后端要数据"],
+  ["DOM","浏览器把页面组织成的'树'，JS 通过它增删改页面元素", "页面元素的'目录树'：找到节点就能改它"],
+  ["组件库","现成可复用的 UI 套件（按钮、表格、弹窗）", "乐高零件库：拼页面像搭积木"],
+  ["响应式","页面自动适配手机/平板/电脑不同屏幕", "水：倒进什么容器就变成什么形状"],
+  ["CORS（跨域）","浏览器安全机制：不同源的网页不能随便调接口，后端要放行", "小区门禁：外人（其他域名）进不来，物业（后端）开个临时通行证"],
+  ["加载状态","页面请求数据时的'加载中'提示和失败提示", "外卖 App 的'配送中…'和'配送失败，重试'"],
+  ["渲染","把数据填进页面显示出来的过程", "把订单数据'打印'到页面上展示"]
+],
+"crawl":[
+  ["爬虫（spider）","自动抓取网页/接口数据的程序", "自动逛店机器人：一家家逛（抓），把货（数据）搬回来"],
+  ["BeautifulSoup / XPath","解析网页 HTML 的库/语法：从页面里提取想要的内容", "在网页'源码'里找定位：用选择器精准抠出数据"],
+  ["增量抓取","只抓新增部分，不重复抓已抓过的", "只读新到的报纸，旧报不看"],
+  ["去重","见 s2_0：重复数据只保留一份", "同一篇新闻抓了 3 次，只留 1 条"],
+  ["反爬","网站防止爬虫的措施：验证码、频率限制、IP 封禁", "店门口限制：一个人一天只能进一次"],
+  ["UA（User-Agent）","见 s0_6：请求头里的身份标识", "进门的'登记身份'：很多站没身份标识就拒绝"],
+  ["代理 IP","用别的 IP 转发请求，避免本机 IP 被封", "换一套衣服（IP）再进店，认不出来"],
+  ["robots.txt","见 s0_6：网站的'可爬声明'，要遵守"],
+  ["Scrapy","Python 的专业爬虫框架：调度、去重、解析、落库全包", "爬虫界的'流水线工厂'：所有环节都帮你搭好"]
+],
+"cloud":[
+  ["云计算","见 s2_7：租用云上的算力、存储、服务"],
+  ["阿里云 / MaxCompute / DataWorks / OSS","见 s2_7 名词表"],
+  ["数据中台","企业统一的数据底座：汇集各业务数据，统一加工、统一服务", "公司的'中央厨房'：各门店（业务线）的食材统一送这里加工再分发"],
+  ["Serverless / 按量计费 / 免费试用","见 s2_7 名词表"],
+  ["资源组","云上把任务/资源分组管理，方便权限和成本核算", "部门预算分账：技术部花的钱记技术部的账"],
+  ["数据集成","把多个数据源的数据统一抽取汇入数仓（DataWorks 的数据集成）", "把各门店的收银数据统一汇总到总部系统"],
+  ["DataHub","阿里云实时数据通道：数据实时流进来", "实时传输带：数据产生立刻送出去，不等攒批"],
+  ["数仓建模在云上","在 DataWorks 里做分层建模：和本地一样的思路，工具换成云产品", "同一个菜谱，换成饭店的大厨房来做"]
+]
+});
+Object.assign(TERMS, {
+"prompt":[
+  ["提示词（prompt）","见 s2_2：发给大模型的指令文本"],
+  ["角色设定","提示词里给 AI 设定身份：'你是资深 SQL 专家'，让它用专业身份回答", "给临时工交代任务前先说明'你是水电工'，他才知道用啥工具"],
+  ["约束条件","提示词里明确的限制：'只用窗口函数''兼容 Hive 语法'", "点菜备注：'不要香菜、微辣'——约束越清楚，结果越对"],
+  ["输出格式","要求 AI 按指定格式输出：'给出代码+注释+解释'", "要求报告用'结论-证据-建议'格式写"],
+  ["迭代提问","一次不行就补充信息再问，而不是换问题", "修东西先诊断：'还是不对，报错是XX，我再补个信息'"],
+  ["上下文（context）","发给 AI 的全部信息：任务+背景+示例，上下文越全越准", "给外包同事的背景资料：资料全，活才干得对"],
+  ["验证（verification）","AI 输出必须自己跑一遍确认，不能盲信", "同事帮你算的账，签字前你自己也得核对一遍"],
+  ["AI 编程","用 AI 辅助写代码：生成、解释、调试、重构", "给程序员配了个'超强助手'，但最终把关的还是人"],
+  ["提示词注入","恶意指令让 AI 执行非预期操作（安全概念，知道即可）", "有人往指令里夹带'私货'，让 AI 说出不该说的"]
+],
+"corpus":[
+  ["语料","见 s2_0：大模型的'食材'（训练文本）"],
+  ["清洗 / 去重 / 质量打分","见 s2_0 名词表"],
+  ["PPL（困惑度）","语言模型衡量文本'自然程度'的指标，越低越像人话", "读一篇文章：模型越'意外'，PPL 越高，说明越不像正常文本"],
+  ["噪声（noise）","数据里的杂质：广告、乱码、重复片段", "收音机里的杂音，会干扰听清内容"],
+  ["Hashing / 哈希","把任意内容映射成固定长度的'指纹'，用于快速判重", "给每篇文章做'指纹'，指纹一样就是同一篇"],
+  ["LSH（局部敏感哈希）","近似检索技术：相似的文档更容易被分到同一桶，加速找近似重复", "把'相似的双胞胎'先分到同一班，只在一班里找，不用全校找"],
+  ["数据多样性","语料来源/主题的丰富程度，多样性不足模型会'偏科'", "只读数学书的人，写作文肯定不行"],
+  ["数据溯源","每条数据能追溯来源和处理历史", "食品可追溯：能查到这袋菜是哪个农场、哪批运来的"],
+  ["Tokenization（分词）","把文本切成模型能处理的最小单位（token）", "把句子按词/字切开：'今天/天气/好'"],
+  ["过拟合到数据","模型把训练数据'背下来'而不是学会规律（数据问题导致）", "学生死记硬背答案，换个问法就不会了"]
+],
+"rag":[
+  ["RAG","见 s2_2：检索增强生成（开卷考试）"],
+  ["切块 / 向量化 / 召回 / 重排 / BM25","见 s2_2 名词表"],
+  ["向量检索","按向量相似度查找，语义相近即命中", "按'意思'找人：说'爱运动'能找到喜欢打球的"],
+  ["混合检索","关键词（BM25）+ 语义（向量）两条路都搜，再融合排序", "既按字面搜、又按意思搜，结果更全更准"],
+  ["Embedding 模型","把文字转成向量的 AI 模型", "文字的'翻译官'：把话翻成数字坐标"],
+  ["索引库","存放向量+元数据的检索库（Milvus 等）", "按语义排好序的'巨型书库'"],
+  ["幻觉","见 s2_2：模型编造答案"],
+  ["忠实度","答案与检索资料的符合程度（评估指标）", "开卷考答的和书上写的对不对得上"],
+  ["LLM 打分","用大模型当裁判给回答质量打分（自动化评估）", "AI 老师批改 AI 学生的作业，效率高但要有标准"]
+],
+"ml":[
+  ["机器学习（ML）","让程序从数据里学规律，而不是人写死规则", "看 1 万张猫图学会认猫，而不是人教它'猫有耳朵'"],
+  ["监督学习","用'带答案的数据'训练：输入+正确答案→学规律", "刷题带答案：做完对答案，学会解题套路"],
+  ["无监督学习","用'没有答案的数据'找结构：聚类（分堆）", "没人告诉你分类，自己把相似的东西归堆"],
+  ["特征（feature）","输入模型的数据属性：年龄、消费金额、点击次数", "判断一个人爱运动：看他的步数、运动 App 使用时长"],
+  ["特征工程","把原始数据加工成对模型有用的特征（编码、缺失处理、组合）", "做菜前的'备料'：洗切腌，料备好了菜才好吃"],
+  ["标签（label）","监督学习的'正确答案'：如'是否复购'", "试卷的标准答案"],
+  ["过拟合","模型把训练数据背得滚瓜烂熟，但新数据上表现差", "只背例题答案的学生，题一变就不会了"],
+  ["训练集 / 测试集","训练用的数据 / 考试用的新数据（不能给模型看过）", "平时刷的题 vs 期末考的新题"],
+  ["评估指标","衡量模型好坏的分数：准确率、召回率、F1、AUC", "考试成绩：用什么评分标准衡量水平"],
+  ["XGBoost / LightGBM","表格数据最强的两个机器学习模型（树模型）", "数据比赛里的'常胜将军'，处理表格数据首选"],
+  ["Sklearn","Python 的机器学习库：调几行代码就能训练模型", "机器学习的'工具箱'：模型、评估、数据拆分都有现成的"]
+],
+"kpi":[
+  ["KPI","关键绩效指标：衡量业务/工作成效的核心数字", "销售的 KPI 就是销售额，运营的 KPI 是留存率"],
+  ["北极星指标","衡量产品长期价值的唯一最重要指标", "指南针的北极星：所有工作都朝它对齐"],
+  ["AARRR 模型","获客-激活-留存-收入-传播 五环节的用户增长模型", "用户旅程地图：拉新→激活→留下→花钱→拉别人来"],
+  ["指标拆解","把大指标拆成小指标找问题：GMV=访客×转化×客单价", "总成绩=各科成绩之和：偏科就知道补哪科"],
+  ["口径","见 s1_6：指标的定义和算法（怎么算、含哪些）", "'用户数'必须说清是注册还是活跃，否则没法对齐"],
+  ["留存 / 漏斗 / 同期群","见 s0_1 和 kpi 详解：留存率、各环节转化、按批次分组看趋势"],
+  ["DAU / MAU","日活跃用户数 / 月活跃用户数", "App 每天有多少人用（DAU）、每月多少人用（MAU）"],
+  ["LTV / CAC","用户生命周期价值（一个用户总共贡献多少钱）/ 获取一个用户的成本", "一个客户一辈子买你多少钱 vs 你花多少钱拉来一个客户"],
+  ["异常波动","指标突然明显变化（涨/跌），需要排查原因", "体温突然 39 度：要查是感冒还是别的病"]
+],
+"gov":[
+  ["数据治理","见 s2_3：让数据准、稳、统一、可用"],
+  ["数据质量六维","完整、准确、一致、及时、唯一、有效", "体检六项：缺一项都不算健康"],
+  ["元数据 / 血缘 / 脱敏 / 分级分类 / 最小权限","见 s2_3 名词表"],
+  ["数据资产","把数据当成公司资产来管理：有目录、有负责人、有价值", "公司把数据当'油田'：登记、勘探、开采都要规范"],
+  ["数据标准","统一的数据定义和格式规范（编码、命名、单位）", "全公司都用'克'而不是有的用'斤'有的用'磅'"],
+  ["数据确权","明确数据的权属：谁产生、谁管理、谁可用", "房子的产权证：谁拥有、谁能住、谁能卖"],
+  ["数据生命周期","数据从产生到销毁的完整过程管理", "文件的'一生'：起草→审批→归档→到期限销毁"],
+  ["合规","符合法律法规：个保法、数据安全法等", "开车要遵守交规：数据也要在法律内处理"],
+  ["SLA","见 s1_4：数据服务的'准时承诺'"]
+],
+"biz":[
+  ["业务（business）","公司的实际经营活动：卖什么、怎么卖、怎么赚钱", "理解业务=知道公司靠什么吃饭、钱从哪来"],
+  ["商业模式","公司怎么赚钱的方式：电商赚差价、广告赚流量钱", "餐厅靠卖菜赚钱、健身房靠卖卡赚钱"],
+  ["人货场","零售业分析框架：用户（人）、商品（货）、渠道/场景（场）", "分析'今天为什么卖得好'：人（活动拉新）、货（新品爆款）、场（大促场景）"],
+  ["用户画像","对目标用户的特征描述：年龄、喜好、消费习惯", "给'爱喝咖啡的 25 岁白领'画像：懂她才能服务好她"],
+  ["生命周期价值","见 kpi：LTV，一个用户一辈子贡献多少钱"],
+  ["供需","供给和需求：库存 vs 销量、供给是否满足需求", "供需失衡=货多没人买，或想买买不到"],
+  ["竞品","竞争对手的产品", "奶茶店对面的另一家奶茶店"],
+  ["行业研报","机构写的行业分析报告（数据、趋势、格局）", "行业的'体检报告'：现状、趋势、玩家"],
+  ["财报（上市公司）","公司定期公布财务报告：营收、利润、成本", "公司的'体检报告单'：赚没赚钱、花在哪一目了然"]
+],
+"doc":[
+  ["文档","见 s1_7：写下来的说明材料"],
+  ["金字塔原理","结构化表达方法：结论先行、以上统下、归类分组、逻辑递进", "先报结论再展开：'这个月降了 12%，原因是转化率降了…'"],
+  ["MECE","分类不重不漏的原则：互斥、完全穷尽", "把水果分成'苹果/非苹果'：不重不漏，没有第三种"],
+  ["结论先行","先说结论，再说理由（职场表达第一原则）", "先回答'是/否'，再解释为什么"],
+  ["设计文档","技术方案文档：背景、方案对比、设计、风险、验收", "盖楼前的'设计图纸'：先设计后施工"],
+  ["架构图","见 s1_6：系统结构图"],
+  ["会议纪要","会议结论的记录：谁、做什么、什么时候完成", "会议'处方单'：会后照单抓药，防止扯皮"],
+  ["Markdown","轻量排版语法：写文档、GitHub README 都用它", "写文档的'快捷键'：## 标题、**加粗**、- 列表"],
+  ["复盘","见 s3_0：回顾总结：发生了什么、学到了什么、下次怎么改", "球赛看回放：找失误，下次不犯"],
+  ["汇报","向上级报告工作进展/结果", "给老板交作业：结论+数据+建议"]
+]
+});
+/* ===== 术语表数据完毕 ===== */
+
+const DETAILS = {}; /* ===== S0 知识点详解 ===== */
+Object.assign(DETAILS, {
+"s0_0":{
+  intro:"SQL 是数据岗位的第一语言，几乎 100% 的 JD 都把'扎实的 SQL'写在第一条。这阶段的目标不是'会写'，而是'写得对、写得稳'。",
+  pts:[
+    "<b>JOIN 的本质</b>：内连接 INNER JOIN（取交集）、左连接 LEFT JOIN（左表全保留）、右连接、全连接 FULL OUTER JOIN。重点是理解 NULL 会如何出现——左连接后右表无匹配就是 NULL，过滤时用 IS NULL 而不是 = NULL",
+    "<b>聚合三兄弟</b>：GROUP BY 的分组键决定聚合粒度；HAVING 是分组的过滤器（WHERE 在分组前过滤，HAVING 在分组后过滤，顺序不能混）；聚合函数 COUNT / SUM / AVG / MAX / MIN 对 NULL 的处理不同（COUNT(列) 忽略 NULL，COUNT(*) 不忽略）",
+    "<b>CTE 与子查询</b>：WITH 子句比嵌套子查询可读性好太多，多步计算链（先算 A 再算 B）优先用 CTE；子查询可以出现在 SELECT / FROM / WHERE 三个位置，含义不同",
+    "<b>执行顺序口诀</b>：FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT。记住它，很多'为什么报错'的问题就懂了（比如不能在 WHERE 里用别名）",
+    "<b>数据类型与隐式转换</b>：字符串与数字比较会触发隐式转换，可能让索引失效；金额用 DECIMAL 不要用 FLOAT",
+    "<b>去重与集合</b>：DISTINCT 的代价；UNION 去重 / UNION ALL 不去重（数据量大时千万别用错，UNION 会多一次排序）"
+  ],
+  pit:"最大的坑：刷题时直接看答案。正确姿势是每道题先写 20 分钟，卡住再看提示，再独立重写一遍。另外别把 MySQL 语法当通用标准——窗口函数、ONLY_FULL_GROUP_BY 等在不同数据库有差异。",
+  quiz:["LEFT JOIN 后右表字段出现 NULL，如何过滤出这些行？为什么不能用 = NULL？","WHERE 和 HAVING 过滤时机有什么不同，举例说明什么时候用 HAVING","一条订单表和用户表，如何统计每个用户的订单数和总金额？"],
+  res:"《SQL 基础教程》前 2/3 + 牛客 SQL 入门题；每学一个语法就立刻在本地 MySQL 或 SQLite 里敲一遍"
+},
+"s0_1":{
+  intro:"窗口函数是 SQL 从'能干活'到'能干复杂活'的分水岭，也是校招面试手写 SQL 的必考点。它让你在不动行数的情况下，跨行计算。",
+  pts:[
+    "<b>与聚合的区别</b>：聚合函数把多行压成一行（GROUP BY 后行数变少）；窗口函数保持每行原样，在每行旁边附加计算列——这是最重要的心智模型",
+    "<b>三大类窗口函数</b>：① 排序类 ROW_NUMBER / RANK / DENSE_RANK（区别：并列时怎么跳号，1,1,3 还是 1,1,2）；② 分析类 LAG / LEAD（取前后 N 行，做环比、同比）；③ 聚合类 SUM / AVG OVER（做累计、移动平均）",
+    "<b>PARTITION BY vs GROUP BY</b>：PARTITION BY 只是划窗口，不合并行；分区内才计算，跨分区各自独立",
+    "<b>ORDER BY 在窗口内的作用</b>：无 ORDER BY 时窗口是整组；有 ORDER BY 时默认累计到当前行（running total），这是 SUM() OVER(ORDER BY ...) 出现累计效果的原理",
+    "<b>经典应用模板</b>：TopN 问题 = ROW_NUMBER() OVER(PARTITION BY 组 ORDER BY 指标 DESC) 然后 WHERE rn &lt;= N；去重取最新 = ROW_NUMBER() OVER(PARTITION BY 主键 ORDER BY 时间 DESC) 取 rn=1",
+    "<b>连续问题</b>：连续登录 / 连续签到 = 用日期减 ROW_NUMBER 生成'连续组号'，再按组号聚合计数——这是面试最爱的套路题"
+  ],
+  pit:"别把 RANK 和 ROW_NUMBER 混用后说不清结果；也别忘记窗口函数不能用普通 WHERE 过滤（要包一层子查询）。连续问题的'日期减序号'技巧没掌握前，别急着刷下一题。",
+  quiz:["写出：每个部门薪资 Top3 的员工（含并列处理）","写出：统计连续登录 3 天及以上的用户数","LAG(amount,1) OVER(ORDER BY dt) 表示什么？如何用它算环比增长率？"],
+  res:"牛客 SQL 困难档的'连续登录、留存率、TopN'类题目刷 20 道以上，直到不看答案能独立写出"
+},
+"s0_2":{
+  intro:"执行计划是 SQL 的'体检报告'。能读懂它，你才算真正会 SQL——因为生产环境的慢查询优化全靠它，面试也常考。",
+  pts:[
+    "<b>MySQL EXPLAIN 核心列</b>：type（访问类型，从好到差 system > const > eq_ref > ref > range > index > ALL）、key（实际用到的索引）、rows（预估扫描行数）、Extra（Using index / Using filesort / Using temporary）",
+    "<b>为什么慢的三大原因</b>：全表扫描（type=ALL）、文件排序（Using filesort，ORDER BY 没走索引）、临时表（Using temporary，GROUP BY/DISTINCT 没走索引）",
+    "<b>索引失效的常见写法</b>：对索引列用函数、隐式类型转换、LIKE 以 % 开头、OR 连接非索引条件、联合索引不满足最左前缀",
+    "<b>覆盖索引</b>：查询的列全在索引里（Extra 显示 Using index），就不用回表，这是优化利器",
+    "<b>优化三板斧</b>：先看 type 和 rows 是不是全表/巨量扫描 → 该不该加索引 → 能不能用覆盖索引减少回表；改完再 EXPLAIN 对比 rows 变化",
+    "<b>大数据场景的差异</b>：Hive / Spark SQL 的执行计划看的是 stage 和 shuffle，原理相通但形态不同；先吃透 MySQL 的，后面迁移理解"
+  ],
+  pit:"只看'加了索引'不看执行计划，等于没优化。很多人加了一堆索引反而拖慢写入——索引不是越多越好。",
+  quiz:["EXPLAIN 里 type=ALL 和 type=ref 各代表什么？哪个快？","为什么 WHERE YEAR(create_time)=2026 会让索引失效？怎么改？","Extra 出现 Using filesort 说明什么问题？"],
+  res:"本地 MySQL 建一张 10 万行测试表，随机加条件 EXPLAIN，观察 rows 和 type 变化"
+},
+"s0_3":{
+  intro:"刷题不是目的，是把语法练成肌肉记忆。100 道题的构成：入门 30 + 进阶 40 + 困难 30（重点窗口函数、连续问题、留存类）。",
+  pts:[
+    "<b>刷题节奏</b>：每天 3-5 道，宁可 1 道彻底搞懂也不要 5 道囫囵吞枣；每道题记录：思路、卡点、最优解，一周回顾一次错题",
+    "<b>困难档必刷题型</b>：连续登录 N 天、次日/7 日留存、TopN、中位数、环比同比、累积占比（帕累托）、同环比",
+    "<b>SQL 与业务结合</b>：每道题想清楚'这个查询在真实业务里解决什么问题'，面试时能随口说出业务背景是加分项",
+    "<b>一题多解</b>：同一道留存题，用子查询 / 窗口函数 / JOIN 各写一遍，能显著加深理解",
+    "<b>规范书写</b>：关键字大写、缩进对齐、别名清晰（t1/t2 或有意义的别名）——面试官会看你的代码风格",
+    "<b>积累模板</b>：把 TopN、留存、连续、去重取最新这类题沉淀成自己的模板，面试手撕直接套"
+  ],
+  pit:"收藏了 500 道题一道没做完 = 0。别追求数量刷完就忘，做题-复盘-重做的循环才有价值。",
+  quiz:["自测：不看笔记写出'连续登录 3 天用户数'","自测：写出'每个商品类目下销量 Top3 的商品'","自测：写出'7 日留存率的完整 SQL'（含明细层和汇总层两种写法）"],
+  res:"牛客 SQL 题库 + LeetCode 数据库题；建议配一个错题本（平台笔记区即可）"
+},
+"s0_4":{
+  intro:"Python 是数据岗位的通用语言，和 SQL 搭配构成'取数+处理'的黄金组合。零基础阶段的目标：能读、能改、能写 200 行内的脚本。",
+  pts:[
+    "<b>核心语法</b>：变量与类型（int/float/str/bool/None）、列表与字典（增删改查）、条件与循环、函数定义与返回值、异常处理 try/except",
+    "<b>列表推导式</b>：[x*2 for x in nums if x&gt;0]，比手写循环简洁，读别人代码时高频出现",
+    "<b>字典是 Python 的核心数据结构</b>：键值查询 O(1)，做去重、计数、分组都靠它",
+    "<b>字符串与文件</b>：字符串格式化（f-string）、split/join、open() 读写的 with 语法（自动关闭文件）",
+    "<b>模块与包</b>：import 的三种写法、pip 安装依赖、虚拟环境 venv 的意义（隔离依赖版本）",
+    "<b>面向对象不求深</b>：理解 class 的基本写法即可，数据岗日常 90% 是写脚本和函数，不是设计类体系"
+  ],
+  pit:"别一开始就啃《流畅的 Python》这种进阶书。先能写脚本跑起来，再谈优雅。也别把 Python 当 C 语言写——列表推导式、内置函数 max/min/sorted/key 要会用。",
+  quiz:["用字典统计一个列表里每个元素出现的次数","写一个函数：输入一个路径，读取 CSV 并返回前 5 行","f-string 是什么？写一个例子：'用户 张三 在 2026 年 8 月 31 日登录'"],
+  res:"菜鸟教程 / Python 官方教程前 8 章即可，配合每天 30 分钟编码练习"
+},
+"s0_5":{
+  intro:"pandas 是 Python 里处理表格数据的核心库，地位相当于'Python 版 Excel + SQL'。数据岗日常 70% 的表格操作都在用它。",
+  pts:[
+    "<b>两大对象</b>：Series（一列，带索引）和 DataFrame（表格，行列都有索引）；理解索引（index）是 pandas 的灵魂",
+    "<b>读写</b>：read_csv / read_excel / to_csv，注意 encoding='utf-8' 和 sep 参数",
+    "<b>筛选与修改</b>：df[df['col'] &gt; 100] 布尔筛选；df.loc[行, 列] 按标签、df.iloc 按位置；新增列 df['新列'] = 计算",
+    "<b>分组聚合</b>：df.groupby('类别')['金额'].agg(['sum','mean','count'])，对应 SQL 的 GROUP BY",
+    "<b>合并</b>：pd.merge 对应 SQL JOIN（how='left/inner'），pd.concat 纵向拼接",
+    "<b>清洗三件套</b>：dropna / fillna 处理缺失、drop_duplicates 去重、astype 类型转换——清洗是数据工作最耗时也最体现功力的环节",
+    "<b>透视</b>：pivot_table（行、列、值、聚合方式），对应 Excel 数据透视表"
+  ],
+  pit:"pandas 的坑：链式赋值（df[df.a&gt;0]['b']=1 会警告且不生效）；视图与副本混淆；merge 忘写 how 默认是 inner。遇到诡异结果先怀疑这三处。",
+  quiz:["读入 CSV 后，如何按'城市'分组求'销售额'的总和？","merge 和 concat 使用场景有什么区别？","NaN 值如何判断？为什么不能直接用 == np.nan？"],
+  res:"《利用 Python 进行数据分析》(Wes McKinney 著) 前 8 章 + 每天用真实数据练 30 分钟"
+},
+"s0_6":{
+  intro:"requests 是 Python 抓取 HTTP 接口的标准库级工具。学会它，你就能自己造数据源——任何公开 API、网页数据都能变成你的练习数据。",
+  pts:[
+    "<b>核心流程</b>：requests.get(url, params, headers) → 检查 resp.status_code → 解析内容 resp.json() 或 resp.text → 清洗 → 落盘",
+    "<b>params 与 headers</b>：GET 参数用 params 字典；很多接口要求 User-Agent 等请求头，否则返回 403",
+    "<b>JSON 解析</b>：resp.json() 直接转字典/列表；嵌套结构用 字典['key'][索引] 逐层取",
+    "<b>文件读写</b>：with open('data.csv','w',encoding='utf-8') as f 写入；用 csv 模块或 pandas.to_csv",
+    "<b>异常与重试</b>：网络请求要 try/except 包裹，time.sleep(1) 控制频率，避免被封",
+    "<b>合法边界</b>：只抓公开数据、遵守 robots.txt、不抓个人信息、控制频率不骚扰对方服务器——这是职业底线也是法律底线"
+  ],
+  pit:"别一上来就抓反爬很强的网站（如大厂电商），先抓开放的公开接口（天气、汇率、公开榜单）。'抓不到'时先怀疑：是不是没带 headers？是不是频率太快？",
+  quiz:["requests.get 返回 403 通常是什么原因？怎么排查？","resp.json() 报错 JSONDecodeError 时怎么办？","如何把抓到的数据安全地写入 CSV（处理特殊字符）？"],
+  res:"找一个免费公开 API（如天气类），把数据抓下来存成 CSV，作为项目 0 的素材"
+},
+"s0_7":{
+  intro:"数据环境几乎全是 Linux 服务器，你不会 Linux 就没法自己部署、排查、看日志。这是工程岗的日常语言，不是可选项。",
+  pts:[
+    "<b>文件与目录</b>：ls -lh / cd / pwd / mkdir -p / cp / mv / rm -rf（慎用！）/ find / grep 组合使用",
+    "<b>权限体系</b>：chmod 754 的含义（所有者 rwx、组 rx、其他 x），ll 输出第一列的解释",
+    "<b>管道与重定向</b>：| 管道把前一个输出给后一个（ps aux | grep java）；&gt; 覆盖写、&gt;&gt; 追加、2&gt;&amp;1 合并错误输出",
+    "<b>进程与端口</b>：ps -ef / top / netstat -tlnp 或 ss -tlnp（看端口占用）、kill 与 kill -9 的区别",
+    "<b>日志排查套路</b>：tail -f 实时看、grep -n 'ERROR' app.log | head -50、awk '{print $1}' 取列",
+    "<b>Shell 脚本</b>：#!/bin/bash 开头、变量、if 判断、for 循环、crontab -e 定时执行——调度任务的基础",
+    "<b>压缩与传输</b>：tar -zxvf、scp 传文件、vim 的三种模式（i 编辑 / Esc 命令 / :wq 保存）"
+  ],
+  pit:"最危险的三个命令：rm -rf、sudo 乱用、kill -9 乱杀。第一次在服务器上操作前，先备份，或者先在本地虚拟机/容器里练熟。",
+  quiz:["查看 8080 端口被哪个进程占用，命令是什么？","如何实时监控一个日志文件的新增内容？","crontab 里 '0 2 * * *' 表示什么时间执行？"],
+  res:"《鸟哥的 Linux 私房菜》基础篇挑核心章节；或者直接在自己电脑装个 WSL/虚拟机实操，比看书快 10 倍"
+},
+"s0_8":{
+  intro:"Git 是代码协作的'存档系统'。你的项目、简历上的 GitHub 链接、未来公司的代码仓库，全靠它。核心就三个动作：存、取、同步。",
+  pts:[
+    "<b>工作区三态</b>：工作区（改文件）→ git add 暂存区 → git commit 本地仓库 → git push 远程仓库；git status 永远先看它",
+    "<b>提交信息规范</b>：feat: 新功能 / fix: 修 bug / docs: 文档 / refactor: 重构 + 一句话说明，如 'feat: 添加用户留存计算任务'",
+    "<b>分支模型</b>：git branch / checkout / merge；日常开发在 feature 分支，合回主分支用 PR（pull request）",
+    "<b>撤销的艺术</b>：git log 看历史、git reset 与 git revert 的区别（reset 是回退本地、revert 是反做一次提交）、git stash 暂存未完成的工作",
+    "<b>远程协作</b>：git clone / pull / push；冲突（conflict）出现时别慌：&lt;&lt;&lt;&lt;&lt;&lt;&lt; 标记里手动保留正确内容再提交",
+    "<b>README 与仓库形象</b>：项目 README 写清楚：项目是什么、怎么跑、架构图、目录结构——面试官看你的 GitHub 就是在看这个"
+  ],
+  pit:"最容易翻车的是：git add . 把不该提交的文件（密码、大数据文件）提交了。养成写 .gitignore 的习惯（Python 项目至少忽略 __pycache__ 和 .env）。",
+  quiz:["提交后发现写错了想改提交信息，用什么命令？","pull 时遇到冲突怎么处理？","如何把本地已有项目推到 GitHub 新建仓库？"],
+  res:"廖雪峰 Git 教程（免费）快速过一遍 + 每天练习：所有项目代码都推到 GitHub"
+},
+"s0_9":{
+  intro:"统计是大数据'管理与应用'的数学底座。不学它，你做的分析没有依据，建模没有假设。目标不是推导公式，而是理解概念并会用代码实现。",
+  pts:[
+    "<b>描述统计</b>：均值 / 中位数 / 众数的适用场景（有极端值时中位数更稳健）；方差与标准差的意义；分位数（P25/P50/P75）",
+    "<b>分布</b>：正态分布（中心极限定理：样本均值近似正态）、长尾分布（收入、点击量常呈长尾）、均匀分布",
+    "<b>抽样与推断</b>：总体 vs 样本、中心极限定理、置信区间的含义（95% 置信区间不是说'有 95% 概率包含真值'，而是'重复抽样 95% 的区间包含真值'——这是常被误解的考点）",
+    "<b>假设检验</b>：原假设 H0 与备择假设 H1、p 值含义（H0 为真时观察到当前结果的概率）、显著性水平 α=0.05；p&lt;0.05 拒绝 H0，但'不显著'不等于'没差异'",
+    "<b>AB 实验</b>：实验组/对照组、样本量估算、显著性检验、辛普森悖论（分组显著但合并不显著，因为分组比例不同）",
+    "<b>相关 vs 因果</b>：相关系数 r 衡量线性相关，但相关不等于因果——数据岗的顶级素养是分清这两者"
+  ],
+  pit:"最常犯的错：把 p 值当'H0 为真的概率'；把相关当因果直接下结论。面试时能讲清'为什么 A/B 测试结果显著但上线后没效果'（原因可能：样本量不足、指标口径、新奇效应）是加分项。",
+  quiz:["p 值 0.03 的正确解释是什么？（选一个最严谨的说法）","中位数和均值在什么情况下差异很大？说明了什么？","AB 实验前为什么要做样本量估算？"],
+  res:"《赤裸裸的统计学》入门 + 可汗学院统计课程；配合 pandas 用代码实现每个统计量"
+},
+"s0_10":{
+  intro:"项目 0 是你的第一个完整数据项目，目的不是大，而是'完整走一遍'：从取数到可视化，体验数据工作的全流程。",
+  pts:[
+    "<b>选题原则</b>：数据能公开获取、规模适中（1 万-10 万行）、你能讲清业务背景。推荐：天气历史数据、票房数据、公开榜单、学校图书馆借阅数据",
+    "<b>标准流程</b>：① 明确问题（想回答什么）→ ② 取数（API/爬虫/公开数据集）→ ③ 清洗（去重、缺失、异常、类型转换）→ ④ 分析（分组、对比、趋势）→ ⑤ 可视化出结论 → ⑥ 写 README 记录全流程",
+    "<b>清洗要留痕</b>：记录清洗规则和清洗前后的数据量变化（'原始 12000 行，去重后 9860 行'）——这是面试时体现功力的细节",
+    "<b>入库</b>：MySQL 建表、导入数据，至少会 CREATE TABLE 和 INSERT/LOAD 数据",
+    "<b>可视化规范</b>：图表选型（趋势用折线、占比用饼图/堆叠、对比用柱状）、坐标轴和单位标注、标题传达结论而非现象（'各月销量趋势' vs '8 月销量环比下降 12%'）",
+    "<b>GitHub 交付</b>：代码 + 数据样例 + README（项目背景、流程、结果截图、如何复现）"
+  ],
+  pit:"最大的坑：'为了做项目而做项目'——数据是抄来的、分析是套模板的、结论是编的。项目 0 你可以小，但必须真实，经得起追问：'这个数怎么来的？为什么这么清洗？'",
+  quiz:["你的清洗规则能逐条说清理由吗？（每条规则都能答'为什么'）","你的结论有数据支撑吗？把'结论→证据'链路写出来","README 能让一个陌生人按步骤复现你的项目吗？"],
+  res:"做出来，推 GitHub，链接放进简历——这就是你简历上第一个'可验证'的项目"
+}
+});
+/* ===== S1 知识点详解 ===== */
+Object.assign(DETAILS, {
+"s1_0":{
+  intro:"维度建模是数仓的'图纸'，由数据仓库之父 Kimball 提出。它的核心思想：用'事实表 + 维表'把业务过程组织成方便查询的结构。面试必考，项目必用。",
+  pts:[
+    "<b>事实表（Fact）</b>：记录业务事件（订单、点击、支付），一行 = 一个业务过程的度量；含外键和度量值（金额、数量），粒度 = 一行的细化程度",
+    "<b>维表（Dimension）</b>：描述'谁、何时、何地'的上下文（用户维、时间维、商品维），行数少但列多，是过滤和分组的依据",
+    "<b>星型模型</b>：中间一张事实表，周围一圈维表，直接 JOIN 即可查询；对比雪花模型（维表再拆分），星型更常用因为查询性能好",
+    "<b>建模四步法</b>：① 选业务过程（如'下单'）→ ② 定粒度（一行=一张订单还是一行=一个订单明细）→ ③ 定维度（时间、用户、商品、渠道）→ ④ 定事实（金额、数量）",
+    "<b>退化维度</b>：订单号这种只跟单张事实表关联的维度，直接放事实表，不单独建维表",
+    "<b>SCD 缓慢变化维</b>：用户改地址怎么办？SCD1（覆盖）、SCD2（保留历史加版本号，最常用）、SCD3（只保留当前和上一次）",
+    "<b>度量类型</b>：可加性（金额、数量可跨维度相加）、半可加性（库存不可按时间相加）、不可加性（比率、单价）"
+  ],
+  pit:"最常见错误：'先看数据再定粒度'，或者一张表里塞了太多业务过程（下单和退款混一起）。粒度不清，后面所有指标都是糊涂账。",
+  quiz:["一张订单明细表，粒度应该是什么？为什么？","SCD2 怎么实现？和 SCD1 相比多付出什么代价？","用户改手机号，订单表需要跟着改吗？为什么？"],
+  res:"《数据仓库工具箱》第 1-4 章精读；用电商下单流程自己画一张星型模型图"
+},
+"s1_1":{
+  intro:"数仓分层是把'原始数据'加工成'业务可用数据'的过程规范化。每层有明确职责，层层递进。面试必问'你们数仓怎么分层'。",
+  pts:[
+    "<b>ODS（贴源层）</b>：原样存储业务库/日志数据，与源保持一致，只做格式统一，不做业务加工——它是数据仓库的'水龙头'",
+    "<b>DWD（明细层）</b>：清洗、去重、标准化（统一编码、统一单位）、维度退化，生成干净的明细数据；这一层质量决定上层质量",
+    "<b>DWS（汇总层）</b>：按主题做轻度汇总（按天、按用户、按商品），存的是'半成品'指标，减少重复计算",
+    "<b>ADS（应用层）</b>：面向具体报表/分析的最终结果表，数据量最小、直接供 BI 和业务查询",
+    "<b>为什么分层</b>：① 空间换时间，避免重复计算；② 隔离源系统变更（源表改了只影响 ODS-DWD 这一段）；③ 数据血缘清晰，出了问题能追责定位；④ 权限管控（明细 vs 汇总的开放范围不同）",
+    "<b>命名规范</b>：层前缀 + 主题域 + 业务过程 + 粒度，如 dwd_order_detail_di（di=日增量）、dws_user_pay_1d",
+    "<b>拉链表</b>：记录历史变化的全量表，用'生效时间+失效时间'标记，适合用户属性这类缓慢变化数据"
+  ],
+  pit:"别把 DWD 当 ODS 的复制，也别跳过 DWS 直接在 DWD 上跑十几个报表任务（那就是在重复计算，且口径没法统一）。分层清晰度是面试官评估你工程素养的第一印象。",
+  quiz:["ODS 和 DWD 的本质区别是什么？","为什么要在 DWS 做汇总而不是让每张报表自己算？","日增量表（_di）和全量表（_df）各自适用什么场景？"],
+  res:"对着你的项目 1 数据，写清楚每张表属于哪一层、为什么、加工逻辑是什么"
+},
+"s1_2":{
+  intro:"Spark 是大数据离线计算的事实标准。PySpark 让你用 Python 写分布式任务。面试重点：理解'分布式'带来的心智变化和常见性能问题。",
+  pts:[
+    "<b>核心抽象 RDD/DataFrame</b>：数据被切分成多个分区（partition），并行分布在多台机器上；DataFrame 带 schema 和优化器（Catalyst），比 RDD 高效且是主流写法",
+    "<b>宽依赖 vs 窄依赖</b>：窄依赖每个分区只被一个父分区使用（map/filter，可流水线）；宽依赖需要 shuffle（groupBy/join/distinct），数据跨节点传输，最贵",
+    "<b>Shuffle 是万恶之源</b>：多数性能问题的根源。少 shuffle 的方法：提前过滤（pushdown）、用广播变量（小表广播，避免大 join 的 shuffle）",
+    "<b>数据倾斜</b>：某个 key 数据量特别大（如'北京'占 80%），导致单个任务拖垮整个作业。解法：加盐拆分、两阶段聚合（先局部聚合再加盐 key 二次聚合）、过滤异常 key、调整并行度",
+    "<b>三大算子族</b>：转换（transformation，懒执行，只是记录血缘）、行动（action，如 collect/count/write，触发真正计算）、持久化（cache/persist，重复使用的中间结果）",
+    "<b>调优三板斧</b>：① 减少 shuffle 数据量（过滤、列裁剪）→ ② 解决倾斜（加盐/广播）→ ③ 合理资源（executor 内存/核数、并行度）",
+    "<b>Spark SQL</b>：写 SQL 自动转成 Spark 作业，日常 80% 场景用 Spark SQL 就够，PySpark 用来写复杂逻辑"
+  ],
+  pit:"常见错误：把 PySpark 当 pandas 写（collect 到本地再处理，数据量一大直接 OOM）；不知道懒执行（写了半天转换没触发，没报错也没执行）；遇倾斜就加资源（治标不治本）。",
+  quiz:["什么操作会触发 shuffle？举三个","数据倾斜的表现是什么？加盐解决倾斜的原理是什么？","cache 和 checkpoint 有什么区别？"],
+  res:"官方 Quick Start + 尚硅谷/极客时间的 Spark 课程选一套跟完；重点亲手制造一次数据倾斜再解决它"
+},
+"s1_3":{
+  intro:"Hive 是把 SQL 翻译成 MapReduce/Spark 作业的数仓工具，离线数仓的'标准 SQL 入口'。你的数仓任务 80% 是 Hive/Spark SQL。",
+  pts:[
+    "<b>Hive 本质</b>：元数据（表结构）存在 MySQL，数据存在 HDFS；你写 SQL，它编译成分布式作业——理解'SQL 是外壳，底层是分布式计算'",
+    "<b>分区表</b>：按 dt 等字段分目录，查询时只扫对应分区，避免全表扫描；这是 Hive 性能第一要素——一定要建分区表，查的时候一定要带分区条件",
+    "<b>分桶表</b>：按某列哈希分文件，利于抽样和 bucket join，比分区更细粒度；面试常考概念",
+    "<b>文件格式</b>：TextFile（可读但大）、Parquet / ORC（列式压缩，性能好得多，主流选择）",
+    "<b>常用调优</b>：① 小文件合并（小文件多会拖垮 NameNode 和任务调度）；② 合理设置 map/reduce 数；③ 数据倾斜时开倾斜优化或手动加盐；④ 能用中间表减少重复计算",
+    "<b>严格模式</b>：分区表查询不带分区条件会报错，防止全表扫描——这其实是保护你的",
+    "<b>Hive vs Spark SQL</b>：Hive on MR 慢，Hive on Spark/Tez 快；现在很多公司直接用 Spark SQL 替代 Hive 执行引擎，但表结构、分区思想完全一样"
+  ],
+  pit:"最典型的坑：全表扫描（忘了带分区条件）、小文件爆炸（每批数据生成几百个小文件）、在 TextFile 大表上反复查。先养成'查表先看分区、写完先看执行计划'的习惯。",
+  quiz:["为什么分区表查询性能远高于非分区表？","Parquet 比 TextFile 好在哪？","建表时忘记指定分区，后期还能加吗？有什么代价？"],
+  res:"在本地 Docker 里起一个 Hive/Spark 环境，亲手建表、分区、load 数据"
+},
+"s1_4":{
+  intro:"调度与数据同步是数仓的'时钟和血管'：任务什么时候跑、跑完怎么通知下一个、数据怎么搬进数仓。没有它们，你的数仓只是静态的建表脚本。",
+  pts:[
+    "<b>工作流调度</b>：DolphinScheduler（国产开源，国内公司多）或 Airflow（国际主流）：把任务组织成 DAG（有向无环图），定义依赖关系",
+    "<b>核心概念</b>：任务（Task）/ 工作流（Workflow/DAG）、依赖（上游跑完才跑下游）、调度周期（小时/天/周）、重跑机制（失败重试、补数据 run 某一天）",
+    "<b>数据同步 DataX</b>：异构数据源搬运（MySQL→Hive、Oracle→HDFS），支持全量和增量；增量同步常用 max(id) 或时间戳水位线",
+    "<b>调度时间陷阱</b>：T+1 任务的调度时间（凌晨 2 点跑昨天数据）；分区时间参数（dt=$bizdate 这种动态传参）",
+    "<b>幂等性</b>：同一任务重复跑，结果必须一致——写任务时先 DELETE 目标分区再写，保证可重跑；这是数据工程师的职业素养",
+    "<b>监控与告警</b>：任务失败告警、数据量波动监控（今天比昨天少 90% 必须报警）、SLA 保障",
+    "<b>依赖数据上游</b>：上游表任务完成才触发（跨团队任务依赖用'表依赖'而非'时间依赖'，防止上游延迟导致下游算错）"
+  ],
+  pit:"最常见的生产事故：任务重跑没清分区（重复数据）、调度时间没用业务日期（跨天数据错位）、上游还没跑完下游就开始算（数据不全）。写调度先想：'这个任务跑 10 遍结果都一样吗？'",
+  quiz:["什么是任务的幂等性？你的 ETL 任务怎么保证？","为什么下游应该依赖'表就绪'而不是'时间到了'？","增量同步和全量同步分别适合什么场景？"],
+  res:"DolphinScheduler 官方文档快速上手，把自己的项目 1 编排成 5 个以上任务的 DAG"
+},
+"s1_5":{
+  intro:"OLAP 引擎解决'分析查询快'的问题。数仓加工完的数据要支撑 BI 报表、自助分析，MySQL 扛不住大查询，就需要专门的分析型引擎。",
+  pts:[
+    "<b>OLTP vs OLAP</b>：OLTP（MySQL，事务处理，写多查少，行存）；OLAP（分析处理，查多写少，列存+向量化，查询快 10-100 倍）",
+    "<b>Doris / StarRocks / ClickHouse 三选一</b>：Doris（百度开源，国内互联网用得多，语法像 MySQL）；StarRocks（Doris 的分支，性能更激进）；ClickHouse（俄罗斯开源，单机性能极强但生态和 join 较弱）",
+    "<b>列式存储原理</b>：按列存储+压缩（同一列数据类型一致，压缩率高）+ 向量化执行（一次处理一批数据而非一行），这是 OLAP 快的根本",
+    "<b>物化视图 / 预聚合</b>：把高频查询的聚合结果预先算好存起来，查询直接读结果；Rollup/聚合模型是 Doris 家族的核心玩法",
+    "<b>建模模型</b>：Doris 的 Aggregate/Unique/Duplicate 模型——对应'要汇总''要更新''要明细'三种场景",
+    "<b>查询优化</b>：分区裁剪、分桶裁剪、前缀索引、bitmap 精确去重（count(distinct) 在亿级数据下很慢，用 RoaringBitmap）"
+  ],
+  pit:"选型错误很致命：拿 ClickHouse 做需要频繁 JOIN 的场景、拿 Doris 当 MySQL 用（不支持事务/更新频繁）。选引擎前先想清楚：查询模式是什么？并发多高？要实时更新吗？",
+  quiz:["列式存储为什么压缩率高、查询快？","count(distinct) 在超大数据量下为什么慢？有什么替代方案？","什么场景适合用 OLAP 引擎，什么场景不适合？"],
+  res:"Doris 官方文档'快速开始'在本地 Docker 跑起来，把项目 1 的 ADS 表导入 Doris 试查询"
+},
+"s1_6":{
+  intro:"项目 1 是你的主力项目，决定你能否拿到实习面试。它必须完整覆盖：采集→ODS→DWD→DWS→ADS→调度→BI，且你能讲清每一步的'为什么'。",
+  pts:[
+    "<b>业务域选择</b>：推荐电商交易（下单-支付-退款链路清晰）或内容播放（曝光-点击-播放）。你自己最熟悉的业务是最好的，因为能讲清业务逻辑",
+    "<b>数据从哪里来</b>：构造/模拟数据 + 公开数据集均可，关键是'自洽'：字段要能支撑你的业务过程（订单表要有用户、商品、金额、时间、状态）",
+    "<b>架构落地</b>：MySQL 模拟业务库 → DataX 同步到 Hive/Doris → DWD 清洗标准化 → DWS 按用户/商品/天汇总 → ADS 输出报表口径 → DolphinScheduler 编排 → BI 工具出看板",
+    "<b>指标设计</b>：至少 8-10 个指标：GMV、订单量、客单价、转化率、复购率、留存、Top 商品、渠道分布",
+    "<b>讲故事的素材</b>：每个环节留一个'踩坑-解决'案例（如：某天数据翻倍，排查发现是重复同步；某表倾斜，加盐解决），面试讲这些比背概念强 100 倍",
+    "<b>文档要求</b>：数据字典（每张表、每个字段含义）、分层设计文档（为什么这么分层）、架构图（draw.io/ProcessOn 画）",
+    "<b>性能与治理意识</b>：哪怕数据量小，也要展示：分区表、压缩格式、调度监控、失败重跑逻辑——面试官看的是'工程习惯'不是数据量"
+  ],
+  pit:"最大坑：只贴代码不写文档，或者照抄教程项目（换了个表名）。面试官追问两个'为什么'就穿帮的项目，不如不做。真实感 = 讲得出取舍和踩坑。",
+  quiz:["你的项目里 DWD 做了哪些清洗？每条规则的理由是什么？","选一个指标，讲清它的计算口径和从 ODS 到 ADS 的加工链路","如果数据量放大 100 倍，你的架构哪里会先出问题？怎么改？"],
+  res:"做出来，README + 架构图 + 数据字典齐全，GitHub 推上去——这就是你秋招简历的锚点"
+},
+"s1_7":{
+  intro:"这个任务看起来'不是技术'，但它是区分'做完项目'和'交付项目'的分水岭。文档写不清楚 = 白做。",
+  pts:[
+    "<b>数据字典</b>：每张表记录：表名、所属层、业务含义、字段清单（名称/类型/含义/来源/口径）、更新频率、责任人。用 Markdown 表格或在线文档维护",
+    "<b>分层设计文档</b>：画分层架构图，写清每层职责；写清楚关键表之间的血缘关系（A 表←B 表←C 表）",
+    "<b>建表脚本</b>：DDL 要规范：统一命名、明确注释（COMMENT 每张表和关键字段都写）、分区键设计、压缩格式声明",
+    "<b>README 模板</b>：项目背景 → 架构图 → 快速开始（怎么起环境、怎么跑）→ 目录结构 → 指标清单 → 踩坑记录",
+    "<b>设计评审思维</b>：写完问自己：别人不看代码能看懂我的表吗？字段口径别人能理解吗？——这就是数据治理意识的雏形",
+    "<b>GitHub 仓库组织</b>：sql/（建表与加工脚本）、docs/（文档）、scheduler/（调度定义）、notebook/（探索分析）"
+  ],
+  pit:"别把文档写成流水账。每张表都回答三个问题：这表给谁用？字段怎么来的？口径和谁对齐？写不出这三个答案，说明你还没真正理解自己的项目。",
+  quiz:["你项目里 ADS 层'每日 GMV'的字段口径，能否一句话说清？","新同学拿到你的文档，能否 30 分钟内看懂架构并跑通？","你的 DDL 里每张表、每个关键字段都有 COMMENT 吗？"],
+  res:"文档写完让同学/朋友看一遍，收集 3 条改进意见再改一轮"
+}
+});
+/* ===== S2 知识点详解 ===== */
+Object.assign(DETAILS, {
+"s2_0":{
+  intro:"语料工程是 AI 数据方向的核心技能：把互联网/业务数据变成大模型能'吃'的高质量文本。这是 2026 年最缺人的细分方向之一。",
+  pts:[
+    "<b>什么是语料</b>：大模型训练的原材料——网页文本、对话数据、代码、论文等。'垃圾进垃圾出'，语料质量直接决定模型质量",
+    "<b>清洗 Pipeline</b>：去 HTML 标签 → 去广告/导航噪声 → 统一编码与格式 → 段落切分 → 质量过滤（长度、重复率、敏感内容、低质量信号）",
+    "<b>去重</b>：精确去重（哈希）+ 近似去重（SimHash / MinHash），训练集重复会浪费算力并降低多样性",
+    "<b>质量打分</b>：用规则（困惑度、语言模型打分）或分类器给文档打质量分，只保留高分数据",
+    "<b>数据配比与采样</b>：不同来源的数据要按比例混合（多样性），防止某类数据过多导致模型偏科",
+    "<b>数据安全合规</b>：个人信息、版权内容不能进训练集——这是红线，也是这个岗位存在的意义之一",
+    "<b>数据溯源与文档</b>：每条数据能追溯来源、版本、清洗规则——AI-Ready 化的核心是'可检索、可追溯、可评估'"
+  ],
+  pit:"别把语料工程理解成'洗数据'这么简单——它的核心是质量评估体系：你怎么定义'好数据'？用什么指标衡量？这是面试官会深挖的问题。",
+  quiz:["训练语料为什么要去重？近似去重和精确去重的区别？","你怎么评估一批语料的质量？列出至少 4 个维度","为什么数据配比影响模型能力？举一个配比失衡的例子"],
+  res:"读 2-3 篇大模型数据工程公开文章（如 RedPajama、Qwen 数据配比技术报告），动手写一个去 HTML 标签 + 去重的清洗脚本"
+},
+"s2_1":{
+  intro:"embedding 把文本变成向量（一串数字），向量库让'按语义找内容'成为可能。这是 RAG 和一切语义检索的地基。",
+  pts:[
+    "<b>embedding 是什么</b>：把'苹果'变成 [0.1, -0.3, ...] 这样的高维向量，语义相近的文本向量距离近（余弦相似度高）",
+    "<b>为什么要向量</b>：关键词搜索（BM25）只能字面匹配；向量检索能理解同义与语义（'怎么退单'和'取消订单'匹配）",
+    "<b>向量库选型</b>：Milvus（开源、功能全、生产级）、pgvector（PostgreSQL 插件，小项目够用）、FAISS（库而非数据库，最轻）",
+    "<b>核心流程</b>：文档切块（chunk，一般 200-500 token 带重叠）→ 调 embedding 模型转向量 → 入库（带元数据）→ 查询时把问题也转向量 → 相似度检索 TopK",
+    "<b>切块策略</b>：按段落/语义切分，块太小丢失上下文、太大检索不精准；重叠窗口保持边界信息",
+    "<b>相似度度量</b>：余弦相似度、内积、欧氏距离——不同 embedding 模型配不同的度量",
+    "<b>评估检索效果</b>：召回率、命中率（golden set：准备一批'问题→正确文档'对，测 TopK 是否命中）"
+  ],
+  pit:"常见坑：文档不切块整篇入库（检索等于全文匹配）、向量库和模型不匹配（用 A 模型向量喂 B 模型检索）、不做效果评估就上线（'感觉差不多'不可靠）。",
+  quiz:["为什么切块大小影响检索效果？太小和太大各有什么问题？","cosine 相似度的取值范围？什么情况表示完全无关？","你如何验证你的检索系统是'好'的？"],
+  res:"用 OpenAI/本地模型 API 把 100 篇文章向量化存入 pgvector，写一个检索 Demo"
+},
+"s2_2":{
+  intro:"RAG（检索增强生成）是 2026 年最主流的大模型落地方式：不重新训练模型，而是把知识库内容检索出来喂给大模型回答。你做的知识库问答就是它。",
+  pts:[
+    "<b>RAG 三阶段</b>：索引（文档→切块→向量化→入库）→ 检索（问题→向量化→TopK 召回）→ 生成（问题+上下文→大模型→回答）",
+    "<b>为什么 RAG 而不是微调</b>：知识更新快（改库即可）、可溯源（答案带来源）、省成本（不用训练）；微调适合改'说话风格/格式'，不适合塞知识",
+    "<b>检索质量决定上限</b>：召回不相关的上下文，模型再强也答错。所以工程重心在索引和检索，不在提示词",
+    "<b>重排（Rerank）</b>：粗召回 Top50 → 用 rerank 模型精排 Top5，显著提升精度",
+    "<b>上下文拼接</b>：给模型的 prompt 结构：系统指令 + 检索到的文档 + 问题 + 输出要求；限定'只基于给定内容回答'防止幻觉",
+    "<b>评估体系</b>：忠实度（答案是否基于文档）、相关性（检索是否命中）、答案质量（完整/准确）——用人工或 LLM 打分",
+    "<b>进阶</b>：混合检索（BM25 + 向量）、query 改写（问题口语化先改写再检索）、多跳检索（先查 A 再查 B）"
+  ],
+  pit:"最大坑：把 RAG 做成'高级搜索框'——没有评估、没有溯源、没处理'检索不到'的兜底。面试被问'你的 RAG 效果怎么衡量'答不上来，项目就白做了。",
+  quiz:["为什么说'检索质量决定 RAG 效果的上限'？","怎么减少大模型基于检索内容'编造'答案？","检索 TopK 选 5 还是 50？为什么需要重排？"],
+  res:"官方 RAG 教程/开源项目（LangChain 或 LlamaIndex 快速上手）搭一个知识库问答，写清楚评估方法"
+},
+"s2_3":{
+  intro:"数据治理是'让数据可信、可用、可管'的体系化工作，也是各厂高薪刚需岗位。它是你专业里'管理'二字的直接体现。",
+  pts:[
+    "<b>治理的四大目标</b>：数据质量（准）、数据安全（稳）、数据标准（统一）、数据资产（可用）——能讲清这四个字就有骨架",
+    "<b>数据质量六性</b>：完整性、准确性、一致性、及时性、唯一性、有效性——每项都有对应的检查手段（空值率、重复率、波动率）",
+    "<b>元数据管理</b>：技术元数据（表结构）+ 业务元数据（口径、含义）——元数据是治理的地基，字段注释写不写就是最基础的治理动作",
+    "<b>数据血缘</b>：表与表、字段与字段的依赖关系（A 表被 B 表加工），作用：影响分析（改表先评估影响范围）、问题溯源（数据错了往回查）",
+    "<b>指标体系管理</b>：指标口径统一（'用户数'是全站还是活跃？）、指标字典、避免'同一指标不同口径'的混乱",
+    "<b>数据安全</b>：分级分类（敏感/一般）、脱敏（手机号打码）、权限管控（最小权限）、合规（个保法：个人信息处理要合法正当必要）",
+    "<b>DataOps</b>：治理自动化——质量规则自动检查、异常自动告警、任务自动重跑，'把治理变成流水线'是行业趋势"
+  ],
+  pit:"别把治理理解成'写规范文档'——治理要落地到工具和规则：质量检查 SQL、血缘解析、自动告警。面试时说'我做了数据治理'，要能举出具体的检查规则和发现的问题。",
+  quiz:["数据质量的六个维度是什么？各举一个检查 SQL 的例子","表结构变更前为什么要看血缘？","手机号脱敏一般怎么处理？为什么不能直接删掉？"],
+  res:"给你的项目 1 加一套质量检查：空值率、重复率、波动告警，写进调度"
+},
+"s2_4":{
+  intro:"项目 2 是你区别于其他候选人的差异化项目：把数仓数据改造成'AI 可检索、可评估、可追溯'的资产。S1 的能力是底座，S2 的知识是翅膀。",
+  pts:[
+    "<b>核心思路</b>：数据 AI-Ready 化四步：① 元数据语义化（字段注释、业务上下文补全）→ ② 语料化（把结构化数据转成可检索的文本/文档）→ ③ 向量化入库 → ④ 提供检索/问答服务",
+    "<b>落地形态</b>：做一个'数仓知识问答'：把指标口径、表结构说明、业务规则做成文档→切块→向量库→RAG，业务同学直接问'上月 GMV 为什么降了'",
+    "<b>与项目 1 的关系</b>：项目 2 必须明确回答'这份数据原本在数仓里长什么样，我做了什么让它 AI-Ready'——不能是独立的天外飞仙",
+    "<b>工程化要素</b>：增量更新（新表/新文档自动入库）、权限（不同人可问的范围）、日志与评估（哪些问题答不好）",
+    "<b>交付物</b>：README（架构图：数仓→语料→向量库→RAG→问答）+ 效果截图 + 评估数据（golden set 命中率）",
+    "<b>面试讲法</b>：讲'为什么这么设计'：为什么切块这么切、为什么选这个向量库、检索不准时我做了重排——每个决策都能讲理由"
+  ],
+  pit:"别做'玩具'：本地几个 txt 塞进向量库就说做了 RAG。要有数据链路、有评估、有增量更新、有踩坑记录——面试官要的是工程化思维。",
+  quiz:["你的数据从数仓到 RAG 的全链路是什么？画出来","你的问答效果用什么指标评估？达标线是多少？","新增一份业务文档，系统怎么自动让它可被检索？"],
+  res:"在项目 1 的数据上完成项目 2，两个项目形成'数仓 + AI 数据'的完整故事线"
+},
+"s2_5":{
+  intro:"简历是你和面试官的第一次对话，只有 15 秒。数据岗简历的核心：项目经历用'背景-动作-结果-量化'四段式，让面试官能立刻抓住你的能力。",
+  pts:[
+    "<b>四段式模板</b>：背景（项目解决什么问题）+ 动作（我具体做了什么，用技术名词）+ 结果（数据/业务效果）+ 量化（数字！数字！数字！）",
+    "<b>技术栈写法</b>：'熟悉/掌握/精通'要诚实——精通意味着能扛住深挖；把技术栈分：核心（SQL/Spark/建模）+ 了解（Flink/Doris）",
+    "<b>动词的力量</b>：'负责/搭建/优化/设计/从 0 到 1'；避免'参与/协助/了解'占主导",
+    "<b>项目描述 3-4 行</b>：第 1 行项目定位，第 2-3 行技术实现，第 4 行结果量化；每个项目后列 2-3 个核心技术点",
+    "<b>量化的来源</b>：任务数量、数据规模（百万行）、性能提升（查询从 5 分钟到 30 秒）、错误修复数量、覆盖率——没有数字就造场景也要有近似值",
+    "<b>一页原则</b>：校招简历一页；教育背景 + 2 个项目 + 技能栈 + 其他（竞赛/证书/GitHub）",
+    "<b>投递适配</b>：针对每个岗位微调：JD 要什么就把相关经历往前放、用 JD 里的关键词"
+  ],
+  pit:"三个致命伤：① 写'熟悉所有大数据组件'（面试官随便挑一个深挖就穿）；② 项目全是教程项目名（一眼假）；③ 没有数字（'提升了性能' vs '查询耗时从 300s 降至 35s'，天壤之别）。",
+  quiz:["你的每个项目都能用'背景-动作-结果-量化'写出来吗？","简历上每个技术名词，你都能扛住 3 层追问吗？","你的简历能在一页内讲完你的最强卖点吗？"],
+  res:"写完后发给学长/HR 朋友/我帮你看，收集意见改 3 版；同时用你投递的 JD 反向检查关键词"
+},
+"s2_6":{
+  intro:"投简历不是碰运气，是数据驱动的过程。30 份不是目标，是底线——因为通过率会让你重新认识市场。",
+  pts:[
+    "<b>渠道分层</b>：① 内推（学长学姐、脉脉、牛客内推帖）命中率最高；② 官网直投（大厂校招官网）；③ 招聘平台（BOSS、实习僧、应届生求职网）；④ 老师/学院资源",
+    "<b>时间节奏</b>：暑期实习 3-4 月集中投递（提前批更早）；日常实习全年可投；投递黄金时段：工作日上午",
+    "<b>跟进节奏</b>：投递后 3-5 天无回复可礼貌询问；面试后 3 天无消息可发感谢信跟进",
+    "<b>失败复盘法</b>：每次被拒记录：哪个环节挂了（简历筛/笔试/一面/二面）、问了什么问题、哪里没答好——这就是你的复习清单",
+    "<b>投递矩阵</b>：冲（大厂核心部门）+ 稳（中型公司）+ 保（小厂/外企/银行科技部）三分法，别全押大厂",
+    "<b>广撒网与精准投</b>：海投保底量，但对最想去的 5 家公司做'定制版简历 + 作品'",
+    "<b>心态管理</b>：被拒是常态不是失败——数据岗校招淘汰率极高，'每被拒一次补一个知识点'的心态让你越挫越强"
+  ],
+  pit:"别等'准备好了'再投——永远没有准备好的那天。第一次面试大概率挂，但面完你才知道市场要什么。也别海投完就躺平等消息：主动跟进是基本礼仪。",
+  quiz:["你这周投了几份？被拒了几次？从每份失败里学到了什么？","你最想去的 3 家公司，JD 里的关键词你简历都覆盖了吗？","你有一个可以随时展示的 GitHub 链接吗？"],
+  res:"建一个投递跟踪表（平台笔记区或表格）：公司/岗位/渠道/时间/状态/面试记录"
+},
+"s2_7":{
+  intro:"国内数据岗位的战场基本在云上：阿里云市场份额最大，DataWorks（数仓开发平台）+ MaxCompute（计算引擎）是国内数据工程师的日常。",
+  pts:[
+    "<b>核心组件</b>：MaxCompute（阿里云数仓引擎，兼容 SQL）、DataWorks（开发运维一体化平台：任务开发、调度、数据地图）、OSS（对象存储）、DataHub（实时数据通道）",
+    "<b>DataWorks 工作流</b>：数据开发→任务调度→数据质量→数据地图（血缘/元数据）——它就是企业版'你的项目 1'",
+    "<b>SQL 兼容性</b>：MaxCompute SQL 与标准 SQL 有差异（分区、类型、函数名），文档常查；学会读官方文档是硬技能",
+    "<b>免费实操</b>：阿里云有免费试用额度和开发者认证考试（ACA/ACP）；学生认证后资源更便宜——简历上'阿里云 ACA 认证'是硬通货",
+    "<b>云原生思维</b>：不用管服务器（Serverless 化），按量付费；写任务时关注计算量和费用（DataWorks 会显示每个任务的花费）",
+    "<b>生态对比</b>：企业还会用腾讯云（EMR/DLC）、华为云、AWS（国外）；会一个云平台后迁移成本不高，核心思想一致",
+    "<b>简历加分写法</b>：'基于 DataWorks 搭建离线数仓，日均调度 XX 个任务'——直接对标企业需求"
+  ],
+  pit:"别把所有时间花在云上——云只是环境，SQL/建模/调优才是能力本体。先本地把数仓做通，再花 2-3 天迁移到云上，事半功倍。",
+  quiz:["DataWorks 和 MaxCompute 是什么关系？","在云上写任务和本地写 SQL，最大的心智差异是什么？","学生如何用最少的钱获得云实操环境？"],
+  res:"阿里云开发者社区 DataWorks 免费课程 + 学生认证领免费额度实操"
+}
+});
+/* ===== S3 知识点详解 ===== */
+Object.assign(DETAILS, {
+"s3_0":{
+  intro:"实习的真正价值不在'刷一段经历'，而在你带走多少'能写进简历、能讲成故事'的素材。有意识收集和被动混日子，收获差 10 倍。",
+  pts:[
+    "<b>日常素材四类</b>：① 做过的表（表名、层级、口径、行数）→ ② 优化案例（任务从 40 分钟降到 8 分钟，怎么做的）→ ③ 解决的问题（数据对不上、口径混乱、告警误报）→ ④ 业务认知（业务怎么用数据决策）",
+    "<b>每天 10 分钟记录</b>：下班前写 3 条：今天做了什么 / 卡在哪 / 明天做什么——回平台记日志",
+    "<b>数字优先</b>：所有经历都要量化：'维护 20+ 张表'、'优化 15 个任务，总耗时下降 60%'、'支撑 3 个业务线的日报'",
+    "<b>技术栈清单</b>：实习用的工具、框架、平台全部记录（含版本），秋招简历直接抄",
+    "<b>人和流程</b>：记下团队的开发流程（评审→开发→自测→联调→上线）、数据规范、工具链——这些'流程感'是面试加分项",
+    "<b>主动找活</b>：导师不给任务时，主动看：有没有可优化的任务？有没有文档可以补？主动产出都是你的素材",
+    "<b>离职沉淀</b>：离职前把学到的东西整理成文档：架构、规范、踩坑、工具——这是你简历'实习收获'的底稿"
+  ],
+  pit:"最大的浪费：实习三个月，简历上只有'参与 XX 项目开发'六个字。面试官问'你具体做了什么'，你说'就是帮忙跑数'——素材没沉淀，实习白做。",
+  quiz:["你实习第一周，能否说出团队的数据架构全貌？","你优化过的任务，能否说清优化前后对比数字？","你的实习总结能写满一页纸吗？"],
+  res:"把平台笔记区当成实习日报本，每天记，最后整理成'实习总结.md'"
+},
+"s3_1":{
+  intro:"八股（基础理论题）是校招面试绕不开的一关。数据岗八股的主战场：Hadoop/Hive/Spark/Flink 原理 + 网络/OS/数据库基础。目标不是背，是'能用自己的话讲清'。",
+  pts:[
+    "<b>Hadoop 三件套</b>：HDFS（NameNode 管元数据、DataNode 存数据，副本机制 3 副本）、YARN（资源调度，Container 分配）、MapReduce（思想：map 分治 + shuffle 洗牌 + reduce 聚合）",
+    "<b>Spark 高频考点</b>：RDD 五大特性、宽窄依赖、DAG 调度（Stage 划分靠宽依赖）、shuffle 过程（写本地文件→拉取）、Spark vs MapReduce 快在哪（内存计算/ DAG / 多轮迭代）、Executor 内存模型",
+    "<b>Flink 高频考点</b>：流批一体、事件时间/处理时间/水位线（Watermark）、窗口（滚动/滑动/会话）、Exactly-Once（状态后端 + 两阶段提交）、背压（反压）机制",
+    "<b>Kafka</b>：分区与副本、consumer group、offset 管理、消息不丢不重（ack 机制）",
+    "<b>数据库</b>：事务 ACID、隔离级别、MVCC、索引 B+ 树、redo/undo log",
+    "<b>网络/OS</b>：TCP 三次握手四次挥手、HTTP 状态码、进程线程协程、死锁条件、内存分页",
+    "<b>算法题</b>：LeetCode 简单/中等为主，重点：数组、哈希、字符串、链表、树、二分、排序、双指针"
+  ],
+  pit:"最差的学习方式：背题库答案。面试官问'讲讲 Spark 的 shuffle'，你要能画图、能举例子、能说优化。方法是'费曼学习法'：把每个考点讲给同学听，讲不清楚就是没懂。",
+  quiz:["为什么 Spark 比 MapReduce 快？（至少 4 个原因）","Flink 的 Exactly-Once 是怎么实现的？","TCP 为什么需要三次握手而不是两次？"],
+  res:"《大数据面试核心知识》类资料 + 面经（牛客/CSDN）；整理自己的八股笔记，按'概念-原理-流程-例子'四段式写"
+},
+"s3_2":{
+  intro:"面试最后环节基本都是'深挖项目'。你的项目要能扛住 15 分钟连续追问——这是区分'背的'和'做的'的关键，也是最该花时间准备的环节。",
+  pts:[
+    "<b>准备方法</b>：给每个项目写 Q&A 文档：预测面试官会问的 15-20 个问题，逐题写出答案",
+    "<b>高频追问方向</b>：① 为什么这么设计（分层、建模、选型）② 数据怎么来的、怎么保证质量 ③ 出过什么问题、怎么排查 ④ 数据量放大 100 倍怎么办 ⑤ 指标口径怎么定义 ⑥ 为什么不用 XX 方案",
+    "<b>STAR 回答法</b>：情境（背景）→ 任务（我的目标）→ 行动（我做了什么，突出决策）→ 结果（量化效果）",
+    "<b>诚实的边界</b>：不会的就说'这部分当时是 XX 处理的，我还没深究'——诚实 + 求知欲好过硬编；但前提是主流程你烂熟",
+    "<b>画图能力</b>：准备架构图（项目 1 数仓分层图、项目 2 RAG 链路图），面试时手绘/口述清楚——会画图说明你真懂",
+    "<b>埋钩子</b>：回答时主动引导面试官去问你准备好的强项（'这里我做了数据倾斜优化，您可以细问'）",
+    "<b>模拟面试</b>：找同学/学长模拟 3 次以上，录音回放找卡壳点"
+  ],
+  pit:"最大的坑：项目是教程抄的，只记得结论不记得细节。面试官一句'你这个 join 为什么会有数据倾斜'就崩。项目必须是自己一行行敲的，才有底气。",
+  quiz:["你的项目经得起'为什么不用 XX 技术'的挑战吗？","你能 30 秒讲清项目全貌，再 5 分钟讲清核心设计吗？","你准备了多少个 Q&A？每一个都能脱稿讲吗？"],
+  res:"写 Q&A 文档（至少 15 题/项目）→ 找 3 个人模拟面试 → 录音复盘改进"
+},
+"s3_3":{
+  intro:"简历 V3 和作品集是你的最终名片。V1 是'把经历写下来'，V3 是'把卖点提炼到极致'——用实习经历和秋招反馈反复打磨后的版本。",
+  pts:[
+    "<b>V3 升级点</b>：① 加实习经历（按素材量化写）② 项目描述再砍 30% 文字、信息密度翻倍 ③ 用秋招笔试/面试反馈补强技术栈 ④ 删除所有经不起追问的'熟悉'",
+    "<b>作品集仓库</b>：一个展示型仓库（或 README 首页）：放项目架构图、效果截图、关键代码片段、博客式总结；GitHub 主页放置顶项目 + 简介",
+    "<b>GitHub 形象</b>：头像、个人简介（方向/兴趣）、置顶 2-3 个仓库、README 有图有文、提交记录持续",
+    "<b>一页黄金法则</b>：一页纸内放最硬的 3 件事：实习 + 项目 1 + 项目 2；其他放'其他经历'一行带过",
+    "<b>技术栈矩阵</b>：按'熟练（能扛深挖）/ 熟悉（能上手）/ 了解（能聊天）'三档诚实分类",
+    "<b>可验证性</b>：简历上的每个链接（GitHub、作品演示）都要点开是活的；演示项目要有访问地址或视频",
+    "<b>差异化总结</b>：简历顶部加 2-3 行'个人亮点'：'数据工程 + AI 数据双栈'、'从 0 到 1 搭建离线数仓与 RAG 知识库'"
+  ],
+  pit:"V3 最常见的错：实习经历写'参与'开头（被动的气息扑面而来）；GitHub 置顶的还是大一作业；简历超 2 页。记住：面试官 15 秒扫简历，只看得见前 1/3 页。",
+  quiz:["简历上每个项目，你都能脱稿讲 10 分钟吗？","简历上每个链接，点开都是活的、有内容的吗？","你简历最上面 3 行，能否让陌生人立刻知道你的卖点？"],
+  res:"按'信息密度、可验证、差异化'三条原则重写；给 5 个人看，收集'第一眼印象'反馈"
+},
+"s3_4":{
+  intro:"秋招是校招的主战场，节奏快、岗位多、信息杂。策略正确与否，直接影响你的 offer 数量。",
+  pts:[
+    "<b>时间线</b>：7 月提前批（大厂、竞争烈度相对低）→ 8-9 月正式批（最多岗位）→ 10 月补录与国企/银行批 → 11-12 月春招前零星机会",
+    "<b>信息渠道</b>：牛客（面经+招聘信息）、各大厂校招官网（提前注册简历）、学校就业网、老师群、内推群——信息差就是机会差",
+    "<b>投递策略</b>：海投 + 精投结合：大厂每个事业部岗位都投（不同部门不同 HC）；同时别错过国企/银行科技岗（节奏慢但稳定）",
+    "<b>笔试准备</b>：算法题（牛客高频题刷熟）+ SQL 题 + 行测（国企要考）+ 性格测评（别乱选，前后要一致）",
+    "<b>面试轮次</b>：一面（技术基础+项目）→ 二面（项目深挖+场景题）→ 三面（交叉面/主管面：业务思维+软素质）→ HR 面（稳定性+薪资期望）",
+    "<b>offer 谈判</b>：先拿保底 offer 再去冲更好的（心态完全不同）；谈薪时用 offer 互抬，但要诚实不虚报",
+    "<b>心态</b>：秋招是持久战，被拒 20 家拿到 1 个 offer 很正常；每天固定投递 + 复习 + 复盘三件事，节奏比突击重要"
+  ],
+  pit:"三个致命错误：① 只盯着 3 家梦厂，错过大量机会；② 笔试裸考（刷题量是硬门槛）；③ 面完不复盘（同一个问题面挂两次）。",
+  quiz:["你的投递矩阵（冲/稳/保）各列了几家？","你的 SQL + 算法手撕能稳定通过笔试吗？","你拿到第一个 offer 后会怎么规划后续投递？"],
+  res:"建秋招追踪表：公司/岗位/状态/面试记录/复盘；每天固定 2 小时投递+复习，坚持到 10 月底"
+}
+});
+/* ===== 技能知识点详解（第一、二层） ===== */
+Object.assign(DETAILS, {
+"algo":{
+  intro:"数据结构与算法是校招笔试的硬门槛。目标不是竞赛水平，而是'笔试不挂、面试手撕不慌'。",
+  pts:[
+    "<b>必刷题型</b>：数组（双指针、滑动窗口）、哈希表（两数之和类）、字符串、链表（反转、环）、二叉树（遍历、深度、层序）、排序（快排思想）、二分查找",
+    "<b>复杂度意识</b>：能估算 O(n)/O(n log n)/O(n²)，面试必问；空间换时间是常用手段（哈希表把 O(n²) 降 O(n)）",
+    "<b>高频套路</b>：双指针（有序数组）、滑动窗口（子串问题）、前缀和（区间和）、单调栈（下一个更大元素）",
+    "<b>笔试策略</b>：先暴力保分再优化；读题 5 分钟无思路先跳过；用 Python 写（语法快、库多）",
+    "<b>刷题节奏</b>：每天 1-2 道，先想 20 分钟再看题解；用'题解→理解→独立重写'三步法",
+    "<b>面试手撕</b>：先和面试官确认输入输出、边界情况（空、单元素、超大）再动手；写的过程口述思路"
+  ],
+  pit:"别沉迷困难题（竞赛题对数据岗性价比低）；别只看题解不重写（眼睛会了手不会）；别用记忆替代理解（变个形就懵）。",
+  quiz:["快排的时间复杂度？最坏情况是什么？","哈希表为什么查询 O(1)？冲突怎么解决？","一个有序数组找目标值，用什么算法？复杂度多少？"],
+  res:"代码随想录（免费、按专题组织）+ LeetCode Hot 100；每天 1-2 道坚持 3 个月"
+},
+"db":{
+  intro:"数据库原理是数据岗最'对口'的计算机课程：SQL 调优、数仓、面试八股全都建立在这层之上。",
+  pts:[
+    "<b>事务 ACID</b>：原子性（全做或全不做）、一致性（约束不被破坏）、隔离性（事务互不干扰）、持久性（提交后不丢）",
+    "<b>隔离级别</b>：读未提交 → 读已提交 → 可重复读（MySQL 默认）→ 串行化；级别越高并发越低；脏读/不可重复读/幻读对应关系",
+    "<b>索引原理</b>：B+ 树（非叶子存索引、叶子存数据且有序链表连接），为什么快：树高 3-4 层，一次查询 3-4 次磁盘 IO",
+    "<b>回表与覆盖索引</b>：二级索引查到主键再回主表查 = 回表；查询列都在索引里 = 覆盖索引，免回表",
+    "<b>MVCC</b>：多版本并发控制，靠 undo log + 版本链 + ReadView 实现快照读，可重复读的核心机制",
+    "<b>日志</b>：redo log（崩溃恢复，物理日志）、undo log（回滚，逻辑日志）、binlog（归档与主从复制）",
+    "<b>慢查询优化套路</b>：EXPLAIN → 看 type/rows → 加索引 → 改查询（避免函数/隐式转换/%like）→ 验证"
+  ],
+  pit:"别死记概念：面试官喜欢'讲一个你优化慢查询的真实案例'。基础题（ACID、隔离级别、索引为什么用 B+树）必须能脱稿讲清。",
+  quiz:["可重复读和读已提交的区别？各自解决什么问题？","为什么 MySQL 索引用 B+ 树不用哈希表或红黑树？","什么情况索引会失效？举 5 种"],
+  res:"《高性能 MySQL》选读 + 极客时间《MySQL 实战 45 讲》免费部分；本地 MySQL 实操验证每个概念"
+},
+"net":{
+  intro:"分布式系统的问题最后都落到网络上。数据工程师排查慢任务、理解 Kafka 吞吐、看 Flink 反压，都需要网络知识兜底。",
+  pts:[
+    "<b>HTTP</b>：请求-响应模型、GET/POST 区别、状态码（200/301/403/404/500/502/503）、无状态与 Cookie/Token",
+    "<b>TCP 三次握手</b>：SYN → SYN+ACK → ACK，为什么不是两次：防止失效的连接请求到达服务端造成资源浪费（面试必问）",
+    "<b>四次挥手</b>：FIN → ACK → FIN → ACK，为什么四次：TCP 全双工，两个方向各自独立关闭",
+    "<b>TCP vs UDP</b>：可靠传输（确认重传、拥塞控制）vs 快但不可靠；大数据场景：Kafka 走 TCP，实时游戏/音视频常走 UDP",
+    "<b>拆包粘包</b>：TCP 是字节流没有消息边界，应用层要自己定协议（长度前缀/分隔符）——Flink/Kafka 序列化都在解决这个",
+    "<b>DNS</b>：域名→IP 的解析过程（本地缓存→递归/迭代查询）；'域名解析慢/失败'是数据任务常见报障",
+    "<b>RPC 思想</b>：远程调用像本地调用（序列化 + 网络传输 + 反序列化）；Hadoop/Spark 的节点通信都是 RPC",
+    "<b>排查工具</b>：ping（连通性）、telnet/nc（端口连通）、curl -v（看握手过程）、tcpdump/wireshark（抓包）"
+  ],
+  pit:"别陷进'网络工程师'的深度（TCP 拥塞控制算法细节）。数据岗够用：讲清握手挥手、HTTP 状态码、RPC 思想、会用排查工具。",
+  quiz:["三次握手为什么是三次不是两次？","502 和 503 的区别？排查思路分别是什么？","为什么说 TCP 是字节流？对消息传输有什么影响？"],
+  res:"《图解 HTTP》+《图解 TCP/IP》快速过；配合抓包工具（Wireshark）实际看一次握手过程"
+},
+"os":{
+  intro:"操作系统知识让你能看懂服务器的'体检报告'：任务慢、内存爆、CPU 飙高，都能定位到原因。",
+  pts:[
+    "<b>进程 vs 线程 vs 协程</b>：进程（资源分配单位，独立内存）、线程（调度单位，共享进程内存）、协程（用户态调度，极轻量）",
+    "<b>进程通信</b>：管道、消息队列、共享内存、信号量、Socket——分布式系统是进程间通信的极端形态",
+    "<b>内存管理</b>：虚拟内存（每个进程以为自己独占内存）、分页、缺页中断、页面置换；OOM（Out Of Memory）是 Spark 任务常见死法",
+    "<b>死锁四条件</b>：互斥、持有并等待、不可剥夺、循环等待；破坏任意一个即可预防",
+    "<b>磁盘 IO</b>：顺序读写 vs 随机读写（机械盘差百倍）、IO 队列、Page Cache；数仓任务优化常围绕'减少随机 IO'",
+    "<b>排查工具</b>：top（CPU/内存/负载）、free -h（内存）、df -h（磁盘）、iostat（IO）、dmesg（内核日志，OOM killer 在这看）",
+    "<b>Linux 性能指标</b>：Load Average 的含义（不是 CPU 使用率！是运行队列长度）、CPU us/sy/wa 的含义"
+  ],
+  pit:"最常见的实战坑：Spark OOM 了不看内存模型只加内存；负载高就以为 CPU 满了（可能是 IO 等待）。学会看 top 和 dmesg 再下结论。",
+  quiz:["Load Average 2.0 表示什么？一定是 CPU 问题吗？","进程和线程最本质的区别是什么？","OOM 之后在哪里看是哪个进程被杀？"],
+  res:"《深入理解计算机系统》挑内存/进程章节 + 实操：top/free/iostat/dmesg 各用一遍"
+},
+"git":{
+  intro:"Git 是代码协作的'存档系统'，也是简历上'用过 Git'的证明。核心就是三件事：存（commit）、取（checkout/reset）、同步（push/pull）。",
+  pts:[
+    "<b>三区模型</b>：工作区 →（add）暂存区 →（commit）本地仓库 →（push）远程仓库；git status 永远先看",
+    "<b>分支</b>：分支是轻量的指针；日常开发在 feature 分支，main 保持可用；合并用 merge 或 rebase",
+    "<b>提交规范</b>：feat: / fix: / docs: / refactor: / chore: + 中文或英文描述，如 'fix: 修复留存任务分区错位'",
+    "<b>撤销</b>：git reset --soft/mixed/hard 的区别；git revert 生成反做提交（适合已推送的）；git stash 暂存未完成工作",
+    "<b>冲突解决</b>：pull 冲突后文件里有 &lt;&lt;&lt;&lt;&lt;&lt;&lt; 标记，手动保留正确内容 → add → commit",
+    "<b>.gitignore</b>：忽略 __pycache__/、.env、大数据文件、node_modules；用 gitignore.io 生成",
+    "<b>GitHub 协作</b>：fork → clone → 改 → PR（Pull Request）→ review → merge；开源贡献就从提 PR 开始"
+  ],
+  pit:"两个致命操作：git add . 乱提交（带上了密码/大数据文件）和 git push -f 强推（覆盖同事代码）。推送前先 git status 看清楚。",
+  quiz:["如何撤销最后一次 commit 但保留修改？（reset soft 和 hard 的区别）","pull 冲突怎么解决？","如何把本地项目推到 GitHub 并开启 Pages？"],
+  res:"廖雪峰 Git 教程（免费）+ 每天真实使用；所有项目代码都推到 GitHub"
+},
+"linux":{
+  intro:"数据环境几乎全是 Linux 服务器，不会 Linux 就没法独立部署和排查。这是工程岗的'母语'。",
+  pts:[
+    "<b>核心命令</b>：ls/cd/mkdir/cp/mv/rm/find/grep/wc/head/tail/less——组合使用（grep + 管道）",
+    "<b>权限</b>：chmod 数字法（rwx=421）、chown 属主；ll 第一列 drwxr-xr-x 的解读",
+    "<b>管道与重定向</b>：|（管道）、&gt;（覆盖）、&gt;&gt;（追加）、2&gt;&amp;1（错误合并）；nohup 后台运行 + &lt; log 输出",
+    "<b>进程与端口</b>：ps -ef | grep xxx、top、ss -tlnp（或 netstat -tlnp）、kill/kill -9",
+    "<b>日志排查</b>：tail -f 实时看、grep -n 'ERROR' | head、awk -F',' '{print $2}' 取列、sed 替换",
+    "<b>Shell 脚本</b>：变量 $VAR、if/for、$(cmd) 命令替换、crontab 定时（分 时 日 月 周）",
+    "<b>网络工具</b>：curl -I、ping、telnet IP 端口、scp/rsync 传输文件"
+  ],
+  pit:"rm -rf 一定要看清路径再执行；别在服务器上乱 sudo；生产环境命令先查文档。第一次练手用 Docker 容器，别拿真服务器试。",
+  quiz:["查看 8080 端口被哪个进程占用？","统计日志里 ERROR 出现次数？","crontab '30 2 * * 1' 什么时候执行？"],
+  res:"《鸟哥的 Linux 私房菜》核心章节 + WSL/虚拟机实操；每天用 30 分钟命令行做事"
+},
+"docker":{
+  intro:"Docker 把环境打包成镜像，一键复现。你的 Spark/Hive/向量库环境都可以用它起——面试演示、本地开发、简历加分三合一。",
+  pts:[
+    "<b>镜像 vs 容器</b>：镜像（只读模板，像程序文件）vs 容器（运行实例，像运行中的进程）；一个镜像可起多个容器",
+    "<b>核心命令</b>：docker pull/run -d -p 8080:80 -v 挂载/exec -it bash/logs/ps/images/stop/rm",
+    "<b>Dockerfile</b>：FROM 基础镜像 → WORKDIR → COPY 代码 → RUN 装依赖 → EXPOSE 端口 → CMD 启动命令；分层构建、层缓存",
+    "<b>docker-compose</b>：一个 yaml 文件编排多个容器（MySQL + Redis + 你的应用一键起），本地项目标配",
+    "<b>数据卷</b>：-v 把容器目录映射到宿主机，容器删了数据还在——MySQL 数据必须挂卷",
+    "<b>网络</b>：容器间默认 bridge 网络互连；compose 里服务名就是主机名（service_name:3306 连接）",
+    "<b>镜像加速与拉取</b>：国内用镜像源加速；写 Dockerfile 时把 COPY 大文件放后面利用层缓存"
+  ],
+  pit:"最典型坑：忘记挂数据卷，rm 容器后数据全没了；在容器里装东西不写进 Dockerfile（重启即失）；端口映射冲突。",
+  quiz:["容器和虚拟机有什么区别？","为什么 Dockerfile 里 COPY 的顺序影响构建速度？","MySQL 容器怎么保证重启后数据不丢？"],
+  res:"Docker 官方文档 Get Started + 用 compose 起一套 Spark/Hive 本地环境"
+},
+"api":{
+  intro:"API 是系统间对话的语言。数据工程师调接口取数、暴露数据服务、排查接口问题，天天和它打交道。",
+  pts:[
+    "<b>REST 思想</b>：URL 表示资源（/orders）、HTTP 方法表示动作（GET 查/POST 建/PUT 改/DELETE 删）、状态码表示结果",
+    "<b>curl 实战</b>：curl -X GET 'url?params' -H 'Authorization: Bearer xxx' -H 'Content-Type: application/json' -d '{\"key\":\"val\"}'",
+    "<b>请求头</b>：Authorization（鉴权）、Content-Type（数据格式）、User-Agent、Accept；403/401 先查头",
+    "<b>JSON 结构</b>：嵌套的 dict/list；解析用 resp.json() 逐层取；API 文档（Swagger/OpenAPI）怎么读",
+    "<b>鉴权方式</b>：Token（临时身份）、API Key（调用凭证）、OAuth2（授权码流程，知道概念即可）",
+    "<b>限流与重试</b>：429 Too Many Requests 表示被限流；退避重试（指数退避 + 抖动）是生产级调用规范",
+    "<b>数据服务</b>：把数仓表暴露成 API 的标准做法：FastAPI/Spring 写只读接口 + 鉴权 + 限流 + 文档"
+  ],
+  pit:"数据岗常见的'接口事故'：不处理 429 猛刷被封、token 写死在代码里（泄漏）、不设超时导致任务卡死。调用别人的接口先读文档和限流说明。",
+  quiz:["GET 和 POST 的本质区别是什么？什么时候不能用 GET？","429 状态码含义？遇到怎么办？","如何给一个接口加上简单的鉴权？"],
+  res:"用一个公开 API（如天气）完整走一遍：看文档→调通→解析→存库"
+}
+});
+/* ===== 技能知识点详解（第三层周边） ===== */
+Object.assign(DETAILS, {
+"viz":{
+  intro:"数据可视化的价值是'让数据自己说话'。你的数仓最终要变成业务能看的看板，可视化是你项目的'最后一公里'。",
+  pts:[
+    "<b>图表选型</b>：趋势用折线、对比用柱状、占比用饼图/堆叠柱、分布用直方图、相关性用散点、流程用漏斗、地域用地图——选错图表等于传错信息",
+    "<b>可视化原则</b>：标题写结论不写现象（'8 月 GMV 环比下降 12%' 而不是 'GMV 变化'）；坐标轴标注单位；图例清晰；颜色克制（一图不超过 5 色）",
+    "<b>BI 工具对比</b>：Superset（开源免费，SQL 驱动）、Metabase（轻量易用）、帆软 FineBI（国内企业多）、Power BI（外企多）；会一个 + 理解看板设计即可",
+    "<b>ECharts</b>：前端图表库，配置化出图，数据岗做自定义可视化首选；会改 option 即可",
+    "<b>看板设计</b>：从上到下 = 概览 → 细分 → 明细；常用布局：顶部 KPI 卡 + 中部趋势 + 底部明细表；交互：下钻、联动",
+    "<b>指标呈现</b>：同比环比标注、目标达成率、异常高亮（超出阈值标红）——看板要'一眼发现问题'",
+    "<b>误导性图表识别</b>：截断 Y 轴、3D 效果、面积图错用——能识别坏的图，才能做出好的图"
+  ],
+  pit:"最常见的坑：把可视化做成'炫技'（花哨但信息无效），或者堆 20 个图表不聚焦。一张看板回答一个问题：老板看了能马上做决策吗？",
+  quiz:["对比各区域销售额，选什么图最合适？为什么？","你的看板标题是写'各月销售趋势'还是'5 月销售创新高'？哪个对？","Y 轴从 80 开始的折线图有什么问题？"],
+  res:"Superset 官方文档起一个本地看板 + 学习《用数据讲故事》(Cole Nussbaumer)"
+},
+"backend":{
+  intro:"FastAPI 让你用 Python 快速把数据变成服务：别人/前端/BI 都能通过接口查你的数据。这是'数据服务化'的标准动作。",
+  pts:[
+    "<b>FastAPI 最小应用</b>：@app.get('/api/data') def read(): return {...}；uvicorn app:app --reload 启动",
+    "<b>路由与参数</b>：路径参数 /api/order/{id}、查询参数 ?dt=2026-08-31、请求体 body（POST 用）",
+    "<b>连接数据库</b>：SQLAlchemy / pymysql 连 MySQL，把查询结果转 dict/list 返回；注意连接池",
+    "<b>响应模型</b>：Pydantic 定义输出模型（字段、类型、必填），自动校验和文档生成",
+    "<b>自动文档</b>：FastAPI 自带 /docs 交互式 API 文档——写完接口直接可用浏览器调试",
+    "<b>鉴权与限流</b>：简单 Token 校验（依赖注入 Header）、慢查询限制（timeout）、大表查询加 LIMIT",
+    "<b>部署</b>：Docker 打包 + 端口暴露；本地演示 uvloop/uvicorn 单进程够用",
+    "<b>工程规范</b>：异常处理（try/except + HTTPException）、日志记录、参数校验——接口要'给错误反馈而不是 500 白屏'"
+  ],
+  pit:"别把接口写成'SELECT * 全表返回'（数据一大就爆）；别把连接信息写死在代码（用环境变量）；接口报错要返回明确信息，不要裸抛异常。",
+  quiz:["如何给接口加'按日期查询'和'分页'参数？","接口超时了，怎么排查是 SQL 慢还是网络慢？","为什么生产接口要做限流？"],
+  res:"FastAPI 官方教程（很短很友好）做一遍；然后把项目 1 的 ADS 表暴露成 3 个查询接口"
+},
+"front":{
+  intro:"前端是你把数据'变成能看的东西'的最后一步。不用成为前端工程师，但要能用现成组件把数据展示出来。",
+  pts:[
+    "<b>三件套基础</b>：HTML（结构）、CSS（样式：flex/grid 布局、颜色字号）、JS（交互：fetch 数据、DOM 操作）",
+    "<b>fetch 调接口</b>：fetch('/api/data').then(r=&gt;r.json()).then(d=&gt;渲染)；CORS 问题：跨域要后端加响应头",
+    "<b>DOM 操作</b>：document.querySelector、innerHTML、createElement；改一个 div 的内容显示数据",
+    "<b>组件库</b>：用现成的（Bootstrap/ECharts/Element UI 类）拼页面，别自己造轮子",
+    "<b>模板渲染</b>：把接口返回的数组循环渲染成表格/卡片：map + join 或模板字符串",
+    "<b>错误处理</b>：接口失败显示'加载失败'而不是白屏；loading 状态；空数据显示'暂无数据'",
+    "<b>够用标准</b>：能做一个页面：输入条件 → 调后端接口 → 表格/图表展示结果——这就是'数据小应用'"
+  ],
+  pit:"别陷进前端工程化（打包器、框架全家桶、SSR）——那是前端工程师的主业。你的目标：能拼页面、能调接口、能展示数据。",
+  quiz:["fetch 拿到数据后如何渲染成一个表格？","什么是 CORS？后端怎么解决？","为什么接口报错时页面要显示提示而不是白屏？"],
+  res:"MDN 前端入门教程前 3 节 + 做一个'输入日期查 GMV'的小页面（前端 + FastAPI + 你的数仓表）"
+},
+"crawl":{
+  intro:"数据采集是数据链路的第一环。学会工程化采集，你就有了自造数据源的能力——项目、实习、毕设都不愁数据。",
+  pts:[
+    "<b>采集流程</b>：分析目标（页面/接口）→ 请求（带 headers）→ 解析（JSON/HTML）→ 清洗 → 落库 → 增量更新 → 监控",
+    "<b>解析方式</b>：接口数据直接 resp.json()；HTML 用 BeautifulSoup（find/find_all + CSS 选择器）或 XPath",
+    "<b>增量与去重</b>：记录上次抓取位置（时间戳/ID 水位线）；用主键去重（数据库唯一索引或内存 set）",
+    "<b>反爬应对（合法前提下）</b>：控制频率（随机延时 1-3s）、随机 UA、代理池（谨慎使用）、验证码要尊重对方的规则",
+    "<b>调度与失败恢复</b>：crontab 定时抓取；失败任务重试（指数退避）；断点续抓（已抓的跳过）",
+    "<b>合规红线</b>：只抓公开数据、遵守 robots.txt、不碰个人信息与版权内容、抓取频率不压垮对方服务器、不用于商业转售",
+    "<b>工程化</b>：Scrapy 框架（调度、去重、中间件、pipeline 一体）；数据落 MySQL/文件 + 日志 + 告警"
+  ],
+  pit:"最大的坑：把'会爬虫'等同'能绕过反爬'——这是违法边缘。企业里数据大多来自业务库和埋点日志，爬虫只是补充；别让'爬虫技术'占你太多主线时间。",
+  quiz:["增量抓取怎么判断哪些是新的？","遇到 403 一般是什么原因？合法怎么处理？","爬虫和合规的边界在哪？"],
+  res:"Scrapy 官方教程做一个'每日增量抓取 + 落库 + 定时'的小采集器，作为项目 0 的升级版"
+},
+"cloud":{
+  intro:"国内数据岗的战场基本在云上。阿里云一家独大（DataWorks + MaxCompute 是事实标准），会云上实操是简历硬通货。",
+  pts:[
+    "<b>核心服务</b>：MaxCompute（数仓计算引擎）、DataWorks（开发/调度/治理一体化平台）、OSS（对象存储，存文件和备份）、DataHub/DataX（数据传输）",
+    "<b>DataWorks 流程</b>：建表（MaxCompute 表）→ 数据同步任务 → SQL/Shell 任务 → 调度配置 → 运维中心（监控/重跑）→ 数据地图（元数据/血缘）",
+    "<b>Serverless 思维</b>：不用管服务器，按量计费；写任务时看'计算量'和费用预估——成本意识是云上工程师的加分项",
+    "<b>SQL 差异</b>：MaxCompute SQL 有方言（分区表必须带分区条件、类型/函数差异）；学会查官方文档是基本能力",
+    "<b>免费/低价实操</b>：学生认证 + 免费试用额度；阿里云 ACA（助理工程师）认证对校招简历有直接加分",
+    "<b>其他云</b>：腾讯云（EMR/DLC）、华为云、AWS（海外）；会一个后迁移成本低——核心是数仓思维而非某个云",
+    "<b>简历写法</b>：'基于 DataWorks + MaxCompute 搭建离线数仓，X 张表、日调度、XX 任务'——直接命中企业 JD"
+  ],
+  pit:"别本末倒置：云只是环境，SQL/建模/调优才是能力本体。先本地把数仓做通，再花几天迁移上云，别一上来就泡在云控制台里点按钮。",
+  quiz:["DataWorks 和 MaxCompute 分别负责什么？","云上任务突然变慢，可能的原因有哪些？（资源、数据量、上游）","学生怎么用最低成本获得云实操经验？"],
+  res:"阿里云开发者社区'免费体验中心' + DataWorks 官方文档快速开始"
+}
+});
+/* ===== 技能知识点详解（第四、五层） ===== */
+Object.assign(DETAILS, {
+"prompt":{
+  intro:"AI 工具链是 2026 年所有工程师的标配生产力。会用 AI 的人效率翻倍，不会用的人还在手写重复代码。",
+  pts:[
+    "<b>提示词四要素</b>：角色（你是资深 SQL 专家）+ 任务（写一个……）+ 约束（只用窗口函数、兼容 Hive）+ 输出格式（给出注释和解释）",
+    "<b>代码场景用法</b>：让 AI 写 SQL 时给出表结构和期望结果；报错时直接把完整报错贴给 AI；让 AI 解释陌生代码（读代码）",
+    "<b>迭代式提问</b>：一次不行就补信息（'还是不对，报错是 XX，表结构是这样'）——AI 是协作不是许愿",
+    "<b>验证意识</b>：AI 的输出必须自己验证（跑一遍、看执行计划）——它是加速器不是权威",
+    "<b>日常提效场景</b>：写注释、写文档、正则表达式、Shell 脚本、Debug、学习新框架（让 AI 当老师出题）",
+    "<b>数据岗特色</b>：让 AI 帮你解释执行计划、模拟面试官提问、把分析结论写成汇报稿",
+    "<b>工具链</b>：主流大模型 API + 本地 IDE 插件 + SQL 助手；关注'AI 编程'能力边界（能写模板，不能替你做业务判断）"
+  ],
+  pit:"最常见的低效用法：复制粘贴任务就等结果（上下文不足必然不准）；盲目相信输出（不验证就上线）；把 AI 当搜索引擎问'是什么'（这种该自己查文档）。",
+  quiz:["写提示词时你会主动提供哪些上下文信息？","AI 给的 SQL 你会怎么验证？（至少 3 步）","让你讲'AI 辅助开发'的一个真实提效场景，能讲出来吗？"],
+  res:"用 AI 完成你正在学的一个真实任务（如写 SQL 题），对比自己的解法与 AI 的差异"
+},
+"corpus":{
+  intro:"语料工程是大模型数据岗的核心技能：把原始文本变成高质量训练数据。模型能力的上限，一半由数据决定。",
+  pts:[
+    "<b>语料质量维度</b>：多样性（来源分布）、质量（噪声/毒性/重复）、时效性（新旧）、格式一致性——四个维度建立质量评估体系",
+    "<b>清洗流水线</b>：去 HTML → 去噪声（广告、乱码）→ 规范化（编码/空格/标点）→ 分段 → 过滤（长度/语言/质量分）",
+    "<b>去重技术</b>：精确去重（hash 集合）+ 近似去重（SimHash：文档哈希成指纹，汉明距离小于阈值判重复；MinHash + LSH 用于大规模）",
+    "<b>质量打分</b>：规则打分（长度、标点密度、重复率、困惑度）+ 模型打分（用语言模型算困惑度 PPL，低 PPL 更'自然'）",
+    "<b>数据配比</b>：不同来源按目标领域配比（通用 70% + 领域 30% 之类）；配比影响模型的知识结构",
+    "<b>训练数据 pipeline</b>：数据准备 → 清洗 → 去重 → 采样 → 格式化 → 训练/评测；每一步可追溯、可回滚",
+    "<b>安全合规</b>：过滤个人信息（PII 检测）、有害内容、版权内容——数据工程团队的第一职责是守住红线"
+  ],
+  pit:"别只做'清洗'不建'评估'——没有质量指标体系的语料工程无法证明价值。面试讲语料，一定要能说出：你怎么定义'好数据'、用什么指标量化、清洗前后对比数据。",
+  quiz:["近似去重和精确去重各自的原理和适用场景？","PPL（困惑度）衡量什么？越低越好吗？","你如何证明你的清洗 pipeline 有效？（评估指标）"],
+  res:"读 1-2 篇大模型数据处理公开报告（如 RedPajama、Qwen 系列技术报告的数据章节），动手实现'去重 + 质量过滤'脚本"
+},
+"rag":{
+  intro:"RAG（检索增强生成）是让大模型'用你的知识回答'的标准方案，也是 AI 数据方向最落地、最好做的差异化项目。",
+  pts:[
+    "<b>架构三件套</b>：索引（文档→切块→向量化→入库）、检索（问题→向量化→TopK 召回）、生成（上下文+问题→大模型回答）",
+    "<b>为什么火</b>：知识实时更新（改库即可）、可溯源（带来源引用）、成本低（对比微调）；幻觉可控（限定基于文档回答）",
+    "<b>切块策略</b>：按语义段落切、块大小 200-500 token、重叠 10-20%；块小精度高、块大上下文全——要权衡",
+    "<b>混合检索</b>：BM25（关键词）+ 向量（语义）融合（RRF 加权），比单路检索稳",
+    "<b>重排 Rerank</b>：粗召回 50 条 → rerank 模型精排 → 取 Top 5；精度提升明显，生产必备",
+    "<b>评估</b>：golden set（问题-答案对）+ 指标：命中率（TopK 是否含正确答案）、忠实度（答案是否基于文档）、答案质量（LLM 评分）",
+    "<b>进阶方向</b>：query 改写（口语转正式）、多轮对话（历史上下文改写再检索）、结构化数据检索（Text2SQL + RAG 结合）"
+  ],
+  pit:"最常见的失败：没有评估就上线（'感觉还行'）；检索不到时让模型硬答（产生幻觉）；把整个文档塞一个向量（检索等于全文匹配）。",
+  quiz:["RAG 相比微调的核心优势有哪些？","TopK 召回 100 条直接全给模型，会有什么问题？","你怎么评估你的 RAG 效果？列出指标"],
+  res:"用 LangChain 或 LlamaIndex 快速搭一个本地知识库问答，重点把评估做出来"
+},
+"ml":{
+  intro:"经典机器学习让你理解'模型怎么吃数据'——做特征工程、训练数据 pipeline、理解业务指标时心里有底。不用深挖数学推导，会用、懂原理、能解释。",
+  pts:[
+    "<b>监督 vs 无监督</b>：有标签（分类/回归）vs 无标签（聚类/降维）；数据岗更常接触'给模型准备特征'的环节",
+    "<b>三大经典模型</b>：线性回归（连续值预测）、逻辑回归（分类，输出概率）、决策树/GBDT（XGBoost/LightGBM 是工业界王牌，表格数据首选）",
+    "<b>特征工程</b>：缺失处理、异常值、编码（类别转数值）、标准化/归一化、特征组合——'特征决定了性能上限'（模型只是逼近它）",
+    "<b>评估指标</b>：分类：准确率/精确率/召回率/F1（类别不平衡时别只看准确率）；回归：MSE/MAE/R²；排序：AUC/KS",
+    "<b>过拟合与泛化</b>：训练集好测试集差 = 过拟合；解决：更多数据、正则化、交叉验证、早停",
+    "<b>训练/验证/测试集</b>：划分原则（随机、分层、按时间）；泄漏问题（用未来数据训练=作弊）",
+    "<b>Sklearn 流程</b>：pipeline（清洗→特征→模型→评估）串起来，fit/predict/score 三件套"
+  ],
+  pit:"数据岗别陷进'调参炼丹'（那是算法岗的事）。你的价值在：理解模型输入输出、会做特征、能讲清评估指标、能判断'这个业务问题该用什么模型'。",
+  quiz:["分类问题类别严重不平衡时，用什么指标评估？为什么准确率不可靠？","过拟合的表现和解决手段？（至少 4 种）","特征工程和数据质量，哪个对模型影响更大？为什么？"],
+  res:"吴恩达《机器学习》课程 + Sklearn 官方示例；用项目 1 的数据做一个'预测复购'的小模型"
+},
+"kpi":{
+  intro:"指标体系是你的专业护城河：懂业务、懂指标、懂口径。面试场景题'给这个业务设计指标体系'，就是这一层的直接考察。",
+  pts:[
+    "<b>指标体系分层</b>：北极星指标（唯一最重要的指标，如电商 GMV、内容平台活跃时长）→ 一级指标（增长/留存/转化）→ 二级指标（细分拆解）",
+    "<b>AARRR 模型</b>：Acquisition 获客 → Activation 激活 → Retention 留存 → Revenue 收入 → Referral 传播；每个环节都有核心指标",
+    "<b>指标拆解</b>：GMV = 访客数 × 转化率 × 客单价；把北极星指标拆成分解树，定位问题出在哪个环节",
+    "<b>口径管理</b>：同一指标不同口径 = 数据团队最大的坑（'用户数'是 DAU 还是注册量？）；口径要写进指标字典并全员对齐",
+    "<b>留存计算</b>：次日/7 日/30 日留存；同期群分析（Cohort：按首次行为分群，看每群随时间留存）",
+    "<b>漏斗分析</b>：注册→下单→支付各环节转化率，找流失最大的环节；漏斗必须是同一批用户",
+    "<b>实验思维</b>：指标变了先问：是版本变化还是自然波动？用 AB 实验和显著性检验判断"
+  ],
+  pit:"别堆指标（什么都看等于什么都没看）；别只报数不解读（'GMV 降了'不算分析，'GMV 降了因为转化率降了，转化率降因为价格调整'才是）。",
+  quiz:["给一个在线教育产品设计指标体系，你怎么分层？","'新增用户数'和'注册用户数'的口径有什么区别？为什么必须统一？","GMV 下降，你的排查思路是什么？"],
+  res:"读 2-3 篇大厂数据指标体系文章（增长黑客思想）；拿一个真实产品练手拆指标树"
+},
+"gov":{
+  intro:"数据治理是'让数据可信、可用、可管'的体系化能力。它是行业刚需（监管趋严 + 数据资产化），也是你'管理'定位的落点。",
+  pts:[
+    "<b>治理框架</b>：质量（准）、安全（稳）、标准（统一）、资产（可用）四大目标；落地靠制度 + 工具 + 流程",
+    "<b>质量六维</b>：完整性、准确性、一致性、及时性、唯一性、有效性；每个维度都有检查 SQL（空值率、重复率、波动率、格式校验）",
+    "<b>元数据</b>：技术元数据（表/字段/类型）+ 业务元数据（口径/负责人/用途）；'字段没有注释'就是治理缺失的最常见表现",
+    "<b>血缘</b>：表级/字段级依赖关系；作用：影响分析（改表前评估下游）、溯源（数据错了往回查）；DataWorks 数据地图自动采集",
+    "<b>数据安全</b>：分级分类（公开/内部/敏感/机密）、脱敏（手机号中间四位打码）、权限（最小权限 + 审批流）、合规（个保法：合法、正当、必要）",
+    "<b>DataOps</b>：治理自动化：质量规则自动跑、异常自动告警、任务失败自动重跑、SLA 保障——治理要从'人治'变'流程治'",
+    "<b>治理价值叙事</b>：面试/晋升讲治理，要有数字：'治理后数据质量问题下降 70%'、'口径统一后减少 X 次返工'"
+  ],
+  pit:"别把治理写成'规章制度文档'（没人看）。治理必须落地为：质量检查 SQL、血缘图、权限矩阵、告警规则——可执行、可度量。",
+  quiz:["数据质量六维是什么？各举一个检查示例","血缘的作用？没有血缘时表变更的风险是什么？","手机号、身份证号这类敏感数据，治理上怎么处理？"],
+  res:"给你的项目 1 补一套治理：质量规则 + 血缘说明 + 权限分级，写进项目文档"
+},
+"biz":{
+  intro:"业务认知让技术有方向。同一个数仓，懂业务的人建的表能用，不懂的人建的表没人用。面试官最后几乎必问'你了解我们业务吗'。",
+  pts:[
+    "<b>选一个行业深钻</b>：零售/电商、金融、内容、供应链、本地生活选一个，能讲清：产业链结构、核心业务环节、钱怎么流转",
+    "<b>电商为例</b>：人（用户/会员体系）货（商品/库存/供应链）场（渠道/营销）；核心链路：曝光→点击→加购→下单→支付→履约→售后",
+    "<b>关键业务指标</b>：行业通用：GMV、转化率、客单价、复购率、LTV（用户生命周期价值）、CAC（获客成本）",
+    "<b>读懂业务数据</b>：一份日报/看板摆在面前，能讲出'哪个数字异常、可能原因、该问谁'——这是业务数据分析的基本功",
+    "<b>业务与数据对接</b>：数据需求评审：业务要'留存'，先确认口径（按注册时间还是首次活跃？）；需求不清时敢问而不是闷头做",
+    "<b>宏观视角</b>：行业趋势、竞品动态、监管政策对数据需求的影响（如隐私政策收紧 → 归因口径变化）",
+    "<b>怎么积累</b>：研报（艾瑞/易观）、行业公众号、上市公司财报、亲身体验产品（深度用户是最好的分析师）"
+  ],
+  pit:"最常见的错：只背名词不理解（'我知道 GMV，但说不清它和毛利的关系'）；或者对行业一无所知就去面行业公司（'你们是做什么的我了解不多'——直接出局）。",
+  quiz:["你选的行业，核心业务链路是什么？钱从哪来、到哪去？","这个行业的北极星指标是什么？为什么是它？","业务方要'用户数'，你会追问哪些口径问题？"],
+  res:"选定一个行业，写一份'行业数据观察'笔记：产业链、核心指标、代表公司、数据产品形态"
+},
+"doc":{
+  intro:"数据岗天天和业务、产品、研发沟通。写不清楚 = 干不明白。结构化表达是这个岗位隐藏的硬技能，也是你'管理与应用'专业的直接体现。",
+  pts:[
+    "<b>金字塔原理</b>：结论先行（先说结论再说理由）、以上统下（上层是下层的概括）、归类分组（MECE 不重不漏）、逻辑递进（时间/结构/程度）",
+    "<b>数据分析报告结构</b>：背景与问题 → 数据与方法 → 核心发现（3 条以内）→ 结论与建议 → 附录（口径说明）",
+    "<b>技术文档</b>：设计文档五段：背景 → 方案对比（为什么选这个）→ 详细设计（架构图/表设计）→ 风险与对策 → 验收标准",
+    "<b>汇报 PPT 原则</b>：一页一个观点；标题是结论不是主题；图 > 表 > 文字；'这页讲什么'3 秒能看懂",
+    "<b>会议沟通</b>：会前发议程、会中记结论（谁做什么、何时交付）、会后发纪要——数据团队跨部门协作全靠纪要防扯皮",
+    "<b>口头表达</b>：结论先行 + 一、二、三 结构化；被追问时先答'是/否'再展开（先给结论再给理由）",
+    "<b>文档工具</b>：Markdown（GitHub/语雀/飞书）、数据字典模板、ProcessOn/draw.io 画图（架构图、流程图）"
+  ],
+  pit:"最常见的坑：写报告先堆数据再凑结论（应该先定结论再选数据）；PPT 全是字（满页文字 = 没想清楚）；被追问就语无伦次（要先给结论再解释）。",
+  quiz:["用'结论先行'把'本周数据下降'这件事讲给老板听，3 句话","你项目的架构图能 30 秒讲清吗？","你的设计文档里，'方案对比'部分写了几个备选方案？"],
+  res:"《金字塔原理》读前 3 章 + 用结构化方式重写你的项目 README"
+}
+});
+/* ============ 知识点详解弹窗 ============ */
+function openDetail(key){
+  const d = DETAILS[key];
+  if(!d) return toast("该条目暂无详解");
+  let title = key, tag = "知识点详解";
+  if(/^s\d_\d+$/.test(key)){
+    const [sid, idx] = key.split("_");
+    const st = STAGES.find(s=>s.id===sid);
+    if(st){ title = st.tasks[+idx][0]; tag = st.badge + " 任务 · 详解"; }
+  } else {
+    for(const g of SKILL_GROUPS){
+      const it = g.items.find(x=>x[0]===key);
+      if(it){ title = it[1]; tag = "技能 · 详解"; break; }
+    }
+  }
+  $("#mTitle").textContent = title;
+  $("#mTag").textContent = tag;
+  const m = state.mastery[key] || 0;
+  const mLabel = ["未学","学习中","已掌握"][m];
+  $("#mBody").innerHTML = `
+    <div class="intro">${d.intro}</div>
+    ${TERMS[key] ? `<details open><summary>🔍 零基础名词解释（先看懂这些，再看下面内容）</summary>
+      <ul class="terms-list">${TERMS[key].map(t=>`<li><b>${t[0]}</b>${t[1]}${t[2]?`<span class="tl-eg">💡 类比：${t[2]}</span>`:""}</li>`).join("")}</ul>
+    </details>` : ""}
+    <h4>掌握状态（当前：${mLabel}）</h4>
+    <div class="mastery-bar">
+      <button class="m-choice ${m===0?"sel":""}" data-m="0">○ 未学</button>
+      <button class="m-choice ${m===1?"sel":""}" data-m="1">◐ 学习中</button>
+      <button class="m-choice ${m===2?"sel":""}" data-m="2">● 已掌握</button>
+    </div>
+    <h4>核心知识点</h4>
+    <ul>${d.pts.map(p=>`<li>${p}</li>`).join("")}</ul>
+    ${d.pit ? `<h4>常见坑</h4><div class="pit">⚠️ ${d.pit}</div>` : ""}
+    ${d.quiz ? `<h4>自测题（能答上才算学会）</h4><div class="quiz">${d.quiz.map((q,i)=>`<div style="margin-bottom:6px">${i+1}. ${q}</div>`).join("")}</div>` : ""}
+    ${d.res ? `<h4>推荐做法</h4><div>🎯 ${d.res}</div>` : ""}
+    <button class="wrong-btn" id="wrongAdd">❌ 自测没答上来？记入错题本（之后复习）</button>
+  `;
+  $("#modal").classList.add("show");
+  document.body.style.overflow = "hidden";
+  document.querySelectorAll(".m-choice").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      state.mastery[key] = +b.dataset.m;
+      save();
+      const lb = ["已标记为未学","已标记为学习中","🎉 已标记为掌握"][+b.dataset.m];
+      toast(lb);
+      closeModal();
+      const act = document.querySelector(".tab.active").dataset.tab;
+      if(RENDER[act]) RENDER[act]();
+    });
+  });
+  $("#wrongAdd").addEventListener("click", ()=>{
+    const quiz = (d.quiz && d.quiz[0]) || "";
+    state.wrong.unshift({ ts: new Date().toLocaleString("zh-CN",{month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"}), key, title, quiz });
+    save(); toast("已加入错题本 📕"); closeModal();
+    const act = document.querySelector(".tab.active").dataset.tab;
+    if(RENDER[act]) RENDER[act]();
+  });
+}
+function closeModal(){ $("#modal").classList.remove("show"); document.body.style.overflow = ""; }
+$("#mClose").addEventListener("click", closeModal);
+$("#mClose2").addEventListener("click", closeModal);
+$("#modal").addEventListener("click", e=>{ if(e.target === $("#modal")) closeModal(); });
+document.addEventListener("keydown", e=>{ if(e.key === "Escape") closeModal(); });
+
+const RES = [
+  { h:"书（反复读）", items:[
+    ["《SQL 基础教程》《SQL 进阶教程》","SQL 通关这两本足够","https://book.douban.com/subject/27055712/"],
+    ["《数据仓库工具箱》(Kimball)","维度建模圣经","https://book.douban.com/subject/26861729/"],
+    ["《数据密集型应用系统设计》","分布式原理，面试高频","https://book.douban.com/subject/30329536/"],
+    ["《金字塔原理》","把结论讲清楚","https://book.douban.com/subject/1029135/"]
+  ]},
+  { h:"练习与实战", items:[
+    ["牛客 SQL 题库","刷题主力","https://www.nowcoder.com/"],
+    ["LeetCode SQL","窗口函数困难档","https://leetcode.cn/"],
+    ["Kaggle","真实数据集与思路","https://www.kaggle.com/"],
+    ["阿里云开发者社区","MaxCompute / DataWorks 文档","https://developer.aliyun.com/"]
+  ]},
+  { h:"社区与官方文档", items:[
+    ["Apache Doris 官网","OLAP 引擎","https://doris.apache.org/"],
+    ["StarRocks 官网","OLAP 引擎","https://www.starrocks.io/"],
+    ["Apache Paimon","湖仓格式","https://paimon.apache.org/"],
+    ["Milvus 向量库","RAG 项目用","https://milvus.io/"]
+  ]},
+  { h:"信息源（保持手感）", items:[
+    ["BOSS 直聘 / 应届生求职网","把 JD 当大纲用","https://www.bosszhipin.com/"],
+    ["国家大学生就业服务平台","官方秋招/实习信息","https://www.ncss.cn/"],
+    ["Doris / Paimon GitHub","看 issue 与最佳实践","https://github.com/apache/doris"],
+    ["AI 大模型招聘趋势","了解岗位风向","https://www.zhipin.com/"]
+  ]}
+];
+
+/* ============ 状态 ============ */
+const DEF = { tasks:{}, skills:{}, notes:"", logs:[], pomo:{mode:"work", dur:25*60, left:25*60, running:false, round:0}, theme:"light", checkins:{}, mastery:{}, wrong:[], lastBackup:null };
+let state = { ...DEF, ...store.get("bdlp_v1", {}),
+  tasks:{ ...DEF.tasks, ...(store.get("bdlp_v1",{}).tasks||{}) },
+  skills:{ ...DEF.skills, ...(store.get("bdlp_v1",{}).skills||{}) },
+  mastery:{ ...DEF.mastery, ...(store.get("bdlp_v1",{}).mastery||{}) },
+  checkins:{ ...DEF.checkins, ...(store.get("bdlp_v1",{}).checkins||{}) }
+};
+const save = () => store.set("bdlp_v1", state);
+
+const TASK_IDS = STAGES.flatMap(s => s.tasks.map((_,i)=>`${s.id}_${i}`));
+const SKILL_IDS = SKILL_GROUPS.flatMap(g => g.items.map(it=>it[0]));
+function taskDone(id){ return !!state.tasks[id]; }
+function setTask(id, v){ state.tasks[id]=v; save(); }
+function skillVal(id){ return state.skills[id] || 0; }
+function setSkill(id, v){ state.skills[id]=Math.max(0, Math.min(100, v)); save(); }
+
+/* ============ 倒计时 ============ */
+function daysTo(ts){ const d = Math.ceil((new Date(ts).setHours(0,0,0,0) - new Date().setHours(0,0,0,0))/86400000); return d; }
+$("#cd-intern").textContent = daysTo("2027-03-01");
+$("#cd-fall").textContent = daysTo("2027-07-01");
+
+/* ============ 渲染：仪表盘 ============ */
+function fmtDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function todayStr(){ return fmtDate(new Date()); }
+function checkinStreak(){
+  let n = 0;
+  for(let i=0;i<3650;i++){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    if(state.checkins[fmtDate(d)]) n++; else break;
+  }
+  return n;
+}
+function renderDash(){
+  const done = TASK_IDS.filter(taskDone).length, total = TASK_IDS.length;
+  const pct = Math.round(done/total*100);
+  const skillAvg = Math.round(SKILL_IDS.reduce((a,id)=>a+skillVal(id),0)/SKILL_IDS.length);
+  const mastered = TASK_IDS.filter(id=>state.mastery[id]===2).length;
+  const todo = TASK_IDS.filter(id=>!taskDone(id)).slice(0,5);
+  const today = new Date().toLocaleDateString("zh-CN", { year:"numeric", month:"long", day:"numeric", weekday:"long" });
+  const t = todayStr();
+  const week = [];
+  for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); week.push(d); }
+  $("#main").innerHTML = `
+  <section class="active">
+    <h2 class="sec">仪表盘</h2>
+    <p class="sub">${today} · 你的任务：把主线数据工程做出来，再用周边技能包装成能给人用的东西</p>
+    <div class="dash-grid">
+      <div class="card stat"><div class="k">路线任务</div><div class="v">${done}<small> / ${total} 项</small></div><div class="d">完成率 ${pct}%</div></div>
+      <div class="card stat"><div class="k">技能自评均值</div><div class="v">${skillAvg}<small> / 100</small></div><div class="d">五层 ${SKILL_GROUPS.length} 组技能</div></div>
+      <div class="card stat"><div class="k">已掌握知识点</div><div class="v">${mastered}<small> / ${total}</small></div><div class="d">标记"已掌握"的条目数</div></div>
+      <div class="card stat"><div class="k">连续学习</div><div class="v">${checkinStreak()}<small> 天</small></div><div class="d">累计打卡 ${Object.keys(state.checkins).length} 天</div></div>
+    </div>
+    <div class="card" style="display:flex;gap:22px;flex-wrap:wrap;align-items:center">
+      <div class="ring" id="ringTotal"></div>
+      <div class="today">
+        <h4>接下来要做的事（未完成任务前 5）</h4>
+        ${todo.length ? todo.map((id,i)=>{
+          const [sid, idx] = id.split("_"); const st = STAGES.find(s=>s.id===sid); const [name, desc] = st.tasks[+idx];
+          return `<div class="todo-item"><span class="no">${i+1}</span><div><b>${esc(name)}</b><br><span class="muted">${esc(st.badge)} · ${esc(desc)}</span></div></div>`;
+        }).join("") : `<div class="empty-hint">🎉 全部任务完成！开始秋招冲刺吧。</div>`}
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn primary small" data-go="tasks">去勾任务 →</button>
+          <button class="btn ghost small" data-go="pomo">开一个番茄钟 🍅</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div>
+          <h4 style="margin:0 0 6px;font-size:14.5px">📆 今日打卡 ${state.checkins[t]?"✅ 已打卡":"未打卡"}</h4>
+          <div class="checkin-grid">
+            ${week.map(d=>{ const k=fmtDate(d); const on=!!state.checkins[k];
+              return `<div class="ci ${on?"on":""} ${k===t?"today":""}"><span class="d">${d.getDate()}</span><span class="w">${"日一二三四五六"[d.getDay()]}</span></div>`; }).join("")}
+          </div>
+        </div>
+        <div style="margin-left:auto;display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+          <button class="btn ${state.checkins[t]?"ghost":"primary"}" id="checkinBtn">${state.checkins[t]?"✅ 今天已打卡":"✔ 打卡学习"}</button>
+          <span class="muted">连续 ${checkinStreak()} 天 · 总 ${Object.keys(state.checkins).length} 天</span>
+        </div>
+      </div>
+    </div>
+  </section>`;
+  setRing($("#ringTotal"), pct, "#2563eb");
+  $("#checkinBtn").addEventListener("click", ()=>{
+    if(!state.checkins[t]){ state.checkins[t]=true; save(); toast("打卡成功，连续 "+checkinStreak()+" 天 💪"); renderDash(); }
+    else toast("今天已经打过卡啦");
+  });
+  maybeBackupTip();
+}
+
+function setRing(el, pct, color){
+  el.style.background = `conic-gradient(${color} ${pct*3.6}deg, var(--bg) 0deg)`;
+  el.innerHTML = `<div style="position:relative;background:var(--card);border-radius:50%;width:82%;height:82%;display:grid;place-items:center;border:1px solid var(--line)"><div style="text-align:center"><div class="rv">${pct}%</div><div class="rl">总进度</div></div></div>`;
+}
+
+/* ============ 备份提醒 ============ */
+function maybeBackupTip(){
+  const bar = $("#backupTip");
+  if(!bar) return;
+  const last = state.lastBackup;
+  let days = null;
+  if(last){ days = Math.floor((Date.now() - new Date(last).getTime())/86400000); }
+  if(days===null || days>=7){
+    bar.style.display = "flex";
+    $("#backupTipTxt").textContent = days===null ? "你还没有导出过备份" : `距离上次备份已 ${days} 天`;
+  } else { bar.style.display = "none"; }
+}
+function markBackup(){
+  state.lastBackup = new Date().toISOString();
+  save(); maybeBackupTip(); toast("已记录备份时间 ✓");
+}
+
+/* ============ 渲染：路线任务 ============ */
+function renderTasks(){
+  const total = TASK_IDS.length, done = TASK_IDS.filter(taskDone).length;
+  $("#main").innerHTML = `
+  <section class="active">
+    <h2 class="sec">路线任务 <span style="font-size:14px;color:var(--ink-3);font-weight:600">完成 ${done}/${total}</span></h2>
+    <p class="sub">点击勾选即完成 · 阶段头可折叠 · 数据自动保存</p>
+    ${STAGES.map((st,si)=>{
+      const ids = st.tasks.map((_,i)=>`${st.id}_${i}`);
+      const d = ids.filter(taskDone).length, t = ids.length;
+      const pct = Math.round(d/t*100);
+      return `
+      <div class="card stage" data-stage="${st.id}">
+        <div class="stage-hd">
+          <span class="badge">${st.badge}</span><h3>${esc(st.title)}</h3>
+          <span class="when">${esc(st.when)}</span><span class="pct">${d}/${t} · ${pct}%</span><span class="arrow">▼</span>
+        </div>
+        <div class="stage-bd">
+          <div class="sbar" style="margin:10px 0 4px"><i style="width:${pct}%"></i></div>
+          ${st.tasks.map(([name, desc], i)=>{
+            const id = `${st.id}_${i}`;
+            const m = state.mastery[id] || 0;
+            return `<div class="task ${taskDone(id)?"done":""}" data-id="${id}">
+              <input type="checkbox" ${taskDone(id)?"checked":""}>
+              <button class="mbtn" data-m="${m}" data-mid="${id}" title="掌握度：点击切换（○未学 → ◐学习中 → ●已掌握）">${m===0?"○":m===1?"◐":"●"}</button>
+              <div class="t-main"><div class="t-name">${esc(name)}</div><div class="t-desc">${esc(desc)}</div></div>
+              <button class="kbtn" data-k="${id}">📖 详解</button>
+            </div>`;
+          }).join("")}
+        </div>
+      </div>`;
+    }).join("")}
+  </section>`;
+  document.querySelectorAll(".task").forEach(el=>{
+    el.addEventListener("click", e=>{
+      if(e.target.tagName === "INPUT") return;
+      const c = el.querySelector("input"); c.checked = !c.checked; toggle(el.dataset.id, c.checked);
+    });
+  });
+  document.querySelectorAll(".stage-hd").forEach(hd=>{
+    hd.addEventListener("click", ()=>hd.closest(".stage").classList.toggle("collapsed"));
+  });
+  document.querySelectorAll(".task input").forEach(inp=>{
+    inp.addEventListener("change", ()=>toggle(inp.closest(".task").dataset.id, inp.checked));
+  });
+  document.querySelectorAll(".kbtn").forEach(b=>{
+    b.addEventListener("click", e=>{ e.stopPropagation(); openDetail(b.dataset.k); });
+  });
+  document.querySelectorAll(".mbtn").forEach(b=>{
+    b.addEventListener("click", e=>{
+      e.stopPropagation();
+      const id = b.dataset.mid;
+      const next = ((state.mastery[id]||0)+1) % 3;
+      state.mastery[id] = next;
+      save();
+      const label = ["标记为未学","标记为学习中","🎉 标记为已掌握"][next];
+      toast(label);
+      renderTasks();
+    });
+  });
+  function toggle(id, v){
+    setTask(id, v);
+    renderTasks();
+  }
+}
+
+/* ============ 渲染：技能进度 ============ */
+function renderSkills(){
+  const cur = v => v>0 && v<100 ? `${v}%` : v===100 ? "✅ 100%" : "0%";
+  $("#main").innerHTML = `
+  <section class="active">
+    <h2 class="sec">技能进度</h2>
+    <p class="sub">按五层清单逐项自评 · 目标不是 100，是每项都"能讲 5 分钟"</p>
+    ${SKILL_GROUPS.map(g=>`
+      <div class="card skill-group">
+        <h4>${esc(g.name)}</h4><p class="gsub">${esc(g.sub)}</p>
+        ${g.items.map(([id, name, note])=>{
+          const v = skillVal(id);
+          const barCls = g.id==="g1"?"":g.id==="g2"?"sg":g.id==="g4"?"sd":g.id==="g5"?"sa":"";
+          return `<div class="skill-row">
+            <div class="s-name">${esc(name)}<small>${esc(note)}</small></div>
+            <div class="sbar ${barCls}"><i style="width:${v}%"></i></div>
+            <div class="skill-ops"><button class="kbtn" data-k="${id}" title="知识点详解">📖</button><span class="s-pct">${cur(v)}</span>
+              <button class="btn ghost small" data-sk="${id}" data-d="-10">−</button>
+              <button class="btn ghost small" data-sk="${id}" data-d="10">＋</button>
+            </div>
+          </div>`;
+        }).join("")}
+      </div>`).join("")}
+  </section>`;
+  document.querySelectorAll("[data-sk]").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      const id = b.dataset.sk, d = +b.dataset.d;
+      setSkill(id, skillVal(id)+d);
+      renderSkills();
+    });
+  });
+  document.querySelectorAll(".kbtn").forEach(b=>{
+    b.addEventListener("click", ()=>openDetail(b.dataset.k));
+  });
+}
+
+/* ============ 渲染：资源 ============ */
+function renderRes(){
+  $("#main").innerHTML = `
+  <section class="active">
+    <h2 class="sec">资源直达</h2>
+    <p class="sub">少而精 · 这些够撑满 11 个月，不需要再囤教程</p>
+    <div class="res-grid">
+      ${RES.map(r=>`<div class="card res-card"><h4>${esc(r.h)}</h4><ul>${r.items.map(([t,d,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a><span class="rd">${esc(d)}</span></li>`).join("")}</ul></div>`).join("")}
+    </div>
+  </section>`;
+}
+
+/* ============ 番茄钟 ============ */
+const POMO = { work:25*60, short:5*60, long:15*60 };
+const MODE_LABEL = { work:"专注", short:"短休息", long:"长休息" };
+let pomo = { ...DEF.pomo, ...state.pomo };
+let pomoTotal = store.get("bdlp_pomoTotal", 0);
+let ticker = null;
+
+function pomoCommit(){ state.pomo = pomo; save(); store.set("bdlp_pomoTotal", pomoTotal); }
+function beep(){
+  try {
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const play = (freq, t0) => { const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = freq; o.type = "sine";
+      o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(.18, ctx.currentTime+t0);
+      g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+t0+.6);
+      o.start(ctx.currentTime+t0); o.stop(ctx.currentTime+t0+.65);
+    };
+    play(880, 0); play(660, .35);
+  } catch(e){}
+}
+function pomoNext(){
+  if(pomo.mode === "work"){
+    pomo.round++;
+    pomo.mode = (pomo.round % 4 === 0) ? "long" : "short";
+  } else { pomo.mode = "work"; }
+  pomo.dur = POMO[pomo.mode]; pomo.left = pomo.dur;
+  beep(); toast(`进入${MODE_LABEL[pomo.mode]} ${Math.round(pomo.dur/60)} 分钟`);
+  pomoCommit(); renderPomo();
+}
+function pomoTick(){
+  if(!pomo.running) return;
+  pomo.left--;
+  if(pomo.left <= 0){
+    if(pomo.mode === "work") pomoTotal += pomo.dur;
+    clearInterval(ticker); ticker = null; pomo.running = false;
+    pomoCommit(); pomoNext(); return;
+  }
+  pomoCommit();
+  const el = $("#pomoTime");
+  if(el){
+    const m = String(Math.floor(pomo.left/60)).padStart(2,"0"), s = String(pomo.left%60).padStart(2,"0");
+    el.textContent = `${m}:${s}`;
+    const ring = $("#pomoRing");
+    if(ring) ring.style.background = `conic-gradient(var(--accent) ${(pomo.dur-pomo.left)/pomo.dur*360}deg, var(--bg) 0deg)`;
+  }
+}
+function renderPomo(){
+  const tip = ["第 1 个番茄：只做一件事，手机静音放远", "连续 4 个番茄后长休息 15 分钟", "番茄钟不是用来'熬'的，是用来进入心流的", "休息时离开屏幕：喝水、走动、看远处"][pomo.round % 4];
+  $("#main").innerHTML = `
+  <section class="active">
+    <h2 class="sec">番茄钟</h2>
+    <p class="sub">25 分钟专注 + 5 分钟休息 · 每 4 轮长休息 · 累计 ${Math.round(pomoTotal/60)} min</p>
+    <div class="card pomo">
+      <div class="pomo-ring" id="pomoRing"><div class="pomo-inner">
+        <div class="pomo-time" id="pomoTime">-</div>
+        <div class="pomo-mode">${MODE_LABEL[pomo.mode]} ${Math.round(pomo.dur/60)} 分钟</div>
+        <div class="pomo-round">第 ${Math.max(pomo.round,1)} 轮 · 累计 ${Math.round(pomoTotal/60)} 分钟</div>
+      </div></div>
+      <div class="pomo-ops">
+        <button class="btn primary" id="pomoStart">${pomo.running?"暂停":"开始"}</button>
+        <button class="btn ghost" id="pomoReset">重置本轮</button>
+        <button class="btn ghost" id="pomoSkip">跳过</button>
+      </div>
+      <div class="pomo-modes">
+        <button class="mode-btn ${pomo.mode==="work"?"on":""}" data-m="work">专注 25'</button>
+        <button class="mode-btn ${pomo.mode==="short"?"on":""}" data-m="short">短休 5'</button>
+        <button class="mode-btn ${pomo.mode==="long"?"on":""}" data-m="long">长休 15'</button>
+      </div>
+      <div class="pomo-tip">💡 ${tip}</div>
+    </div>
+  </section>`;
+  const m = String(Math.floor(pomo.left/60)).padStart(2,"0"), s = String(pomo.left%60).padStart(2,"0");
+  $("#pomoTime").textContent = `${m}:${s}`;
+  $("#pomoRing").style.background = `conic-gradient(var(--accent) ${(pomo.dur-pomo.left)/pomo.dur*360}deg, var(--bg) 0deg)`;
+  $("#pomoStart").addEventListener("click", ()=>{
+    pomo.running = !pomo.running;
+    if(pomo.running){ if(!ticker) ticker = setInterval(pomoTick, 1000); }
+    else { clearInterval(ticker); ticker = null; }
+    pomoCommit(); renderPomo();
+  });
+  $("#pomoReset").addEventListener("click", ()=>{ pomo.left = pomo.dur; clearInterval(ticker); ticker=null; pomo.running=false; pomoCommit(); renderPomo(); });
+  $("#pomoSkip").addEventListener("click", ()=>{ clearInterval(ticker); ticker=null; pomo.running=false; pomoNext(); });
+  document.querySelectorAll("[data-m]").forEach(b=>b.addEventListener("click", ()=>{
+    pomo.mode = b.dataset.m; pomo.dur = POMO[pomo.mode]; pomo.left = pomo.dur;
+    clearInterval(ticker); ticker = null; pomo.running = false;
+    pomoCommit(); renderPomo();
+  }));
+}
+
+/* ============ 笔记日志 ============ */
+function renderNotes(){
+  $("#main").innerHTML = `
+  <section class="active">
+    <h2 class="sec">笔记与日志</h2>
+    <p class="sub">笔记：零散想法与知识点 · 日志：每天一条，复盘"今天真正学会了什么" · 错题本：没答上来的自测题</p>
+    <div class="notes-grid">
+      <div class="card">
+        <h4 style="margin:0 0 10px;font-size:14.5px">📓 学习笔记</h4>
+        <textarea id="noteBox" placeholder="记录知识点、报错与解法、面试题……\n笔记存在本浏览器，可导出备份。">${esc(state.notes)}</textarea>
+        <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+          <button class="btn primary small" id="noteSave">保存笔记</button>
+          <span class="muted" id="noteStatus"></span>
+        </div>
+        <h4 style="margin:16px 0 8px;font-size:14.5px">📕 错题本（${state.wrong.length} 题）</h4>
+        <div style="max-height:260px;overflow:auto" id="wrongList">
+          ${state.wrong.length ? state.wrong.map((w,i)=>`<div class="wrong-item">
+            <div class="wi"><b>${esc(w.title)}</b><br>${esc(w.quiz)}</div>
+            <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+              <span class="wd">${esc(w.ts)}</span>
+              <button class="btn ghost small" data-reopen="${i}">复习</button>
+              <button class="btn ghost small" data-wdel="${i}" style="color:var(--red)">删除</button>
+            </div>
+          </div>`).join("") : `<div class="empty-hint">还没有错题。自测答不上来时，点详解里的"记入错题本"就会出现在这里。</div>`}
+        </div>
+      </div>
+      <div class="card">
+        <h4 style="margin:0 0 10px;font-size:14.5px">📅 每日学习日志</h4>
+        <textarea id="logBox" rows="4" style="min-height:90px" placeholder="今天完成了什么？卡在哪？明天做什么？"></textarea>
+        <div style="margin-top:8px"><button class="btn primary small" id="logAdd">记一条</button></div>
+        <div style="margin-top:14px;max-height:300px;overflow:auto" id="logList">
+          ${state.logs.length ? state.logs.map((l,i)=>`<div class="log-item"><span class="ld">${esc(l.ts)}</span><span class="lt">${esc(l.text)}</span><button class="del" data-i="${i}">✕</button></div>`).join("") : `<div class="empty-hint">还没有日志，学完第一个 SQL 就来记一条吧。</div>`}
+        </div>
+      </div>
+    </div>
+  </section>`;
+  $("#noteSave").addEventListener("click", ()=>{
+    state.notes = $("#noteBox").value; save();
+    const st = $("#noteStatus"); st.textContent = "已保存 ✓"; setTimeout(()=>st.textContent="", 1800);
+  });
+  $("#logAdd").addEventListener("click", ()=>{
+    const v = $("#logBox").value.trim();
+    if(!v) return toast("先写点什么再记");
+    const d = new Date();
+    const ts = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+    state.logs.unshift({ ts, text:v }); save(); renderNotes(); toast("已记录 ✓");
+  });
+  document.querySelectorAll(".del").forEach(b=>b.addEventListener("click", ()=>{
+    state.logs.splice(+b.dataset.i, 1); save(); renderNotes();
+  }));
+  document.querySelectorAll("[data-wdel]").forEach(b=>b.addEventListener("click", ()=>{
+    state.wrong.splice(+b.dataset.wdel, 1); save(); renderNotes(); toast("错题已删除");
+  }));
+  document.querySelectorAll("[data-reopen]").forEach(b=>b.addEventListener("click", ()=>{
+    openDetail(state.wrong[+b.dataset.reopen].key);
+  }));
+}
+
+/* ============ Tab 与主题 ============ */
+const RENDER = { dash: renderDash, tasks: renderTasks, skills: renderSkills, pomo: renderPomo, notes: renderNotes, res: renderRes };
+$("#tabs").addEventListener("click", e=>{
+  const b = e.target.closest(".tab"); if(!b) return;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  RENDER[b.dataset.tab]();
+});
+document.addEventListener("click", e=>{
+  const g = e.target.closest("[data-go]"); if(!g) return;
+  const t = document.querySelector(`.tab[data-tab="${g.dataset.go}"]`);
+  if(t) t.click();
+});
+function applyTheme(){
+  document.documentElement.dataset.theme = state.theme;
+  $("#themeBtn").textContent = state.theme === "dark" ? "☀️ 浅色" : "🌙 深色";
+}
+$("#themeBtn").addEventListener("click", ()=>{
+  state.theme = state.theme === "dark" ? "light" : "dark";
+  save(); applyTheme();
+});
+
+/* ============ 导出 / 导入 / 重置 ============ */
+$("#exportBtn").addEventListener("click", ()=>{
+  const blob = new Blob([JSON.stringify({ ...state, pomo, pomoTotal }, null, 2)], { type:"application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `学习平台备份_${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(a.href);
+  markBackup();
+  toast("已导出备份");
+});
+$("#tipExport").addEventListener("click", ()=>$("#exportBtn").click());
+$("#tipClose").addEventListener("click", ()=>{
+  $("#backupTip").style.display = "none";
+  state.lastBackup = new Date().toISOString(); save();
+});
+$("#importBtn").addEventListener("click", ()=>$("#importFile").click());
+$("#importFile").addEventListener("change", e=>{
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const data = JSON.parse(r.result);
+      state.tasks = { ...state.tasks, ...(data.tasks||{}) };
+      state.skills = { ...state.skills, ...(data.skills||{}) };
+      state.mastery = { ...state.mastery, ...(data.mastery||{}) };
+      state.checkins = { ...state.checkins, ...(data.checkins||{}) };
+      if(typeof data.notes === "string") state.notes = data.notes;
+      if(Array.isArray(data.logs)) state.logs = data.logs;
+      if(Array.isArray(data.wrong)) state.wrong = data.wrong;
+      if(data.pomo){ pomo = { ...pomo, ...data.pomo }; state.pomo = pomo; }
+      if(data.pomoTotal) pomoTotal = data.pomoTotal;
+      if(data.lastBackup) state.lastBackup = data.lastBackup;
+      save(); renderDash(); toast("导入成功 ✓");
+    } catch(err){ toast("导入失败：文件格式不对"); }
+  };
+  r.readAsText(f); e.target.value = "";
+});
+$("#resetBtn").addEventListener("click", ()=>{
+  if(!confirm("确定清空所有学习数据？此操作不可恢复（可先导出备份）")) return;
+  localStorage.removeItem("bdlp_v1"); localStorage.removeItem("bdlp_pomoTotal");
+  location.reload();
+});
+
+/* ============ 全局搜索 ============ */
+let searchIndex = null;
+function buildSearchIndex(){
+  if(searchIndex) return searchIndex;
+  const idx = [];
+  for(const st of STAGES) st.tasks.forEach(([name,desc],i)=>{
+    const key = `${st.id}_${i}`;
+    idx.push({ key, tag: st.badge, title: name, text: `${name} ${desc} ${(DETAILS[key]?.pts||[]).join(" ")} ${(DETAILS[key]?.pit||"")}` });
+  });
+  for(const g of SKILL_GROUPS) g.items.forEach(([id,name,note])=>{
+    idx.push({ key: id, tag:"技能", title: name, text: `${name} ${note} ${(DETAILS[id]?.pts||[]).join(" ")}` });
+  });
+  for(const [k, terms] of Object.entries(TERMS)){
+    idx.push({ key:k, tag:"名词", title: terms[0][0], text: terms.map(t=>t[0]+t[1]).join(" ") });
+  }
+  searchIndex = idx;
+  return idx;
+}
+const $searchInput = $("#searchInput"), $searchRes = $("#searchRes");
+$searchInput.addEventListener("input", ()=>{
+  const q = $searchInput.value.trim().toLowerCase();
+  if(!q){ $searchRes.classList.remove("show"); return; }
+  const hits = buildSearchIndex().filter(x=>x.text.toLowerCase().includes(q) || x.title.toLowerCase().includes(q)).slice(0,12);
+  $searchRes.innerHTML = hits.length ? hits.map(h=>`
+    <div class="sr-item" data-k="${h.key}"><span class="sg">${h.tag}</span><span class="st">${esc(h.title)}</span></div>
+  `).join("") : `<div class="sr-empty">没有找到「${esc($searchInput.value)}」，换个关键词试试</div>`;
+  $searchRes.classList.add("show");
+});
+$searchRes.addEventListener("click", e=>{
+  const it = e.target.closest(".sr-item"); if(!it) return;
+  $searchRes.classList.remove("show");
+  $searchInput.value = "";
+  openDetail(it.dataset.k);
+});
+document.addEventListener("click", e=>{ if(!e.target.closest(".search-wrap")) $searchRes.classList.remove("show"); });
+$searchInput.addEventListener("keydown", e=>{ if(e.key==="Enter"){ const first=$searchRes.querySelector(".sr-item"); if(first){ $searchRes.classList.remove("show"); $searchInput.value=""; openDetail(first.dataset.k);} } });
+
+/* ============ 初始化 ============ */
+applyTheme();
+renderDash();
+window.addEventListener("beforeunload", ()=>{ clearInterval(ticker); pomoCommit(); });
+
+</script>
+</body>
+</html>
