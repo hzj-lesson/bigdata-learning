@@ -956,6 +956,21 @@ Object.assign(DETAILS, {
   "<b>Linux 环境（WSL2，Windows 必装）</b>：wsl --install 装 Ubuntu，大数据组件在 Linux 下最顺、学习资料也以 Linux 命令为主；Mac 自带类 Unix 终端已够用。目标：后面 Hive / Spark 调优、看日志，全在 Linux 命令行里",
   "<b>大数据验证清单（一晚通关）</b>：① java -version ✅ ② mysql -u root -p ✅ ③ python 里能 import pandas（写 import pandas 不报错）✅ ④ git --version 且 ssh -T git@github.com ✅ ⑤ spark-shell 进 scala&gt; ✅ ⑥ docker --version ✅。六项全绿 = 武器备齐，可以进正题"
  ],
+ demo:[
+  ["Python 装好验证","python --version"],
+  ["pandas 装好验证","python -c \"import pandas as pd; print(pd.__version__)\""],
+  ["MySQL 建库并跑一条查询","mysql -u root -p -e \"CREATE DATABASE IF NOT EXISTS demo; USE demo; CREATE TABLE t(id INT); INSERT INTO t VALUES(1),(2); SELECT COUNT(*) FROM t;\""],
+  ["Git 配置并连通 GitHub",`git config --global user.name "你的名字"
+git config --global user.email "you@example.com"
+ssh -T git@github.com`],
+  ["JDK 验证",`java -version
+echo %JAVA_HOME%`],
+  ["Spark 本地 wordcount（存成 wc.py 后 spark-submit wc.py）",`from pyspark.sql import SparkSession
+spark = SparkSession.builder.master("local[2]").appName("wc").getOrCreate()
+rdd = spark.sparkContext.textFile("README.md")
+print(rdd.flatMap(lambda x: x.split()).map(lambda w: (w, 1)).reduceByKey(lambda a, b: a + b).collect())`],
+  ["Docker 一键起 Jupyter+Spark 笔记本","docker run -p 8888:8888 jupyter/pyspark-notebook"]
+ ],
  pit:"最大的坑：<b>在环境上耗三天</b>。给自己设硬限：总预算一晚（2-3 小时），某步卡 30 分钟就用替代方案绕过——MySQL 装不上先 SQLite；pip 慢换国内镜像（pip install 包名 -i https://pypi.tuna.tsinghua.edu.cn/simple）；下载慢用国内源/网盘。环境是为学习服务的，不是学习本身。还有个坑是「非要把 Hadoop 集群搭起来才敢学」——学生阶段根本不需要集群，Spark 本地模式 + Docker 单容器足够练 90% 的内容，集群是工作后的事。别在环境复杂度上自我设限；环境是手段不是目的。",
  quiz:[
   "怎么验证 MySQL 安装成功？至少说出 2 个标志",
@@ -973,9 +988,22 @@ Object.assign(DETAILS, {
   "集群要至少三台机器 / 多个进程，配置复杂、排错耗时；学生阶段 90% 的内容（RDD / DataFrame 算子、Spark SQL、ETL 逻辑）本地模式就能练，Docker 单容器也能模拟多服务。验证：bin/spark-shell 出现 scala&gt; 提示符（或 pyspark 进 Python REPL），再跑 sc.parallelize(1 to 100).sum() 返回 5050 即通。",
   "用「六项全绿清单」判断：java -version、mysql 登录、python 导入 pandas、git 连 GitHub、spark-shell 进 REPL、docker --version 全部通过。任一项红了就先补那一项，别卡在「完美环境」的执念上——环境是手段不是目的。"
  ],
+ trouble:[
+  ["mysql: command not found","PATH 没配 / 没装","重装时勾 Add to PATH，或用安装目录 bin 下 mysql.exe 的绝对路径"],
+  ["Access denied for user 'root'@'localhost'","密码错或首次免密","进去后 ALTER USER 改密码；忘记就 mysqld --skip-grant-tables 重置"],
+  ["pip 安装超时 / Read timed out","默认源在国外","pip install 包名 -i https://pypi.tuna.tsinghua.edu.cn/simple"],
+  ["java: command not found / JAVA_HOME not set","JDK 没装或没配环境变量","装 Adoptium Temurin 17，勾 Add to PATH，再设 JAVA_HOME 指向 JDK 目录"],
+  ["spark-shell 启动报 JAVA_HOME 相关错误","JAVA_HOME 没指向 JDK","系统变量里 JAVA_HOME 设为 JDK 安装路径，重启终端再试"],
+  ["端口被占用（3306 / 4040 / 8888）","上次进程没退干净","netstat -ano | findstr 端口 找 PID 后 taskkill /PID 数字 /F；或换端口"],
+  ["Docker 报 WSL2 后端未启用","Windows 没开 WSL2","管理员 PowerShell 跑 wsl --install，重启后在 Docker 设置确认用 WSL2 后端"],
+  ["中文路径下脚本报错 / 文件找不到","路径含中文或空格","项目放纯英文路径如 D:/learn，避开桌面中文用户名目录"],
+  ["Permission denied（Mac / Linux）","权限不足","命令前加 sudo，或 chmod +x 文件名.py"],
+  ["下载极慢或被拦截","网络 / 杀软拦截","换国内镜像源或网盘；临时关杀软实时防护"]
+ ],
  res:"今晚目标：MySQL + Python + VS Code + Git 四件全部验证通过。卡住超过 30 分钟的问题，把「报错原文 + 你做了什么 + 现象」记进笔记——这就是你的第一篇技术笔记。",
- deep:{
+  deep:{
   go:"<b>深入目标：从「装好」到「懂原理」</b>——理解环境变量 PATH 到底是什么、服务与进程的区别、为什么生产环境用 Docker 一键起库。<b>深入标志：换一台全新电脑，你能照自己写的 checklist 在 30 分钟内复现全套环境。</b>",
+  tpl:'下载现成自检脚本：<a href="check_env.py" target="_blank" rel="noopener">check_env.py</a>（保存到学习目录后运行 python check_env.py，一次看清六项环境状态）',
   tasks:[
    "把环境搭建过程写成一篇博客或 README（重点写你踩的坑和排查过程）",
    "用 Docker 起一个 MySQL 容器并连接成功，体会「一键环境」",
@@ -1689,6 +1717,7 @@ function openDetail(key){
     </div>
     <h4>核心知识点</h4>
     <ul>${d.pts.map(p=>`<li>${p}</li>`).join("")}</ul>
+    ${d.demo ? `<h4>🚀 最小可跑示例（复制即跑，跑通才算装好）</h4><div style="margin-bottom:6px">${d.demo.map(x=>`<div style="margin-bottom:12px"><div style="font-weight:700;color:#2563eb;margin-bottom:4px">${x[0]}</div><pre class="code-block">${esc(x[1])}</pre></div>`).join("")}</div>` : ""}
     ${d.code ? `<div class="code-hd">💻 参考实现（照着思路自己敲一遍，别复制粘贴——手会教你脑）</div><pre class="code-block">${esc(d.code)}</pre>` : ""}
     ${d.pit ? `<h4>常见坑</h4><div class="pit">⚠️ ${d.pit}</div>` : ""}
     ${d.quiz ? `<h4>自测题（先自测，再点开答案核对）</h4><div class="quiz">${d.quiz.map((q,i)=>`
@@ -1696,6 +1725,7 @@ function openDetail(key){
         <div style="margin-bottom:4px">${i+1}. ${q}</div>
         ${d.ans && d.ans[i] ? `<details class="q-ans"><summary>参考答案</summary><div class="a-body">${d.ans[i]}</div></details>` : ""}
       </div>`).join("")}</div>` : ""}
+    ${d.trouble ? `<h4>🛠️ 排错速查表（按现象找解法）</h4><table style="width:100%;border-collapse:collapse;font-size:13px;margin:6px 0 14px"><thead><tr style="background:#f1f5f9;font-weight:700"><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">现象</th><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">最可能原因</th><th style="border:1px solid #e2e8f0;padding:6px 8px;text-align:left">一句话解法</th></tr></thead><tbody>${d.trouble.map(r=>`<tr><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[0]}</td><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[1]}</td><td style="border:1px solid #e2e8f0;padding:6px 8px;vertical-align:top">${r[2]}</td></tr>`).join("")}</tbody></table>` : ""}
     ${d.res ? `<h4>推荐做法</h4><div>🎯 ${linkify(d.res)}</div>${(RES_LINKS[key]||[]).map(([t,u,w])=>`<div style="margin-top:6px;font-size:13.5px">🔗 <a class="res-link" href="${u}" target="_blank" rel="noopener">${t}</a> <span style="color:var(--ink-3);font-size:12.5px">· ${w}</span></div>`).join("")}` : ""}
     ${d.deep ? `<h4>🚀 深入学习（做完才算真的吃透）</h4>
       <div class="deep">${d.deep.go}</div>
