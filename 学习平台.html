@@ -443,7 +443,14 @@ Object.assign(TERMS, {
  ["venv 虚拟环境","每个项目独立的 Python 小房间：库装在房间里，项目之间互不影响","类比：每人一个化妆包——你用你的口红，我用我的，谁也不抢谁的"],
  ["IDE / VS Code","带代码提示、调试、插件的专业编辑器；VS Code 是目前最主流的选择","类比：手写作业也能学，但 Word 有 spell-check（拼写检查）之后效率完全不同"],
  ["SSH 密钥","一对「锁 + 钥匙」凭证：公钥（锁）给 GitHub，私钥（钥匙）自己留，从此免密码推送代码","类比：把你家门锁（公钥）装到 GitHub 上，钥匙（私钥）只在你手里——所以私钥千万别发给别人"],
- ["SQLite","单文件的迷你数据库，Python 内置零安装，适合起步和小项目","类比：MySQL 是整个厨房，SQLite 是一份便当——功能少但马上能开饭，先吃饭再装修"]
+  ["SQLite","单文件的迷你数据库，Python 内置零安装，适合起步和小项目","类比：MySQL 是整个厨房，SQLite 是一份便当——功能少但马上能开饭，先吃饭再装修"],
+  ["JDK / JVM","Java 开发工具包 + 虚拟机：大数据组件（Hadoop / Spark / Hive / Flink）几乎都是 Java 或 Scala 写的，必须先在 JVM 上跑起来","类比：JDK 是发动机，JVM 是发动机舱——车（大数据软件）离了发动机根本发动不了"],
+  ["Hadoop","大数据界的「地基」：把很多普通电脑凑成「大硬盘 + 大算力」，存海量数据、跑分布式计算","类比：一个人搬不动大米，叫一群人分头搬——Hadoop 就是那个「叫人分工」的包工头"],
+  ["Spark","比 Hadoop 老引擎快很多的分布式计算框架，以内存计算为主，写起来像写普通 Python","类比：Hadoop 是绿皮火车（慢但稳），Spark 是高铁（快），同一条线路能快十倍"],
+  ["Scala","一门跑在 JVM 上的语言，是 Spark 的「母语」，也能写普通后端","类比：英语是联合国通用语，Scala 是 Spark 世界的通用语——不懂也能用（用 Python 接口），懂了更自如"],
+  ["Jupyter","在网页里写代码、分段运行、立刻看结果的交互式笔记本，数据分析标配","类比：普通笔记本是整本交卷，Jupyter 是一页页写、写完立即批改，错了当场改"],
+  ["WSL2","Windows 里的 Linux 子系统：让你在 Windows 上原生跑 Ubuntu，不用装双系统","类比：在 Windows 家里隔出一间「Linux 客房」，大数据组件住客房比住 Windows 主卧更舒服"],
+  ["Docker","把软件连同运行环境一起打包成「集装箱」，到哪台电脑都能一键跑起来，免去重复装环境","类比：不是让你现场砌炉灶做饭，而是整口锅带菜带火一起搬过去——开火即食"]
 ]
 });
 Object.assign(TERMS, {
@@ -941,18 +948,30 @@ Object.assign(DETAILS, {
   "<b>Python + venv</b>：python --version 确认 3.10+ → mkdir learn && cd learn → python -m venv .venv 创建虚拟环境 → 激活（Windows: .venv\\Scripts\\activate，Mac: source .venv/bin/activate）→ 激活后 pip install pandas requests，pip list 能看到即成功",
   "<b>VS Code</b>：装 Python、MySQL（数据库可视化）、GitLens 三个插件；用「打开文件夹」管理项目而不是单开文件；终端里确认 python 能被识别（识别不到 = PATH 问题，重装时勾选 Add to PATH）",
   "<b>Git 配置</b>：git config --global user.name / user.email → ssh-keygen 一路回车生成密钥 → 把公钥（.pub 结尾那个文件的内容）粘到 GitHub 的 Settings → SSH keys → ssh -T git@github.com 看到 successfully 即打通",
-  "<b>SQLite 备胎方案</b>：MySQL 实在装不动，先用 SQLite（Python 内置 sqlite3 模块，零配置零安装）跑 SQL 主线——语法 90% 通用，<b>不要让环境问题阻塞学习主线</b>；之后环境熟练了再回来补 MySQL"
+  "<b>SQLite 备胎方案</b>：MySQL 实在装不动，先用 SQLite（Python 内置 sqlite3 模块，零配置零安装）跑 SQL 主线——语法 90% 通用，<b>不要让环境问题阻塞学习主线</b>；之后环境熟练了再回来补 MySQL",
+  "<b>JDK 安装（大数据之母）</b>：Hadoop / Spark / Hive / Flink 几乎都是 Java 或 Scala 写的，全跑在 JVM 上，没 JDK 连启动脚本都执行不了。Win 下装 Adoptium Temurin 17（LTS）→ 安装时勾 Add to PATH → 再配 JAVA_HOME 指向安装目录；Mac: brew install openjdk@17 后按提示配 JAVA_HOME。验证：java -version 显示 17.x，且 echo %JAVA_HOME%（Mac / Linux 用 echo $JAVA_HOME）能打印路径",
+  "<b>Spark 本地模式（最轻量入门）</b>：官网下 spark-3.x-bin-hadoop3.tgz → 解压 → 进 bin 跑 spark-shell（或 pyspark）→ 出现 scala&gt; / Python 提示符即成功；验证 sc.parallelize(1 to 100).sum() 返回 5050。常见坑：JAVA_HOME 没配、内存不足（加 --driver-memory 1g）、Python 版本不匹配（Spark 3.5 支持 3.8–3.11）",
+  "<b>Docker 一键起大数据栈（强烈推荐）</b>：组件逐个装极费时，直接用容器——装 Docker Desktop（Windows 记得开 WSL2 后端）→ 拉一个 all-in-one 镜像（如 docker-spark 或 apache/hive）→ docker run 起容器 → docker ps 看到即成功。你本机甚至不用装 Hadoop，一个容器全有。常见坑：WSL2 后端没开、端口没用 -p 映射出来",
+  "<b>Jupyter / Notebook（交互式分析）</b>：pip install jupyterlab → jupyter lab 启动 → 浏览器开 localhost:8888 写分段 Python 单元格，看数据分布、画图标配。或偷懒用 VS Code 内置 Notebook，少开一个软件",
+  "<b>Linux 环境（WSL2，Windows 必装）</b>：wsl --install 装 Ubuntu，大数据组件在 Linux 下最顺、学习资料也以 Linux 命令为主；Mac 自带类 Unix 终端已够用。目标：后面 Hive / Spark 调优、看日志，全在 Linux 命令行里",
+  "<b>大数据验证清单（一晚通关）</b>：① java -version ✅ ② mysql -u root -p ✅ ③ python 里能 import pandas（写 import pandas 不报错）✅ ④ git --version 且 ssh -T git@github.com ✅ ⑤ spark-shell 进 scala&gt; ✅ ⑥ docker --version ✅。六项全绿 = 武器备齐，可以进正题"
  ],
- pit:"最大的坑：<b>在环境上耗三天</b>。给自己设硬限：总预算一晚（2-3 小时），某步卡 30 分钟就用替代方案绕过——MySQL 装不上先 SQLite；pip 慢换国内镜像（pip install 包名 -i https://pypi.tuna.tsinghua.edu.cn/simple）；下载慢用国内源/网盘。环境是为学习服务的，不是学习本身。",
+ pit:"最大的坑：<b>在环境上耗三天</b>。给自己设硬限：总预算一晚（2-3 小时），某步卡 30 分钟就用替代方案绕过——MySQL 装不上先 SQLite；pip 慢换国内镜像（pip install 包名 -i https://pypi.tuna.tsinghua.edu.cn/simple）；下载慢用国内源/网盘。环境是为学习服务的，不是学习本身。还有个坑是「非要把 Hadoop 集群搭起来才敢学」——学生阶段根本不需要集群，Spark 本地模式 + Docker 单容器足够练 90% 的内容，集群是工作后的事。别在环境复杂度上自我设限；环境是手段不是目的。",
  quiz:[
   "怎么验证 MySQL 安装成功？至少说出 2 个标志",
   "什么是虚拟环境（venv）？为什么每个项目要单独一个？",
-  "pip 安装很慢或失败，最常见的解决办法是什么？"
+  "pip 安装很慢或失败，最常见的解决办法是什么？",
+  "为什么大数据组件（Hadoop / Spark / Hive）都要求先装 JDK？验证 JDK 装好的命令是什么？",
+  "学生阶段学 Spark，为什么推荐先跑「本地模式」而不是直接搭集群？怎么验证本地模式成功？",
+  "环境装到什么程度，算「达标」可以开始学正课了？"
  ],
  ans:[
   "① mysql -u root -p 能登录并出现 mysql&gt; 提示符；② 系统服务列表里有 MySQL80（或 mysqld）且状态 running；③ 登录后 SHOW DATABASES; 能列出系统库。<b>三个标志任缺一个都说明没装好</b>，别硬开始后面的任务。",
   "venv 把「这个项目用的 Python + 第三方库」隔离到项目文件夹里：A 项目要 pandas 1.x、B 项目要 2.x 时不打架，也不污染系统 Python。<b>面试延伸</b>：生产环境的等价概念是 Docker 容器——被问「环境隔离/可复现」时，你能从 venv 一路讲到 Docker，这就是加分链。",
-  "换国内镜像源：pip install 包名 -i https://pypi.tuna.tsinghua.edu.cn/simple，或一次配置 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple。<b>原理一句话</b>：默认源在国外，慢是网络常态不是你操作错了——遇到问题先区分「我的错」还是「环境的错」，这是排障第一课。"
+  "换国内镜像源：pip install 包名 -i https://pypi.tuna.tsinghua.edu.cn/simple，或一次配置 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple。<b>原理一句话</b>：默认源在国外，慢是网络常态不是你操作错了——遇到问题先区分「我的错」还是「环境的错」，这是排障第一课。",
+  "这些组件都是 Java / Scala 写的，跑在 JVM 上，没有 JDK 连启动脚本都执行不了。验证：java -version 输出 17.x（LTS 最佳），且 echo %JAVA_HOME%（Mac / Linux 用 echo $JAVA_HOME）能打印安装目录。两者缺一个都可能让后续组件起不来。",
+  "集群要至少三台机器 / 多个进程，配置复杂、排错耗时；学生阶段 90% 的内容（RDD / DataFrame 算子、Spark SQL、ETL 逻辑）本地模式就能练，Docker 单容器也能模拟多服务。验证：bin/spark-shell 出现 scala&gt; 提示符（或 pyspark 进 Python REPL），再跑 sc.parallelize(1 to 100).sum() 返回 5050 即通。",
+  "用「六项全绿清单」判断：java -version、mysql 登录、python 导入 pandas、git 连 GitHub、spark-shell 进 REPL、docker --version 全部通过。任一项红了就先补那一项，别卡在「完美环境」的执念上——环境是手段不是目的。"
  ],
  res:"今晚目标：MySQL + Python + VS Code + Git 四件全部验证通过。卡住超过 30 分钟的问题，把「报错原文 + 你做了什么 + 现象」记进笔记——这就是你的第一篇技术笔记。",
  deep:{
@@ -961,7 +980,9 @@ Object.assign(DETAILS, {
    "把环境搭建过程写成一篇博客或 README（重点写你踩的坑和排查过程）",
    "用 Docker 起一个 MySQL 容器并连接成功，体会「一键环境」",
    "写一个环境自检脚本（check_env.py）：一次输出 MySQL/Python/Git 版本与连接状态",
-   "帮一位同学远程装一遍环境——最快让自己练熟的方式"
+   "帮一位同学远程装一遍环境——最快让自己练熟的方式",
+   "用 Docker 起一个 Spark + Hive 组合容器，跑通「Hive 建表 → Spark 读取」的最小链路",
+   "在 WSL2 里把 Spark 本地模式跑通，并运行官方 examples 里的 wordcount（Java / Python 版都跑一次）"
   ]
  }
 }
@@ -1559,7 +1580,7 @@ function linkify(t){
 }
 /* 术语阅读顺序导读（S0 + S1 全量，v5.7） */
 const TERMS_HINT = {
-  "s0_env": "先吃透「终端/命令行」「环境变量/PATH」（后面天天用）→「venv」「MySQL 服务」看懂为什么装 →「SSH 密钥」「SQLite」扫一眼即可",
+  "s0_env": "先吃透「终端/命令行」「环境变量/PATH」（后面天天用）→「venv」「MySQL 服务」看懂为什么装 →「SSH 密钥」「SQLite」扫一眼即可 → 大数据部分重点看「JDK」「Spark」「Docker」「WSL2」",
   "s0_0": "「数据库→表→查询」是地基，必须第一个懂 →「JOIN」「聚合」是本任务主菜 →「CTE」「NULL」「DISTINCT」是写作辅助，用的时候回来查",
   "s0_1": "先懂「聚合函数」（已会的压扁算法）再学「窗口函数」（不压扁的升级版）→「PARTITION BY / ORDER BY」是窗口函数的两个旋钮 →「ROW_NUMBER / LAG」面试最常用",
   "s0_2": "先建立「全表扫描 = 最慢」的直觉 →「索引 / B+ 树」是解决方案 →「回表 / 覆盖索引 / Using filesort」是 EXPLAIN 报告里的三个关键词，遇到再回来看",
