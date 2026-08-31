@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-环境自检脚本 check_env.py —— 大数据学习平台（v5.11.1）配套
+环境自检脚本 check_env.py —— 大数据学习平台（v5.11.5）配套
 运行：python check_env.py
 一次输出 Java / Python / pandas / JDK / Spark / MySQL / Git / Docker 的安装与状态。
+（v5.11.5 修复：中文 Windows 下 java 等命令输出含 GBK 字节，原 text=True 会抛
+ UnicodeDecodeError 刷红色堆栈；改为捕获字节后按 utf-8→gbk 回退解码，安静通过。）
 
 说明：
 - 某项 ❌ 不代表不能学，下方「结论」会给达标线。
@@ -17,13 +19,23 @@ import sys
 
 
 def run(cmd, timeout=20):
-    """执行命令，返回 (成功?, 首行输出)"""
+    """执行命令，返回 (成功?, 首行输出)。
+
+    关键：用字节捕获而非 text=True。text=True 会让 subprocess 在子线程里
+    按 UTF-8 解码命令输出；中文 Windows 上 java/mysql 等命令输出常含 GBK 字节，
+    解码失败会抛 UnicodeDecodeError 并刷红色堆栈噪音。改为捕获字节后手动回退解码，
+    既安静又不会因解码失败而误判命令失败。
+    """
     try:
         out = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, timeout=timeout
+            cmd, shell=True, capture_output=True, timeout=timeout
         )
-        text = (out.stdout + out.stderr).strip()
-        first = text.splitlines()[0] if text else ""
+        raw = out.stdout + out.stderr
+        try:
+            text = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            text = raw.decode("gbk", errors="replace")
+        first = text.strip().splitlines()[0] if text.strip() else ""
         return out.returncode == 0, first
     except Exception as e:  # noqa: BLE001
         return False, str(e)
