@@ -1648,7 +1648,7 @@ function stageCeremony(sid){
       <p class="muted" style="margin:0;font-size:13px">全平台累计 ${total}/${TASK_IDS.length} 个任务 · 阶段节奏 ${esc(st.pace||"2h/天")}</p>
     </div>
     <div class="help-card" style="margin-bottom:8px">📸 <b>通关仪式三件事</b>：① 去「数据」页导出一次备份（防丢）② 在打卡日历看看这段连续记录，给自己截个图 ③ 把本阶段「最卡壳的一道自测题」翻出来再讲一遍——讲顺了才算真通关。</div>
-    ${nxt ? `<p style="margin:6px 0 0">下一站：<b>${esc(nxt.badge)}「${esc(nxt.title)}」</b>，第一个任务是「${esc(nxt.tasks[0][0])}」（⏱ ${nxt.tasks[0][2]||5} 天）。今晚可以休息，明天按节奏来。</p>` : `<p style="margin:6px 0 0;font-weight:800">43 个任务全部完成！接下来就是秋招冲刺，祝 offer 满满 🚀</p>`}`;
+    ${nxt ? `<p style="margin:6px 0 0">下一站：<b>${esc(nxt.badge)}「${esc(nxt.title)}」</b>，第一个任务是「${esc(nxt.tasks[0][0])}」（⏱ ${nxt.tasks[0][2]||5} 天）。今晚可以休息，明天按节奏来。</p>` : `<p style="margin:6px 0 0;font-weight:800">${TASK_IDS.length} 个任务全部完成！接下来就是秋招冲刺，祝 offer 满满 🚀</p>`}`;
   $("#modal").classList.add("show");
   document.body.style.overflow = "hidden";
 }
@@ -4925,7 +4925,7 @@ function renderTasks(){
       const nst = next ? STAGES.find(s=>s.id===next.split("_")[0]) : null;
       const ndays = next && nst ? nst.tasks[+next.split("_")[1]][2] : null;
       if(next) toast(`✅ 完成！下一个建议：${taskName(next)}（⏱ ${ndays||5} 天）`);
-      else toast("🎉 43 个任务全部完成！秋招冲刺吧");
+      else toast("🎉 " + TASK_IDS.length + " 个任务全部完成！秋招冲刺吧");
       stageCeremony(id.split("_")[0]);
     }
     renderTasks();
@@ -5310,8 +5310,8 @@ $("#snapBtn").addEventListener("click", openSnapshots);
 function applyBackup(data, replaceAll){
   const isObj = x => x && typeof x === "object" && !Array.isArray(x);
   const pick = (obj, valid) => { const out={}; if(isObj(obj)) for(const k of valid) if(k in obj) out[k]=obj[k]; return out; };
-  state.tasks    = pick(data.tasks, TASK_IDS);
-  state.mastery  = pick(data.mastery, TASK_IDS);
+  state.tasks   = isObj(data.tasks)   ? { ...state.tasks,   ...pick(data.tasks,   TASK_IDS) } : state.tasks;
+  state.mastery = isObj(data.mastery) ? { ...state.mastery, ...pick(data.mastery, TASK_IDS) } : state.mastery;
   if(isObj(data.checkins)) state.checkins = data.checkins;
   if(typeof data.notes === "string") state.notes = data.notes;
   if(Array.isArray(data.logs))  state.logs  = data.logs.filter(x=>x && typeof x.text==="string");
@@ -5328,7 +5328,7 @@ $("#importFile").addEventListener("change", e=>{
   r.onload = () => {
     let data;
     try { data = JSON.parse(r.result); } catch(err){ return toast("导入失败：文件格式不对"); }
-    if(!confirm("导入规则：任务勾选、技能进度、掌握度、打卡 = 合并；笔记、日志、错题本 = 被备份整体替换。\n\n当前数据已自动存为快照（🛟 可找回）。\n确定继续导入？")) return;
+    if(!confirm("导入规则：任务勾选、掌握度、打卡 = 按 key 合并（导入的覆盖同名项，其余保留当前）；笔记、日志、错题本 = 被备份整体替换。\n若文件缺字段或格式不对，会跳过损坏部分、不会清空你的进度。\n\n当前数据已自动存为快照（🛟 可找回）。\n确定继续导入？")) return;
     snapshot("import");
     applyBackup(data, false);
     toast("导入成功 ✓");
